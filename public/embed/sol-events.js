@@ -31,17 +31,22 @@
     '*{box-sizing:border-box}',
     '.list{list-style:none;margin:0;padding:0;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}',
     '.card,.msg{padding:16px;background:#fff;border:' + B + ';border-radius:16px}',
-    '.card{display:flex;gap:14px;align-items:flex-start;min-width:0;max-width:560px}',
+    // The whole card opens the event's details: the title link is stretched over it (and carries the
+    // focus ring); Register and Details sit above that link as their own controls.
+    '.card{position:relative;display:flex;gap:14px;align-items:flex-start;min-width:0;max-width:560px}',
+    '.card:hover{border-color:#a9acb4;box-shadow:0 12px 28px -16px rgba(20,26,38,.4)}.card:hover .title a{text-decoration:underline}',
+    '.title a:after{content:"";position:absolute;inset:0;border-radius:16px}.title a:focus-visible{outline:0}.title a:focus-visible:after{outline:3px solid #1f56d6;outline-offset:3px}',
     '.badge{flex:none;display:grid;justify-items:center;min-width:58px;padding:7px 8px;border-radius:12px;background:#eef2fc;line-height:1.1}',
     '.badge span{font-size:11px;font-weight:800;letter-spacing:.1em;color:#1d4fc4}',
     '.badge b{font-size:24px;font-weight:800}',
     '.body{min-width:0;flex:1;align-self:stretch;display:flex;flex-direction:column;align-items:flex-start;gap:4px}.body>:nth-last-child(2){margin-bottom:8px}',
     '.title{margin:0;font-size:1.08em;font-weight:800;line-height:1.25;overflow-wrap:anywhere}',
-    '.title a{color:inherit;text-decoration:none}.title a:hover{text-decoration:underline}',
+    '.title a{color:inherit;text-decoration:none}',
     'p{margin:0;font-size:.95em}.when{font-weight:700;color:#1d4fc4}.where{color:#464b54;overflow-wrap:anywhere}',
     '.chips{display:flex;flex-wrap:wrap;gap:6px}',
     '.chip{padding:2px 10px;border-radius:999px;border:' + B + ';font-size:.84em;font-weight:700;white-space:nowrap}',
-    '.btn{display:inline-flex;align-items:center;min-height:44px;margin-top:auto;padding:10px 18px;border-radius:999px;background:#1f56d6;color:#fff;font-weight:700;text-decoration:none}',
+    '.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}',
+    '.btn{position:relative;z-index:1;display:inline-flex;align-items:center;min-height:44px;padding:10px 18px;border-radius:999px;background:#1f56d6;color:#fff;font-weight:700;text-decoration:none}',
     '.btn:hover{background:#1847b4}.q{background:#fff;color:#111316;border:1.5px solid #dcdcd6}.q:hover{background:#fff;border-color:#111316}',
     'a:focus-visible{outline:3px solid #1f56d6;outline-offset:3px;border-radius:6px}',
     '.more{margin-top:14px}.more a,.msg a{color:#1d4fc4;font-weight:700}',
@@ -49,7 +54,7 @@
     '.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}',
     // data-align="center": cards at most 420 px wide; a row of 1 or 2 is only as wide as its cards and sits in the middle.
     '.c .n2{max-width:854px;margin:0 auto}.c .card{width:100%;max-width:420px;justify-self:center}.c .more,.c .msg{text-align:center}',
-    '@media (prefers-reduced-motion:no-preference){.btn{transition:background-color .15s}.ph{animation:p 1.4s ease-in-out infinite}@keyframes p{50%{opacity:.55}}}',
+    '@media (prefers-reduced-motion:no-preference){.btn,.card{transition:background-color .2s,border-color .2s,box-shadow .2s}.card:active{transform:translateY(1px)}.ph{animation:p 1.4s ease-in-out infinite}@keyframes p{50%{opacity:.55}}}',
   ].join('');
 
   function esc(s) {
@@ -76,9 +81,9 @@
     var chips = [price, e.status_label, e.more_dates > 0 ? '+' + e.more_dates + ' more date' + (e.more_dates > 1 ? 's' : '') : '']
       .filter(Boolean).map(function (c) { return '<span class="chip">' + esc(c) + '</span>'; }).join('');
     var title = esc(e.title);
-    var action = register
-      ? link(register, 'Register<span class="sr"> for ' + title + '</span>' + NEW_TAB_SR, ' class="btn"' + NEW_TAB)
-      : details ? link(details, 'Details<span class="sr"> about ' + title + '</span>' + (toChurchCenter ? NEW_TAB_SR : ''), ' class="btn q"' + detailsAttrs) : '';
+    // Register when it's open, and always Details (the same page the card opens).
+    var action = (register ? link(register, 'Register<span class="sr"> for ' + title + '</span>' + NEW_TAB_SR, ' class="btn"' + NEW_TAB) : '')
+      + (details ? link(details, 'Details<span class="sr"> about ' + title + '</span>' + (toChurchCenter ? NEW_TAB_SR : ''), ' class="btn q"' + detailsAttrs) : '');
     return '<li class="card">'
       + (b.day ? '<div class="badge" aria-hidden="true"><span>' + esc(b.month) + '</span><b>' + esc(b.day) + '</b><span>' + esc(b.weekday) + '</span></div>' : '')
       + '<div class="body">'
@@ -86,7 +91,7 @@
       + (when ? '<p class="when">' + esc(when) + '</p>' : '')
       + (where ? '<p class="where">' + esc(where) + '</p>' : '')
       + (chips ? '<p class="chips">' + chips + '</p>' : '')
-      + action
+      + (action ? '<div class="acts">' + action + '</div>' : '')
       + '</div></li>';
   }
 

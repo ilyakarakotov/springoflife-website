@@ -6,7 +6,7 @@ Events page: **only Planning Center Registrations signups tagged with the websit
 (ID 111199). AWANA, the leaders retreat, serve-team signups and other internal or ongoing items are
 never tagged, so they never appear.
 
-It's a small script (`public/embed/sol-events.js`, under 6 KB, no dependencies) that reads the new
+It's a small script (`public/embed/sol-events.js`, under 7 KB, no dependencies) that reads the new
 site's public feed (`/feed/events.json`) each time someone opens the page.
 
 ## 1. The snippet
@@ -54,7 +54,7 @@ heading of its own, so the page's heading structure stays yours. If that heading
 
 | Situation | What the widget shows |
 |---|---|
-| Events are tagged | Up to `data-limit` cards, soonest first. Each has a date badge, the title, day and time, place and city, Free or the price, extra chips ("Full", "Registration opens Sat, Oct 10", "+2 more dates"), and a **Register** button that opens Church Center in a new tab. When registration isn't open, the button is **Details**. Below the cards: "See all events". |
+| Events are tagged | Up to `data-limit` cards, soonest first. Each has a date badge, the title, day and time, place and city, Free or the price, extra chips ("Full", "Registration opens Sat, Oct 10", "+2 more dates"), a **Register** button that opens Church Center in a new tab (while registration is open) and a **Details** button. **The whole card is clickable** and opens the same details page as **Details** (see **Links** below): it shows a hover state, and the title link carries the focus ring. Register stays its own button. Below the cards: "See all events". |
 | **Nothing is tagged** | "No upcoming public events right now." with a link to all signups on Church Center. |
 | The feed can't be reached, or takes more than 5 seconds | "Events couldn't be loaded right now." with a link to Church Center. |
 | JavaScript is off | The `<noscript>` link to Church Center. |
@@ -65,8 +65,8 @@ anything outside its own box, and isn't affected by the SnapPages theme. Its sty
 Shadow DOM, and only the theme's font family and size come through. It uses a light theme, works
 from 320 px wide, and doesn't animate when the visitor asks for reduced motion.
 
-**Links:** while the new site is a preview build (`PREVIEW=true`, see the README), event titles and
-"See all events" go to Church Center, so SnapPages visitors aren't sent to an unlisted preview.
+**Links:** while the new site is a preview build (`PREVIEW=true`, see the README), cards (title and
+**Details**) and "See all events" go to Church Center, in a new tab, so SnapPages visitors aren't sent to an unlisted preview.
 After launch they go to the event's page on the new site. `data-link` overrides this.
 
 ### Options (attributes on the `<div>`)
@@ -76,7 +76,7 @@ After launch they go to the event's page on the new site. `data-link` overrides 
 | `data-src` | `feed/events.json` next to the script's folder | Feed URL |
 | `data-limit` | `3` | Number of events, 1 to 12 |
 | `data-heading-level` | `3` | Heading level of each event title (2 to 6). Use `2` if the block sits directly under the page title. |
-| `data-link` | `churchcenter` for a preview feed, else `site` | Where titles and "See all events" go: `site` (the new website) or `churchcenter` |
+| `data-link` | `churchcenter` for a preview feed, else `site` | Where a card (its title and **Details**) and "See all events" go: `site` (the new website) or `churchcenter` |
 | `data-align` | left-aligned | `center`: for a block under a centred heading. Each card is at most 420 px wide, one or two cards sit in the middle of the row, and "See all events" (or the empty and error message) is centred. Three or more cards fill the row as usual. |
 
 Several widgets on one page are fine.

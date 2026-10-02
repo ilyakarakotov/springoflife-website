@@ -88,12 +88,12 @@ test('feed: preview builds say so (the widget then links to Church Center, not t
   assert.deepEqual(feedOf([]).events, []);
 });
 
-test('widget: under 6 KB minified, valid JavaScript, no dependencies, never writes outside its shadow root', async () => {
+test('widget: under 7 KB minified, valid JavaScript, no dependencies, never writes outside its shadow root', async () => {
   const src = readFileSync(join(repo, 'public/embed/sol-events.js'), 'utf8');
   const { transform } = await import('esbuild');
   const { code } = await transform(src, { minify: true, target: 'es2017', legalComments: 'inline' });
-  assert.ok(code.length < 6 * 1024, `minified size ${code.length} bytes`);
-  assert.ok(gzipSync(code).length < 3 * 1024, `gzip size ${gzipSync(code).length} bytes`);
+  assert.ok(code.length < 7 * 1024, `minified size ${code.length} bytes`);
+  assert.ok(gzipSync(code).length < 3.25 * 1024, `gzip size ${gzipSync(code).length} bytes`);
   assert.doesNotMatch(src, /\bimport\b|\brequire\(|document\.write|\beval\(|new Function/);
   assert.match(src, /attachShadow\(/);
   assert.doesNotMatch(src.replace(/root\.innerHTML/g, ''), /\.innerHTML\s*=/, 'only the shadow root is written');

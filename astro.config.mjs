@@ -63,7 +63,7 @@ export default defineConfig({
         'astro:build:done': async ({ dir, logger }) => {
           await writeFile(new URL('_redirects', dir), hostRedirects());
           // The SnapPages events widget: public/embed/sol-events.js is the readable source; the
-          // published copy is minified (budget: 6 KB, checked by npm test).
+          // published copy is minified (budget: 7 KB, checked by npm test).
           const widget = new URL('embed/sol-events.js', dir);
           try {
             const { transform } = await import('esbuild');
