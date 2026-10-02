@@ -39,9 +39,12 @@ const social = [
       <nav aria-label={c.title}>
         <h2>{c.title}</h2>
         <ul>
-          {c.links.map(([label, url]) => (
-            <li><a href={href(url)} {...(isExternal(url) ? { target: '_blank', rel: 'noopener' } : {})}>{label}{isExternal(url) && <Icon name="external" />}</a></li>
-          ))}
+          {c.links.map(([label, url]) => {
+            if (!isExternal(url)) return <li><a href={href(url)}>{label}</a></li>;
+            // The arrow stays on the line of the last word ("SOL Christian Academy ↗" wrapped the arrow alone).
+            const cut = label.lastIndexOf(' ') + 1;
+            return <li><a href={href(url)} target="_blank" rel="noopener">{label.slice(0, cut)}<span class="f-tail">{label.slice(cut)}<Icon name="external" /></span></a></li>;
+          })}
         </ul>
       </nav>
     ))}
@@ -83,6 +86,7 @@ const social = [
   .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
   .site-footer a { color: var(--on-dark-2); text-decoration: none; }
   .site-footer a:hover { color: var(--on-dark); text-decoration: underline; text-underline-offset: 3px; }
+  .f-tail { white-space: nowrap; }
   .site-footer nav :global(.icon) { display: inline-block; width: 0.85em; height: 0.85em; margin-left: 0.3em; vertical-align: -0.05em; opacity: 0.7; }
   .footer-follow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-top: clamp(36px, 5vw, 56px); }
   .social { display: flex !important; gap: 0.5rem !important; }
