@@ -247,7 +247,10 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
 
   /* ---- Quick links ---- */
   .quick { position: relative; z-index: 3; margin-top: clamp(-150px, -13vw, -92px); }
-  .quick ul { list-style: none; margin: 0; padding: 0 0 4px; display: grid; grid-auto-flow: column; grid-auto-columns: 72%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  /* The scroller clips whatever paints outside it, so it gets 8px of room on every side (taken back
+     with a negative margin; same layout): enough for the focus ring (outline + 7px dark band on
+     photos), which was cut off on phones and tablets. */
+  .quick ul { list-style: none; margin: -8px; padding: 8px 8px 12px; scroll-padding-inline: 8px; display: grid; grid-auto-flow: column; grid-auto-columns: 72%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .quick ul::-webkit-scrollbar { display: none; }
   .quick li { scroll-snap-align: start; }
   @media (min-width: 640px) { .quick ul { grid-auto-columns: 44%; gap: 16px; } }
