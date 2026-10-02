@@ -1,0 +1,16 @@
+---
+// The church's mark (cross, wave, circle) as inline SVG painted with currentColor. Inline vector
+// instead of a PNG used as a CSS mask: it stays sharp at any pixel density, and browsers that force
+// a dark theme (Chrome "Auto Dark Mode", Samsung Internet, Dark Reader) treat it as foreground
+// content and keep it legible instead of darkening it like a background.
+// The header draws the path once (`define`); the footer reuses it with <use>.
+import markSvg from '../assets/brand/mark.svg?raw';
+
+interface Props { class?: string; define?: boolean }
+const { class: cls, define = false } = Astro.props;
+const d = /\sd="([^"]+)"/.exec(markSvg)?.[1];
+if (!d) throw new Error('src/assets/brand/mark.svg must contain one <path d="...">');
+---
+<svg class:list={['brand-mark', cls]} viewBox="0 0 98 98" aria-hidden="true" focusable="false">
+  {define ? <path id="sol-mark" fill="currentColor" fill-rule="evenodd" d={d} /> : <use href="#sol-mark" />}
+</svg>

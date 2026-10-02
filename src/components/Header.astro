@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import BrandMark from './BrandMark.astro';
 import { site } from '../lib/content';
 import { href, pagePath } from '../lib/url';
 
@@ -20,7 +21,7 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
 <header class:list={['site-header', { 'site-header--overlay': overlay }]} data-header>
   <div class="wrap header-row">
     <a class="brand" href={href('/')}>
-      <span class="brand-mark" aria-hidden="true"></span>
+      <BrandMark define />
       <span class="brand-text"><b>Spring of Life</b> <span>Church</span></span>
     </a>
     <nav class="nav" id="site-nav" aria-label="Main">
@@ -85,7 +86,7 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
   .site-header--overlay .header-row { min-height: 88px; }
 
   .brand { display: inline-flex; align-items: center; gap: 0.65rem; text-decoration: none; color: inherit; margin-right: auto; }
-  .brand-mark { width: 38px; height: 38px; flex: none; background: currentColor; -webkit-mask: url('../assets/brand/mark.png') center / contain no-repeat; mask: url('../assets/brand/mark.png') center / contain no-repeat; }
+  .brand :global(.brand-mark) { width: 38px; height: 38px; flex: none; }
   .brand-text { display: flex; flex-direction: column; line-height: 1; text-transform: uppercase; }
   .brand-text b { font-size: 1.12rem; font-weight: 800; letter-spacing: 0.01em; }
   .brand-text span { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.32em; margin-top: 4px; opacity: 0.9; }
@@ -123,7 +124,7 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
     [data-open] .nav a[aria-current='page'] { background: none; color: var(--accent-text); }
     [data-open] .nav-cta { display: inline-flex; }
   }
-  @media (max-width: 380px) { .brand-text b { font-size: 1rem; } .brand-mark { width: 34px; height: 34px; } }
+  @media (max-width: 380px) { .brand-text b { font-size: 1rem; } :global(.brand-mark) { width: 34px; height: 34px; } }
   /* No JavaScript: no toggle; the links wrap under the logo instead. */
   @media (scripting: none) and (max-width: 1079.98px) {
     .menu-btn { display: none; }

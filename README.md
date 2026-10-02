@@ -353,9 +353,11 @@ publishing a broken page. Text in `[square brackets]` is a placeholder waiting f
 
 **Photos:** real church photos only, no stock and no AI-generated images. New photos go in
 `src/assets/` (JPG, PNG or WebP; no HEIC) and are resized automatically. `src/assets/sync/`
-belongs to the sync; don't edit it by hand. The logo mark (`src/assets/brand/mark.png`) was cropped
-from the church's own footer logo without the old "Baptist Church" wording. Replace it when an
-official file exists.
+belongs to the sync; don't edit it by hand. The logo mark (`src/assets/brand/mark.svg`) is an automatic
+vector trace of the mark cropped from the church's own footer logo, without the old "Baptist
+Church" wording. It's drawn inline (`src/components/BrandMark.astro`), so it stays sharp and forced
+dark modes can't recolor it. Replace the file with the official vector logo when one exists (keep
+one `<path>`).
 
 ## Privacy and security notes
 

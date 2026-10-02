@@ -49,6 +49,7 @@ const ogAlt = image ? imageAlt : home.hero.image_alt;
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0d0f12" media="(prefers-color-scheme: dark)" />
     <meta name="apple-itunes-app" content={`app-id=${site.links.app_ios_id}`} />
+    <slot name="head" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

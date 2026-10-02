@@ -73,6 +73,8 @@ body {
 }
 img, iframe, video { display: block; max-width: 100%; }
 img { height: auto; }
+/* Blurred inline preview under a photo (src/lib/lqip.ts). The real image is drawn on top of it. */
+.lqip { filter: blur(14px); transform: scale(1.08); pointer-events: none; user-select: none; }
 a { color: inherit; }
 p { margin: 0 0 1em; }
 h1, h2, h3, h4 { margin: 0 0 0.5em; line-height: 1.08; letter-spacing: -0.025em; font-weight: 800; text-wrap: balance; }
