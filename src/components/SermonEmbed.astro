@@ -3,10 +3,12 @@
 // newest sermon Nick uploads, but it brings Google Tag Manager, its own fonts and about 1 MB of
 // video on load (review P1-11). So the page shows a church photo and a play button; the player
 // (and every request to Subsplash) only loads after a click. Without JavaScript the play button is
-// replaced by a "Watch on Subsplash" link. Styling is minimal (Stage 2 designs it).
+// replaced by a "Watch on Subsplash" link. A blurred inline preview sits under the poster, so the
+// frame is never an empty black box while the photo loads (also in dark mode).
 import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import { site, img } from '../lib/content';
+import { lqip } from '../lib/lqip';
 
 interface Props {
   eager?: boolean;  // above the fold (Watch page): load the poster photo right away
@@ -16,9 +18,12 @@ const { eager = false, title } = Astro.props;
 const frameTitle = 'Latest sermon from Spring of Life Church';
 // No clipboard-read: the player doesn't need it (least privilege).
 const allow = 'fullscreen; autoplay; encrypted-media; picture-in-picture; clipboard-write';
+const POSTER = '/src/assets/photos/sanctuary-back.jpg';
+const preview = await lqip(POSTER);
 ---
-<div class="embed facade" data-facade data-src={site.embeds.latest_sermon} data-title={frameTitle} data-allow={allow} data-fullscreen>
-  <Picture src={img('/src/assets/photos/sanctuary-back.jpg')} alt="" widths={[480, 800, 1200]} width={1200} sizes="(min-width: 960px) 60vw, 100vw"
+<div class="embed facade on-photo" data-facade data-src={site.embeds.latest_sermon} data-title={frameTitle} data-allow={allow} data-fullscreen>
+  <img class="lqip facade-preview" {...preview} alt="" aria-hidden="true" />
+  <Picture src={img(POSTER)} alt="" widths={[480, 800, 1200]} width={1200} sizes="(min-width: 960px) 60vw, 100vw"
     formats={['avif', 'webp']} class="facade-poster" loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} />
   <div class="facade-text">
     <span class="facade-eyebrow">Latest sermon</span>
@@ -39,7 +44,7 @@ const allow = 'fullscreen; autoplay; encrypted-media; picture-in-picture; clipbo
 
 <style>
   .facade { color: #fff; }
-  .facade :global(.facade-poster), .facade :global(.facade-poster img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .facade :global(.facade-poster), .facade :global(.facade-poster img), .facade-preview { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; color: transparent; }
   .facade::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0.15), rgb(0 0 0 / 0.7)); pointer-events: none; }
   .facade.is-loaded::after { content: none; }
   .facade-text { position: absolute; z-index: 1; left: clamp(16px, 3vw, 28px); right: clamp(16px, 3vw, 28px); bottom: clamp(16px, 3vw, 26px); display: grid; gap: 0.2rem; }

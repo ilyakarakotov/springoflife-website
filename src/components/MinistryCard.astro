@@ -10,15 +10,22 @@ import { href } from '../lib/url';
 import type { ministries } from '../lib/content';
 interface Props { item: (typeof ministries)[number]; compact?: boolean; media?: boolean; headingLevel?: 'h2' | 'h3' }
 const { item: m, compact = false, media = true, headingLevel: H = 'h3' } = Astro.props;
-const showMedia = media && !compact && Boolean(m.image);
+const showMedia = media && !compact;
 const logo = m.image_fit === 'logo';
+// Cards in a row with media but without an image of their own get a tinted tile with an icon.
+const ICONS: Record<string, 'book' | 'chat' | 'music' | 'kids' | 'users' | 'globe' | 'heart'> = {
+  'christian-academy': 'book', 'russian-school': 'chat', 'music-academy': 'music', 'kids-choir': 'music', awana: 'kids', 'sunday-kids': 'kids',
+  youth: 'users', 'life-groups': 'users', 'young-adults': 'users', missions: 'globe',
+};
 ---
 <article class:list={['ministry card', { 'ministry--compact': compact }]} id={m.id}>
-  {showMedia && m.image && (
-    <div class:list={['ministry-media', { 'ministry-media--logo': logo }]}>
-      <Image src={img(m.image)} alt="" widths={[400, 720]} width={720} sizes="(min-width: 960px) 30vw, (min-width: 640px) 45vw, 100vw" />
-    </div>
-  )}
+  {showMedia && (m.image
+    ? (
+      <div class:list={['ministry-media', { 'ministry-media--logo': logo }]}>
+        <Image src={img(m.image)} alt="" widths={[400, 720]} width={720} sizes="(min-width: 960px) 30vw, (min-width: 640px) 45vw, 100vw" />
+      </div>
+    )
+    : <div class="ministry-media ministry-media--tile" aria-hidden="true"><Icon name={ICONS[m.id] ?? 'heart'} /></div>)}
   <div class="ministry-body">
     <H class="card-title">{m.title}</H>
     <p class:list={{ 'needs-text': isPlaceholder(m.summary) }}>{m.summary}</p>
@@ -39,6 +46,8 @@ const logo = m.image_fit === 'logo';
   /* A logo is a sticker on a light tile: whole, centred, never cropped (also in dark mode). */
   .ministry-media--logo { display: grid; place-items: center; padding: clamp(16px, 3vw, 28px); background: #f4f4f1; border-bottom: 1px solid var(--border); }
   .ministry-media--logo :global(img) { width: auto; height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px; }
+  .ministry-media--tile { display: grid; place-items: center; background: var(--bg-tint); color: var(--accent-text); border-bottom: 1px solid var(--border); }
+  .ministry-media--tile :global(.icon) { width: 44px; height: 44px; stroke-width: 1.4; }
   .ministry-body { display: flex; flex-direction: column; gap: 0.75rem; padding: clamp(20px, 2.4vw, 28px); flex: 1; }
   .ministry-body p { margin: 0; color: var(--text-2); }
   .ministry-body .text-link { margin-top: auto; padding-top: 0.5rem; }

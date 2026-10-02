@@ -12,9 +12,9 @@ const { Content } = await render(page);
 <Base title={page.data.title} description={page.data.description}>
   <section class="page-hero">
     <div class="wrap">
-      <span class="eyebrow">Give</span>
+      <span class="eyebrow eyebrow--accent eyebrow--wave">Give</span>
       <h1>Why we give</h1>
-      <p class="lead">{page.data.intro}</p>
+      {page.data.intro && <p class="lead">{page.data.intro}</p>}
     </div>
   </section>
 
@@ -22,12 +22,12 @@ const { Content } = await render(page);
     <div class="wrap give">
       <GiveEmbed />
       <aside class="give-side">
-        <div class="card side">
-          <h2 class="h3">Prefer the full giving page?</h2>
-          <p class="muted">Give once or set up a recurring gift by card or bank account, and choose a fund such as tithe, missions or the Academy.</p>
-          <a class="btn btn--primary" href={site.links.give} target="_blank" rel="noopener">Open the giving page <Icon name="external" /></a>
+        <div class="side">
+          <h2 class="card-title">Prefer the full giving page?</h2>
+          <p>Give once or set up a recurring gift by card or bank account, and choose a fund such as tithe, missions or the Academy.</p>
+          <a class="text-link" href={site.links.give} target="_blank" rel="noopener">Open the giving page<Icon name="external" /></a>
         </div>
-        <div class="card side prose" id="other-ways"><Content /></div>
+        <div class="side prose" id="other-ways"><Content /></div>
       </aside>
     </div>
   </section>
@@ -35,9 +35,9 @@ const { Content } = await render(page);
 
 <style>
   .give { display: grid; gap: 24px; }
-  @media (min-width: 1024px) { .give { grid-template-columns: 1.4fr 1fr; align-items: start; } }
+  @media (min-width: 1024px) { .give { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: start; } }
   .give-side { display: grid; gap: 16px; }
-  .side { padding: clamp(20px, 3vw, 30px); }
-  .h3 { font-size: var(--step-2); }
-  .prose :global(h2) { font-size: var(--step-1); margin-top: 0; }
+  .side { padding: clamp(20px, 3vw, 30px); border: 1px solid var(--border); border-radius: var(--radius); scroll-margin-top: 96px; }
+  .side > p { color: var(--text-2); margin: 0.5rem 0 1rem; }
+  .prose :global(h2) { font-size: 1.25rem; margin-top: 0; }
 </style>

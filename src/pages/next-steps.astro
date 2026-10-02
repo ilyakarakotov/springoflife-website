@@ -3,38 +3,57 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import StepIcon from '../components/StepIcon.astro';
 import { steps, external } from '../lib/content';
-import { href } from '../lib/url';
+import { href, isExternal } from '../lib/url';
 ---
 <Base title="Next Steps" description="Take your next step at Spring of Life Church: get baptized, become a member, join a Life Group, serve, or send a prayer request.">
   <section class="page-hero">
     <div class="wrap">
-      <span class="eyebrow">Next steps</span>
+      <span class="eyebrow eyebrow--accent eyebrow--wave">Next steps</span>
       <h1>Take your next step in discipleship</h1>
       <p class="lead">Wherever you are in your walk with Jesus, there's a next step. Each one opens a short form or signup on Church Center.</p>
     </div>
   </section>
 
   <section class="section section--tight">
-    <div class="wrap grid grid--3">
-      {steps.map((s) => (
-        <article class="card step" id={s.id}>
-          <StepIcon id={s.id} />
-          <h2>{s.title}</h2>
-          <p>{s.text}</p>
-          <div class="btn-row">
-            <a class="btn btn--primary btn--sm" href={href(s.url)} {...external(s.url)}>{s.cta}{s.url.startsWith('http') && <Icon name="external" />}</a>
-            {s.secondary_url && <a class="btn btn--outline btn--sm" href={href(s.secondary_url)} {...external(s.secondary_url)}>{s.secondary_cta}</a>}
-          </div>
-        </article>
-      ))}
+    <div class="wrap">
+      <ul class="steps">
+        {steps.map((s) => (
+          <li class="step" id={s.id}>
+            <span class="step-icon-wrap"><StepIcon id={s.id} /></span>
+            <h2 class="card-title">
+              {/* The whole card is this link (its ::after covers the card); a second action sits above it. */}
+              <a class="step-link" href={href(s.url)} {...external(s.url)}>{s.title}</a>
+            </h2>
+            <p>{s.text}</p>
+            <p class="step-actions">
+              <span class="step-cta" aria-hidden="true">{s.cta}<Icon name={isExternal(s.url) ? 'external' : 'arrow'} /></span>
+              {s.secondary_url && <a class="text-link step-secondary" href={href(s.secondary_url)} {...external(s.secondary_url)}>{s.secondary_cta}<Icon name="external" /></a>}
+            </p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 </Base>
 
 <style>
-  .step { display: flex; flex-direction: column; gap: 0.6rem; padding: clamp(22px, 3vw, 30px); scroll-margin-top: 96px; }
-  .step :global(.step-icon) { width: 30px; height: 30px; color: var(--accent-text); }
-  .step h2 { font-size: var(--step-2); margin: 0.5rem 0 0; }
-  .step p { color: var(--text-2); margin: 0; }
-  .step .btn-row { margin-top: auto; padding-top: 0.75rem; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(14px, 2vw, 22px); }
+  @media (min-width: 640px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1200px) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .step { position: relative; display: flex; flex-direction: column; gap: 0.6rem; padding: clamp(22px, 3vw, 28px); border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface); scroll-margin-top: 96px; transition: box-shadow var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease); }
+  .step:hover { box-shadow: var(--shadow-2); border-color: var(--border-strong); }
+  .step-icon-wrap { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 0.4rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent-text); }
+  .step-icon-wrap :global(.step-icon) { width: 22px; height: 22px; }
+  .step p { margin: 0; color: var(--text-2); font-size: 0.97rem; }
+  .step-link { text-decoration: none; }
+  .step-link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
+  .step-link:focus-visible { outline: none; box-shadow: none; }
+  .step-link:focus-visible::after { outline: 2px solid var(--focus); outline-offset: 2px; box-shadow: 0 0 0 4px var(--bg); }
+  .step:hover .step-link { text-decoration: underline; text-underline-offset: 3px; }
+  .step-actions { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin-top: auto !important; padding-top: 0.75rem; }
+  .step-cta { display: inline-flex; align-items: center; gap: 0.35em; font-weight: 700; color: var(--accent-text); }
+  .step-cta :global(.icon) { transition: transform var(--dur-2) var(--ease); }
+  .step:hover .step-cta :global(.icon) { transform: translateX(3px); }
+  .step-secondary { position: relative; z-index: 1; font-size: 0.9375rem; }
 </style>
