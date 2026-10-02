@@ -2,6 +2,7 @@
 import { Image, Picture, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import LinkText from '../components/LinkText.astro';
 import Happening from '../components/Happening.astro';
 import SermonEmbed from '../components/SermonEmbed.astro';
 import StepIcon from '../components/StepIcon.astro';
@@ -92,7 +93,7 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
           <div class="time time--ru">
             <span class="time-label">Russian service</span>
             <b class="time-value time-value--sm tabular">{site.service.russian_time}</b>
-            <a class="text-link" href={site.links.russian_site} target="_blank" rel="noopener" hreflang="ru"><span lang="ru">Русский сайт</span><Icon name="external" /></a>
+            <a class="text-link" href={site.links.russian_site} target="_blank" rel="noopener" hreflang="ru"><LinkText text="Русский сайт" icon="external" lang="ru" /></a>
           </div>
         </div>
       </div>
@@ -105,7 +106,7 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
         </div>
         <div class="btn-row">
           <a class="btn btn--primary" href={href('/visit')}>Plan a visit<Icon name="arrow" /></a>
-          <a class="text-link" href={site.address.maps_url} target="_blank" rel="noopener">Get directions<Icon name="external" /></a>
+          <a class="text-link" href={site.address.maps_url} target="_blank" rel="noopener"><LinkText text="Get directions" icon="external" /></a>
         </div>
       </div>
     </div>
@@ -116,7 +117,7 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
       <span class="eyebrow eyebrow--accent eyebrow--wave" data-reveal>Our mission</span>
       <h2 id="mission-title" class="scripture" data-reveal>{missionLead}</h2>
       {missionRest.length > 0 && <p class="mission-rest" data-reveal>{missionRest.join(' ')}</p>}
-      <p class="mission-more" data-reveal><a class="text-link" href={href('/about')}>About us<Icon name="arrow" /></a></p>
+      <p class="mission-more" data-reveal><a class="text-link" href={href('/about')}><LinkText text="About us" icon="arrow" /></a></p>
     </div>
   </section>
 
@@ -141,8 +142,8 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
             <a class="btn btn--primary" href={site.links.youtube_live} target="_blank" rel="noopener"><Icon name="youtube" />Watch live</a>
           </div>
           <ul class="sermon-links">
-            <li><a class="text-link" href={href('/watch')}>Sermons and live stream<Icon name="arrow" /></a></li>
-            <li><a class="text-link" href={site.links.bulletin} target="_blank" rel="noopener">This week's bulletin<Icon name="external" /></a></li>
+            <li><a class="text-link" href={href('/watch')}><LinkText text="Sermons and live stream" icon="arrow" /></a></li>
+            <li><a class="text-link" href={site.links.bulletin} target="_blank" rel="noopener"><LinkText text="This week's bulletin" icon="external" /></a></li>
           </ul>
         </div>
       </div>
@@ -180,7 +181,7 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
             <a class="step" href={href(s.url)} {...external(s.url)}>
               <span class="icon-tile"><StepIcon id={s.id} /></span>
               <span class="step-text"><b>{s.title}</b><span>{s.text}</span></span>
-              <span class="step-cta">{s.cta}<Icon name={s.url.startsWith('/') ? 'arrow' : 'external'} /></span>
+              <span class="step-cta"><LinkText text={s.cta} icon={s.url.startsWith('/') ? 'arrow' : 'external'} /></span>
               <span class="step-arrow arrow-circle arrow-circle--sm" aria-hidden="true"><Icon name={s.url.startsWith('/') ? 'arrow' : 'external'} /></span>
             </a>
           </li>
@@ -209,7 +210,7 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
         <p>{home.give.text}</p>
         <div class="btn-row">
           <a class="btn btn--primary" href={href('/give')}>Give online<Icon name="arrow" /></a>
-          <a class="text-link" href={href('/give#other-ways')}>Other ways to give<Icon name="arrow" /></a>
+          <a class="text-link" href={href('/give#other-ways')}><LinkText text="Other ways to give" icon="arrow" /></a>
         </div>
       </div>
       <div class="app-col" data-reveal>
@@ -313,6 +314,7 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
   .sunday-place > span { display: grid; }
 
   /* ---- Mission: the page's one quiet serif line ---- */
+  .mission { padding-top: 0; } /* right after Sunday: one shared space, not two */
   .mission-inner { display: grid; justify-items: center; text-align: center; }
   .mission .eyebrow { margin-bottom: 1.25rem; }
   .mission h2 { font-size: clamp(2.25rem, 1.4rem + 3.4vw, 4.5rem); max-width: 16ch; margin: 0 0 0.45em; }

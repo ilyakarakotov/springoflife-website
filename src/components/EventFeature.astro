@@ -1,8 +1,10 @@
 ---
 // The one upcoming event, shown large (Home "Coming up" when exactly one event is listed). Without a
-// flyer the left side is a large date tile, so the card still looks finished.
+// flyer the left side is a large date tile, so the card still looks finished. The whole card opens
+// the event's page (the title link is stretched over it and carries the focus ring); Register and
+// "Event details" sit above that link as their own controls, like the rows and the SnapPages widget.
 import { Picture } from 'astro:assets';
-import Icon from './Icon.astro';
+import LinkText from './LinkText.astro';
 import type { SyncedEvent } from '../lib/content';
 import { eventDisplay } from '../lib/event-display';
 import { CARD_WIDTHS } from '../lib/media';
@@ -15,7 +17,7 @@ const meta = [d.place, d.price].filter(Boolean).join(' · ');
 // The flyer is drawn over a blurred preview, so a slow or failed download never leaves an empty box.
 const preview = d.image && e.image ? await syncedPreview(e.image) : null;
 ---
-<article class:list={['feature panel', { 'feature--noimg': !d.image }]} data-reveal>
+<article class:list={['feature panel', { 'feature--noimg': !d.image }]}>
   <div class="feature-media">
     {d.image
       ? (
@@ -40,13 +42,20 @@ const preview = d.image && e.image ? await syncedPreview(e.image) : null;
       {d.state === 'open' && e.register_url && (
         <a class="btn btn--primary btn--sm" href={e.register_url} target="_blank" rel="noopener">Register<span class="visually-hidden"> for {e.title} on Church Center</span></a>
       )}
-      <a class="text-link" href={d.page}>Event details<span class="visually-hidden">: {e.title}</span><Icon name="arrow" /></a>
+      <a class="text-link" href={d.page}><LinkText text="Event details" icon="arrow"><span class="visually-hidden">: {e.title}</span></LinkText></a>
     </div>
   </div>
 </article>
 
 <style>
-  .feature { display: grid; overflow: hidden; }
+  .feature { position: relative; display: grid; overflow: hidden; transition: box-shadow var(--dur-2) var(--ease); }
+  .feature:hover { box-shadow: var(--shadow-2); }
+  .feature-title a::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
+  .feature-title a:focus-visible { outline: none; box-shadow: none; }
+  /* Drawn just inside the edge: the card clips what's outside it (its rounded tile). */
+  .feature-title a:focus-visible::after { outline: 2px solid var(--focus); outline-offset: -2px; box-shadow: inset 0 0 0 4px var(--bg); }
+  .feature:hover .feature-title a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
+  .feature-actions a { position: relative; z-index: 1; }
   /* A flyer keeps its whole 16:9 frame (they often have text to the edges): inset, never cropped. */
   .feature-media { padding: 12px 12px 0; }
   .feature-frame { aspect-ratio: 16 / 9; border-radius: var(--radius-sm); }
@@ -60,7 +69,6 @@ const preview = d.image && e.image ? await syncedPreview(e.image) : null;
   .feature-when { margin: 0; font-weight: 700; font-size: 0.9375rem; color: var(--accent-text); }
   .feature-title { font-size: var(--step-2); margin: 0; letter-spacing: -0.02em; }
   .feature-title a { text-decoration: none; }
-  .feature-title a:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
   .feature-meta { margin: 0; color: var(--muted); font-size: 0.9375rem; }
   .feature-chips { margin: 0.25rem 0 0; }
   .feature-summary { margin: 0.4rem 0 0; color: var(--text-2); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }

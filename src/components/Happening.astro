@@ -4,7 +4,7 @@
 //   1 event   the event shown large (EventFeature)
 //   2+ events list rows; more than `limit` adds "See all n events"
 // The "Every week" panel always sits beside it.
-import Icon from './Icon.astro';
+import LinkText from './LinkText.astro';
 import EventRow from './EventRow.astro';
 import EventFeature from './EventFeature.astro';
 import EveryWeek from './EveryWeek.astro';
@@ -27,12 +27,12 @@ const shown = events.slice(0, limit);
         {events.length === 0 && (
           <p class="coming-empty" data-reveal>
             No special events on the calendar right now.
-            <a class="text-link" href={site.links.signups} target="_blank" rel="noopener">See all signups on Church Center<Icon name="external" /></a>
+            <a class="text-link" href={site.links.signups} target="_blank" rel="noopener"><LinkText text="See all signups on Church Center" icon="external" /></a>
           </p>
         )}
-        {events.length === 1 && <EventFeature event={events[0]} />}
+        {events.length === 1 && <div data-reveal><EventFeature event={events[0]} /></div>}
         {events.length > 1 && <ul class="event-rows">{shown.map((e) => <EventRow event={e} thumb={false} />)}</ul>}
-        {events.length > limit && <p class="coming-more"><a class="text-link" href={href('/events')}>See all {events.length} events<Icon name="arrow" /></a></p>}
+        {events.length > limit && <p class="coming-more"><a class="text-link" href={href('/events')}><LinkText text={`See all ${events.length} events`} icon="arrow" /></a></p>}
       </div>
       <EveryWeek />
     </div>
