@@ -1,4 +1,4 @@
-// Markdown pages (Visit, About, Give). YAML content is loaded and validated in src/lib/content.ts.
+// Markdown pages (About, Give). YAML content, including the Visit page, is loaded and validated in src/lib/content.ts.
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';

@@ -11,6 +11,7 @@ import stepsRaw from '../content/next-steps.yaml?raw';
 import leadersRaw from '../content/leaders.yaml?raw';
 import beliefsRaw from '../content/beliefs.yaml?raw';
 import groupOverridesRaw from '../content/group-overrides.yaml?raw';
+import visitRaw from '../content/visit.yaml?raw';
 import eventsData from '../data/events.json';
 import groupsData from '../data/groups.json';
 import { isLive } from './events.mjs';
@@ -113,6 +114,15 @@ function stepUrl(id: string): string {
   return step.url;
 }
 export const forms = { connect: stepUrl('connect'), prayer: stepUrl('prayer'), serve: stepUrl('serve') };
+
+/** Icons a "What to expect" card can use (src/components/Icon.astro). */
+export const VISIT_ICONS = ['clock', 'music', 'kids', 'users', 'coffee', 'heart', 'chat'] as const;
+export const visit = load('visit.yaml', visitRaw, z.object({
+  title: z.string(), description: z.string(), heading: z.string(), intro: z.string(),
+  image: imagePath, image_alt: z.string(),
+  expect: z.array(z.object({ icon: z.enum(VISIT_ICONS), title: z.string(), text: z.string() })).min(1).max(6),
+  kids: z.string(), arrival: z.string(),
+}));
 
 export const leaders = load('leaders.yaml', leadersRaw, z.object({
   leaders: z.array(z.object({ name: z.string(), role: z.string(), photo: imagePath })),

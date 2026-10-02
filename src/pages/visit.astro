@@ -1,67 +1,158 @@
 ---
-import { getEntry, render } from 'astro:content';
-import { Image } from 'astro:assets';
+// Plan a visit: the most important page for a first-time guest. Who, when and where up top, what
+// a Sunday is like, kids, getting here, the Russian service and how to reach us. Text lives in
+// src/content/visit.yaml; times and the address come from site.yaml.
+import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import { site, img, forms } from '../lib/content';
+import { site, img, visit, forms } from '../lib/content';
+import { href } from '../lib/url';
+import { lqip } from '../lib/lqip';
 
-const page = await getEntry('pages', 'visit');
-if (!page) throw new Error('src/content/pages/visit.md is missing');
-const { Content } = await render(page);
-const building = img('/src/assets/photos/building.jpg');
+const photo = img(visit.image);
+const preview = await lqip(visit.image);
+const tel = site.phone.replace(/[^\d+]/g, '');
 ---
-<Base title={page.data.title} description={page.data.description} image={building}>
-  <section class="page-hero">
-    <div class="wrap visit-hero">
-      <div>
-        <span class="eyebrow">Plan your visit</span>
-        <h1>We'd love to meet you</h1>
-        <p class="lead">{page.data.intro}</p>
-        <div class="facts">
-          <div><Icon name="clock" /><span><b>Every {site.service.day} at {site.service.time}</b><small>{site.service.length}</small></span></div>
-          <div><Icon name="pin" /><span><b>{site.address.street}</b><small>{site.address.city}, {site.address.region} {site.address.postal_code}</small></span></div>
-        </div>
+<Base title={visit.title} description={visit.description} image={photo} imageAlt={visit.image_alt}>
+  <section class="page-hero visit-hero">
+    <div class="wrap visit-hero-grid">
+      <div class="visit-hero-text">
+        <span class="eyebrow eyebrow--accent eyebrow--wave">Plan a visit</span>
+        <h1>{visit.heading}</h1>
+        <p class="lead">{visit.intro}</p>
+        <ul class="visit-facts">
+          <li><Icon name="clock" /><span><b>{site.service.day}s at {site.service.time}</b><span class="meta">English service · {site.service.length.toLowerCase()}</span></span></li>
+          <li><Icon name="pin" /><span><b>{site.address.street}</b><span class="meta">{site.address.city}, {site.address.region} {site.address.postal_code}</span></span></li>
+        </ul>
         <div class="btn-row">
-          <a class="btn btn--primary" href={site.address.maps_url} target="_blank" rel="noopener">Get directions</a>
-          <a class="btn btn--outline" href={forms.connect} target="_blank" rel="noopener">Fill out a connect card</a>
+          <a class="btn btn--primary" href={site.address.maps_url} target="_blank" rel="noopener"><Icon name="pin" />Get directions</a>
+          <a class="text-link" href={forms.connect} target="_blank" rel="noopener">Fill out a connect card<Icon name="external" /></a>
         </div>
       </div>
-      <Image src={building} alt="The Spring of Life Church building on 116th St SW in Mukilteo" widths={[480, 720]} width={720} sizes="(min-width: 960px) 40vw, 100vw" class="visit-img" loading="eager" />
+      <figure class="visit-photo">
+        <img class="lqip" {...preview} alt="" aria-hidden="true" />
+        <Picture src={photo} alt={visit.image_alt} widths={[560, 800, 1120, 1600]} sizes="(min-width: 1240px) 560px, (min-width: 960px) 44vw, 100vw"
+          formats={['avif', 'webp']} loading="eager" fetchpriority="high" class="visit-img" />
+      </figure>
     </div>
   </section>
 
-  <section class="section section--tight">
-    <div class="wrap visit-body">
-      <article class="prose"><Content /></article>
-      <aside class="card contact" id="contact">
-        <h2>Contact us</h2>
-        <ul>
-          <li><Icon name="phone" /><a href={`tel:${site.phone.replace(/[^\d+]/g, '')}`}>{site.phone}</a></li>
-          <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
-          <li><Icon name="card" /><a href={forms.connect} target="_blank" rel="noopener">Fill out a connect card</a></li>
-        </ul>
-      </aside>
+  <section class="section" aria-labelledby="expect-title">
+    <div class="wrap">
+      <div class="section-head"><h2 id="expect-title">What to expect</h2></div>
+      <ul class="expect-grid">
+        {visit.expect.map((x) => (
+          <li class="expect-card">
+            <span class="expect-icon"><Icon name={x.icon} /></span>
+            <h3 class="card-title">{x.title}</h3>
+            <p>{x.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-label="Kids and arriving on Sunday">
+    <div class="wrap duo">
+      <article class="duo-card" id="kids">
+        <span class="duo-icon"><Icon name="kids" /></span>
+        <h2>Kids</h2>
+        <p>{visit.kids}</p>
+        <a class="text-link" href={href('/ministries#kids')}>Kids and teens ministries<Icon name="arrow" /></a>
+      </article>
+      <article class="duo-card" id="arrive">
+        <span class="duo-icon"><Icon name="coffee" /></span>
+        <h2>When you arrive</h2>
+        <p>{visit.arrival}</p>
+        <a class="text-link" href={site.address.maps_url} target="_blank" rel="noopener">Directions to {site.address.street}<Icon name="external" /></a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="here-title">
+    <div class="wrap">
+      <div class="section-head"><h2 id="here-title">Getting here</h2></div>
+      <div class="here">
+        <div class="here-card here-card--address">
+          <span class="eyebrow">Address</span>
+          <p class="address">{site.name}<br />{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postal_code}</p>
+          <a class="btn btn--outline" href={site.address.maps_url} target="_blank" rel="noopener">Open in Google Maps<Icon name="external" /></a>
+        </div>
+        <div class="here-card">
+          <span class="eyebrow">Russian service</span>
+          <p class="here-big tabular">{site.service.day}s at {site.service.russian_time}</p>
+          <p>Spring of Life also worships in Russian every {site.service.day} morning, before the English service.</p>
+          <a class="text-link" href={site.links.russian_site} target="_blank" rel="noopener" hreflang="ru"><span lang="ru">Русский сайт</span><Icon name="external" /></a>
+        </div>
+        <div class="here-card" id="contact">
+          <span class="eyebrow">Contact us</span>
+          <ul class="contact">
+            <li><Icon name="phone" /><a href={`tel:${tel}`}>{site.phone}</a></li>
+            <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+            <li><Icon name="card" /><a href={forms.connect} target="_blank" rel="noopener">Fill out a connect card</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight cta-band" aria-labelledby="cta-title">
+    <div class="wrap cta">
+      <div>
+        <h2 id="cta-title">New here, or have a question?</h2>
+        <p>Tell us a little about yourself on a connect card.</p>
+      </div>
+      <a class="btn btn--primary" href={forms.connect} target="_blank" rel="noopener">Fill out a connect card<Icon name="external" /></a>
     </div>
   </section>
 </Base>
 
 <style>
-  .visit-hero { display: grid; gap: 28px; align-items: center; }
-  @media (min-width: 960px) { .visit-hero { grid-template-columns: 1.2fr 1fr; } }
-  .visit-hero :global(.visit-img) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); }
-  .facts { display: grid; gap: 14px; margin: 1.75rem 0 1.5rem; }
-  @media (min-width: 560px) { .facts { grid-template-columns: 1fr 1fr; } }
-  .facts > div { display: flex; gap: 0.75rem; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; }
-  .facts :global(.icon) { color: var(--accent-text); width: 22px; height: 22px; margin-top: 2px; }
-  .facts span { display: grid; }
-  .facts small { color: var(--muted); }
-  .page-hero .btn-row { margin-top: 0; }
-  .visit-body { display: grid; gap: 28px; }
-  @media (min-width: 960px) { .visit-body { grid-template-columns: 1.6fr 1fr; align-items: start; } }
-  .contact { padding: clamp(20px, 3vw, 30px); scroll-margin-top: 96px; }
-  .contact h2 { font-size: var(--step-1); }
-  .contact ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+  .visit-hero-grid { display: grid; gap: clamp(28px, 4vw, 56px); align-items: center; }
+  @media (min-width: 960px) { .visit-hero-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); } }
+  .visit-hero h1 { max-width: 12ch; }
+  .visit-facts { list-style: none; margin: 1.75rem 0; padding: 0; display: grid; gap: 12px; }
+  @media (min-width: 560px) { .visit-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .visit-facts li { display: flex; gap: 0.75rem; align-items: flex-start; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .visit-facts :global(.icon) { width: 22px; height: 22px; margin-top: 2px; color: var(--accent-text); }
+  .visit-facts li > span { display: grid; }
+  .visit-hero .btn-row { margin-top: 0; }
+  .visit-photo { position: relative; margin: 0; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius); background: var(--surface-soft); }
+  @media (min-width: 960px) { .visit-photo { aspect-ratio: 4 / 3; } }
+  .visit-photo > .lqip, .visit-photo :global(picture), .visit-photo :global(.visit-img) { position: absolute; inset: 0; width: 100%; height: 100%; }
+  /* The file is cropped below the old sign line; the top edge stays put (object-position 50% 0). */
+  .visit-photo > .lqip, .visit-photo :global(.visit-img) { object-fit: cover; object-position: 50% 0; }
+
+  .expect-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(14px, 2vw, 22px); }
+  @media (min-width: 640px) { .expect-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .expect-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .expect-card { display: grid; gap: 0.6rem; align-content: start; padding: clamp(20px, 2.4vw, 28px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+  .expect-card p { margin: 0; color: var(--text-2); font-size: 0.97rem; }
+  .expect-icon, .duo-icon { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 0.4rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent-text); }
+  .expect-icon :global(.icon), .duo-icon :global(.icon) { width: 22px; height: 22px; }
+
+  .duo { display: grid; gap: clamp(14px, 2vw, 22px); }
+  @media (min-width: 900px) { .duo { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .duo-card { display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: clamp(24px, 3.5vw, 44px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); scroll-margin-top: 96px; }
+  .duo-card h2 { font-size: var(--step-3); margin: 0; }
+  .duo-card p { color: var(--text-2); font-size: var(--step-1); line-height: 1.55; max-width: 34rem; margin: 0.25rem 0 0.75rem; }
+  .duo-card .text-link { margin-top: auto; }
+
+  .here { display: grid; gap: clamp(14px, 2vw, 22px); }
+  @media (min-width: 900px) { .here { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .here-card { display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: clamp(22px, 3vw, 32px); border: 1px solid var(--border); border-radius: var(--radius); scroll-margin-top: 96px; }
+  .here-card p { margin: 0; color: var(--text-2); }
+  .here-card .eyebrow { margin-bottom: 0.25rem; }
+  .address { font-size: var(--step-1); line-height: 1.5; color: var(--text) !important; font-weight: 600; margin-bottom: 0.75rem !important; }
+  .here-big { font-size: var(--step-2); font-weight: 700; color: var(--text) !important; }
+  .here-card .text-link, .here-card .btn { margin-top: auto; }
+  .contact { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.85rem; }
   .contact li { display: flex; gap: 0.6rem; align-items: center; }
   .contact :global(.icon) { color: var(--accent-text); }
   .contact a { color: var(--text); font-weight: 600; text-underline-offset: 3px; overflow-wrap: anywhere; }
+
+  .cta-band { background: var(--bg-tint); }
+  .cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2rem; }
+  .cta h2 { margin: 0 0 0.3rem; }
+  .cta p { margin: 0; color: var(--text-2); }
 </style>

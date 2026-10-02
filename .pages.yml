@@ -209,8 +209,32 @@ content:
           - { name: image, type: string, description: '"none" hides the group photo; or a path like /src/assets/photos/x.jpg (real church photos only).' }
           - { name: note, label: Why (not shown on the site), type: string }
 
+  - name: visit
+    label: Visit page
+    type: file
+    path: src/content/visit.yaml
+    fields:
+      - { name: title, type: string }
+      - { name: description, label: Search engine description, type: text }
+      - { name: heading, type: string }
+      - { name: intro, type: text }
+      - { name: image, type: image, description: Real church photos only. No identifiable children without written consent. }
+      - { name: image_alt, label: Image description, type: string }
+      - name: expect
+        label: What to expect (cards)
+        type: object
+        list: true
+        fields:
+          - name: icon
+            type: select
+            options: { values: [clock, music, kids, users, coffee, heart, chat] }
+          - { name: title, type: string }
+          - { name: text, type: text }
+      - { name: kids, label: Kids on Sunday, type: text }
+      - { name: arrival, label: When you arrive, type: text }
+
   - name: pages
-    label: Pages (Visit, About, Give)
+    label: Pages (About, Give)
     type: collection
     path: src/content/pages
     format: yaml-frontmatter

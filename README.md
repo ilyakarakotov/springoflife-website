@@ -347,7 +347,8 @@ See `docs/HANDOFF.md` for the checklist. In short:
 | Life Group photo exceptions | `src/content/group-overrides.yaml` | Life Group exceptions |
 | Leadership | `src/content/leaders.yaml` | Leadership |
 | Statement of faith | `src/content/beliefs.yaml` | What we believe |
-| Visit, About, Give text | `src/content/pages/*.md` | Pages |
+| Visit page | `src/content/visit.yaml` | Visit page |
+| About and Give text | `src/content/pages/*.md` | Pages |
 
 Every YAML file is validated at build time. A typo fails the build with a message instead of
 publishing a broken page.

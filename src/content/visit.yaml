@@ -1,0 +1,26 @@
+# Visit page ("Plan a visit"). Every sentence comes from the church's own pages: the current
+# "I'm New" page, Church Center and the church's Instagram. Open questions (parking, check-in,
+# age groups) are in docs/QUESTIONS-FOR-PASTORS.md; add those details here once confirmed.
+# Text in [square brackets] is a placeholder and is left out of the site.
+title: Plan a visit
+description: Visit Spring of Life Church in Mukilteo, WA. Our English service is every Sunday at 12:00 pm, with childcare and activities for all ages.
+heading: We'd love to meet you
+intro: Spring of Life Church is a place where people can hear the Word of God, worship Jesus and engage in life-giving community. Everyone is welcome!
+image: /src/assets/photos/arrival.jpg
+image_alt: People arriving for Sunday service at Spring of Life Church in Mukilteo
+# "What to expect" cards. icon: clock, music, kids, users, coffee, heart, chat
+expect:
+  - icon: clock
+    title: About 90 minutes
+    text: A typical service lasts about 90 minutes.
+  - icon: music
+    title: Traditional and contemporary worship
+    text: We sing a mix of traditional and contemporary worship songs led by our worship team.
+  - icon: kids
+    title: Childcare for all ages
+    text: Childcare and activities are available for all age groups.
+  - icon: users
+    title: Fellowship after the service
+    text: Plan to hang around after the service for fellowship and to meet new people.
+kids: Kids are welcome in the service, and childcare and activities are available for all ages during the 12:00 pm service. When you arrive, ask a greeter and they'll show you where to go.
+arrival: Come about 30 minutes early and grab a coffee before the service. Our greeters will be glad to help you find your way.
