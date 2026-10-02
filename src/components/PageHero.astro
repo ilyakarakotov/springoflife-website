@@ -1,0 +1,22 @@
+---
+// The title band of an inner page: the eyebrow and title on the left; on wide screens the lead and
+// anything passed in the slot (links, chips, a summary) on the right, on the title's baseline. The
+// title settles a few pixels on load (motion.css); it's painted on the first frame.
+interface Props { eyebrow: string; title: string; lead?: string; class?: string }
+const { eyebrow, title, lead, class: cls } = Astro.props;
+const side = Boolean(lead) || Astro.slots.has('default');
+---
+<section class:list={['page-hero', cls]}>
+  <div class:list={['wrap page-hero-grid', { 'page-hero-grid--solo': !side }]}>
+    <div class="page-hero-head">
+      <span class="eyebrow eyebrow--accent eyebrow--wave">{eyebrow}</span>
+      <h1 class="settle">{title}</h1>
+    </div>
+    {side && (
+      <div class="page-hero-side">
+        {lead && <p class="lead">{lead}</p>}
+        <slot />
+      </div>
+    )}
+  </div>
+</section>

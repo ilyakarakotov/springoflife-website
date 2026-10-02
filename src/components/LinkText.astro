@@ -1,0 +1,16 @@
+---
+// The words of a link and its trailing icon, with the icon kept on the line of the last word (a
+// browser may otherwise wrap the icon onto a line of its own: "Groups on Church Center / ↗").
+// Anything in the slot (e.g. visually hidden text) goes right after the last word.
+import Icon from './Icon.astro';
+
+interface Props { text: string; icon: 'arrow' | 'external' | 'calendar'; lang?: string }
+const { text, icon, lang } = Astro.props;
+const words = text.trim();
+const cut = words.lastIndexOf(' ') + 1;
+const head = words.slice(0, cut);
+const last = words.slice(cut);
+---
+{lang
+  ? <span lang={lang}>{head}<span class="nw">{last}<slot /><Icon name={icon} /></span></span>
+  : <>{head}<span class="nw">{last}<slot /><Icon name={icon} /></span></>}

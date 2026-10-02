@@ -23,8 +23,9 @@
 .rl > span { display: inline-block; transition: translate 1.1s var(--ease) calc(var(--d, 0ms) + var(--l, 0) * 90ms), opacity 0.9s var(--ease) calc(var(--d, 0ms) + var(--l, 0) * 90ms); }
 [data-reveal="lines"][data-pending] .rl > span { translate: 0 0.42em; opacity: 0; }
 
-/* Photos: the frame opens from a slight inset while the photo settles into it. */
-[data-reveal="photo"] { clip-path: inset(0 round var(--radius-media)); transition: clip-path 1.2s var(--ease) var(--d, 0ms); }
+/* Photos: the frame opens from a slight inset while the photo settles into it. At rest the clip
+   reaches well outside the frame, so its soft shadow isn't cut off. */
+[data-reveal="photo"] { clip-path: inset(-80px round var(--radius-media)); transition: clip-path 1.2s var(--ease) var(--d, 0ms); }
 [data-reveal="photo"][data-pending] { opacity: 1; translate: none; clip-path: inset(5% 4% round var(--radius-media)); }
 [data-reveal="photo"] img:not(.lqip) { transition: scale 1.6s var(--ease) var(--d, 0ms); }
 [data-reveal="photo"][data-pending] img:not(.lqip) { scale: 1.06; }

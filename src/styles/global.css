@@ -180,8 +180,6 @@ b, strong { font-weight: 700; }
 .section--soft { background: var(--bg-soft); }
 .section--tint { background: var(--bg-tint); }
 .section--tight { padding-block: var(--section-tight); }
-/* Two plain sections in a row share their spacing instead of doubling it. */
-.section:not(.section--soft, .section--tint) + .section:not(.section--soft, .section--tint) { padding-top: 0; }
 
 .eyebrow { display: block; margin-bottom: 0.9rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; line-height: 1.4; text-transform: uppercase; color: var(--muted); }
 .eyebrow--accent { color: var(--accent-text); }
@@ -222,8 +220,8 @@ b, strong { font-weight: 700; }
 /* On a photo: a fine light ring; never a white disc (forced-dark browsers would invert it). */
 .arrow-circle--photo { border-color: rgb(255 255 255 / 0.6); background: rgb(10 14 24 / 0.18); color: #fff; }
 a:hover .arrow-circle, a:focus-visible .arrow-circle { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-a:hover .arrow-circle .i-arrow, a:hover > .i-arrow, .btn:hover .i-arrow { transform: translateX(3px); }
-a:hover .arrow-circle .i-external, a:hover > .i-external, .btn:hover .i-external { transform: translate(2px, -2px); }
+a:hover .arrow-circle .i-arrow, a:hover > .i-arrow, a:hover .nw > .i-arrow, .btn:hover .i-arrow { transform: translateX(3px); }
+a:hover .arrow-circle .i-external, a:hover > .i-external, a:hover .nw > .i-external, .btn:hover .i-external { transform: translate(2px, -2px); }
 
 /* "See all events": underlined words and the arrow ring. */
 .more-link { display: inline-flex; align-items: center; gap: 0.85rem; font-weight: 700; font-size: 0.97rem; color: var(--text); text-decoration: none; }
@@ -254,12 +252,13 @@ a:hover .arrow-circle .i-external, a:hover > .i-external, .btn:hover .i-external
 .btn--block { width: 100%; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; align-items: center; }
 
-/* Text links are inline, so an arrow stays on the line of the last word instead of being left on
-   its own when the words wrap. */
+/* Text links are inline, and the last word and the arrow are one unbreakable piece (LinkText), so
+   the arrow is never left alone on a line when the words wrap. */
 .text-link { display: inline; font-weight: 700; color: var(--accent-text); text-decoration: none; text-underline-offset: 4px; text-decoration-thickness: 1.5px; }
 .text-link:hover { text-decoration-line: underline; }
-.text-link > .icon { display: inline-block; width: 1.05em; height: 1.05em; margin-left: 0.42em; vertical-align: -0.17em; transition: transform var(--dur-2) var(--ease); }
-.text-link > .icon.lead { margin: 0 0.45em 0 0; }
+.nw { white-space: nowrap; }
+.text-link .icon { display: inline-block; width: 1.05em; height: 1.05em; margin-left: 0.42em; vertical-align: -0.17em; transition: transform var(--dur-2) var(--ease); }
+.text-link .icon.lead { margin: 0 0.45em 0 0; }
 .card-title { font-size: 1.25rem; line-height: 1.25; letter-spacing: -0.018em; margin: 0; }
 
 /* ---- Surfaces ---- */
@@ -290,13 +289,15 @@ a.chip:hover, button.chip:hover { background: var(--bg-soft); border-color: var(
 /* The header runs over the band (Header.astro), so the band starts under it. */
 @media (scripting: enabled) { @supports selector(:has(a)) { main > .page-hero:first-child { padding-top: calc(var(--header-h) + clamp(44px, 6.5vw, 104px)); } } }
 .page-hero h1 { margin-bottom: 0; max-width: 14ch; }
+.page-hero .eyebrow { margin-bottom: 1.25rem; }
 .page-hero .lead { margin-bottom: 0; }
 .page-hero .btn-row { margin-top: 1.75rem; }
-.page-hero-grid { display: grid; gap: clamp(20px, 2.6vw, 32px) clamp(40px, 6vw, 96px); }
-.page-hero-grid > :last-child > :first-child { margin-top: 0; }
+.page-hero-grid { display: grid; gap: clamp(22px, 2.6vw, 32px) clamp(40px, 6vw, 112px); }
+.page-hero-side > * + * { margin-top: 1.5rem; }
 @media (min-width: 1024px) {
-  .page-hero-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; }
-  .page-hero-grid .lead { font-size: var(--step-1); }
+  /* The lead starts level with the title's first line (below the eyebrow). */
+  .page-hero-grid:not(.page-hero-grid--solo) { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
+  .page-hero-side { padding-top: 2.75rem; }
 }
 
 /* Rich text from Markdown or Planning Center */
