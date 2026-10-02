@@ -1,0 +1,66 @@
+---
+// The closing invitation above the footer: a real church photo, the Visit page's welcome, when and
+// where, and one button. It bookends the Home hero (photo, words at the bottom left, one action) and
+// flows into the footer. Motion (motion.css): the photo pulls back slowly as it comes into view and
+// the page dusks a little into it; without scroll-driven animations it's a still photo.
+// Text defaults come from visit.yaml (heading) and site.yaml (day, time, address).
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import { site, visit, img } from '../lib/content';
+import { href, isExternal } from '../lib/url';
+import { lqip } from '../lib/lqip';
+
+interface Props {
+  image?: string;   // a photo in src/assets/photos (real church photos only)
+  crop?: 'center' | 'upper'; // which part of the photo the wide band keeps
+  title?: string;
+  text?: string;
+  cta?: string;
+  url?: string;
+}
+const {
+  image = '/src/assets/photos/sanctuary-back.jpg',
+  crop = 'center',
+  title = visit.heading,
+  text = `${site.service.day}s at ${site.service.time} · ${site.address.street}, ${site.address.city}`,
+  cta = 'Plan a visit',
+  url = '/visit',
+} = Astro.props;
+const ext = isExternal(url);
+const preview = await lqip(image);
+---
+<section class:list={['invite on-photo', `invite--${crop}`]} aria-labelledby="invite-title">
+  <div class="invite-media" aria-hidden="true">
+    <div class="invite-photo">
+      <img class="lqip" {...preview} alt="" />
+      <Picture src={img(image)} alt="" widths={[640, 1024, 1600, 2400]} width={2400} sizes="100vw" formats={['avif', 'webp']} loading="lazy" class="invite-img" />
+    </div>
+  </div>
+  <div class="wrap invite-content">
+    <h2 id="invite-title" data-reveal="lines">{title}</h2>
+    <p data-reveal>{text}</p>
+    <div data-reveal>
+      <a class="btn btn--primary" href={href(url)} {...(ext ? { target: '_blank', rel: 'noopener' } : {})}>{cta}<Icon name={ext ? 'external' : 'arrow'} /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .invite { position: relative; z-index: 1; display: flex; align-items: flex-end; min-height: clamp(460px, 64vh, 660px); color: #fff; background: var(--hero-fallback); }
+  .invite-media { position: absolute; inset: 0; overflow: hidden; }
+  .invite-photo { position: absolute; inset: 0; }
+  .invite-photo > .lqip, .invite-photo :global(picture), .invite-photo :global(.invite-img) { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; color: transparent; }
+  .invite-photo > .lqip, .invite-photo :global(.invite-img) { object-position: 50% 50%; }
+  /* "upper": wide screens keep the upper part (a doorway, a stage); a phone's tall crop keeps the people. */
+  .invite--upper .invite-photo > .lqip, .invite--upper .invite-photo :global(.invite-img) { object-position: 50% 72%; }
+  @media (min-width: 720px) { .invite--upper .invite-photo > .lqip, .invite--upper .invite-photo :global(.invite-img) { object-position: 50% 36%; } }
+  /* Dark behind the words (bottom left), the photo clear at the top right, and the bottom edge
+     already the footer's colour, so band and footer read as one. */
+  .invite-media::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(0deg, var(--footer-bg) 0, rgb(10 12 16 / 0.74) 22%, rgb(10 12 16 / 0.26) 62%, rgb(10 12 16 / 0.4) 100%),
+      linear-gradient(90deg, rgb(10 12 16 / 0.6) 0, rgb(10 12 16 / 0) 70%); }
+  .invite-content { position: relative; z-index: 1; padding-block: clamp(96px, 12vw, 160px) clamp(56px, 7vw, 104px); }
+  .invite h2 { font-size: var(--step-4); font-weight: 800; line-height: 1; letter-spacing: -0.045em; max-width: 12ch; margin: 0 0 0.45em; color: #fff; text-shadow: 0 2px 24px rgb(0 0 0 / 0.25); }
+  .invite p { margin: 0 0 1.9rem; font-size: var(--step-1); font-weight: 600; color: rgb(255 255 255 / 0.9); }
+</style>
