@@ -5,8 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Spring of Life Church
 X-WR-TIMEZONE:America/Los_Angeles
-X-WR-CALDESC:Public events at Spring of Life Church. https://springoflifech
- urch.com/events
+X-WR-CALDESC:Public events at Spring of Life Church. https://ilyakarakotov.
+ github.io/springoflife-website/events
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
