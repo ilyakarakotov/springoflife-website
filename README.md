@@ -372,8 +372,8 @@ one `<path>`).
 - **No trackers or cookies on page load.** The sermon player and the giving form are
   click-to-load facades. `check:dist` fails if any page loads a third-party frame, script,
   stylesheet or image with its HTML.
-- A Content-Security-Policy `<meta>` limits scripts to the site's own (hashed) code and frames to
-  Subsplash. Structured data is escaped, so Planning Center text can't break out of it.
+- A Content-Security-Policy `<meta>` limits scripts to the site's own files (and hashed inline
+  code) and frames to Subsplash. Structured data is escaped, so Planning Center text can't break out of it.
 - Life Groups: card fields only (see above). Events: no online meeting links. Contact details
   are redacted, best effort.
 - Workflows:
@@ -390,7 +390,17 @@ one `<path>`).
   until the pastors decide.
 - **Fonts:** Manrope (variable). The Latin file is preloaded; the Cyrillic subset (about 14 KB)
   loads only when a page has Cyrillic text (the "Русский" link, a Russian event title), so Russian
-  text renders in Manrope too, with the system font as the fallback.
+  text renders in Manrope too, with the system font as the fallback. One accent face, Newsreader
+  Italic (latin, 24 KB), sets a single quiet line per page in the church's own words (the mission
+  on Home, the Scripture closing the About story: `.scripture`). It loads only as that line nears
+  the screen, over a Georgia fallback scaled to the same metrics, so it never delays the first
+  paint and nothing moves when it arrives.
+- **Design and motion:** tokens, type, buttons, the arrow and surfaces are in
+  `src/styles/global.css`; motion is in `src/styles/motion.css` plus one small script
+  (`src/scripts/site.ts`: the phone menu, the arrivals, the Home header, the click-to-load embeds).
+  Only transform, opacity and clip-path move. Nothing on the first screen is ever hidden, and
+  without JavaScript or with reduced motion everything simply shows. Page-to-page navigation is a
+  short cross-fade (View Transitions), off for reduced motion.
 - **Church Center modal** (`js.churchcenter.com/modal/v1`) is not used. Event and group buttons
   open Church Center in a new tab.
 - **Old URLs** (`src/lib/redirects.mjs`): `/i-m-new`, `/giving`, `/watch-live`, `/leadership`,
@@ -420,7 +430,9 @@ src/pages/                          Home, Visit, About, Ministries, Life Groups,
                                     events/[slug] (one page per event), Next Steps, Give, 404,
                                     feed/events.json, robots.txt
 src/components/, src/layouts/       UI (SermonEmbed and GiveEmbed are the click-to-load facades)
-src/lib/                            content validation, time, events, groups, feed, JSON-LD, URLs
+src/lib/                            content validation, time, events, groups, feed, JSON-LD, URLs, text
+src/styles/                         global.css (design tokens, type, buttons, arrows), motion.css
+src/scripts/                        site.ts loads menu.ts, motion.ts and facade.ts as one file
 public/embed/sol-events.js          SnapPages events widget (minified at build)
 public/_headers                     Cloudflare Pages headers
 .github/workflows/                  sync.yml (every 30 min), deploy.yml (Pages/Cloudflare), both off by default
