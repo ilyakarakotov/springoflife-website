@@ -8,6 +8,7 @@ import type { PublicGroup } from '../lib/content';
 import { img } from '../lib/content';
 import { groupLine, joinLabel, groupDisplayTitle, groupMonogram, scheduleDays, areaPlaces } from '../lib/groups.mjs';
 import { syncedImage, CARD_WIDTHS } from '../lib/media';
+import { lqip, syncedPreview } from '../lib/lqip';
 
 interface Props { group: PublicGroup; eager?: boolean }
 const { group: g, eager = false } = Astro.props;
@@ -15,6 +16,8 @@ const joinable = g.enrollment.status === 'open';
 const cta = joinLabel(g.enrollment);
 const pic = g.picture;
 const image = pic.kind === 'synced' ? syncedImage(pic.file) : pic.kind === 'asset' ? img(pic.path) : null;
+// Drawn over a blurred preview, so a slow or failed download shows a soft photo, not an empty box.
+const preview = pic.kind === 'synced' ? await syncedPreview(pic.file) : pic.kind === 'asset' ? await lqip(pic.path) : null;
 const loading = eager ? { loading: 'eager' as const, fetchpriority: 'high' as const } : { loading: 'lazy' as const };
 const title = groupDisplayTitle(g.title);
 // For the day/area filter on the Life Groups page.
@@ -23,7 +26,8 @@ const places = areaPlaces(g.area).map((p) => p.toLowerCase()).join('|');
 ---
 <li class="group" data-days={days} data-places={places}>
   <article class="group-card">
-    <div class="group-media">
+    <div class:list={['group-media', { 'lqip-frame': image }]}>
+      {image && preview && <img class="lqip" {...preview} alt="" aria-hidden="true" />}
       {image
         ? <Picture src={image} alt="" widths={CARD_WIDTHS} width={720} height={405} fit="cover" sizes="(min-width: 1240px) 290px, (min-width: 960px) 30vw, (min-width: 640px) 46vw, 100vw"
             formats={['avif', 'webp']} class="group-img" {...loading} />

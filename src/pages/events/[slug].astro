@@ -10,6 +10,7 @@ import { eventSlug, eventPath, registrationStatus, registrationLabel } from '../
 import { formatDateLabel, formatTimeLabel, formatRange } from '../../lib/time.mjs';
 import { eventJsonLd } from '../../lib/jsonld';
 import { syncedImage, CARD_WIDTHS } from '../../lib/media';
+import { syncedPreview } from '../../lib/lqip';
 import { href, absoluteUrl, absoluteAsset } from '../../lib/url';
 
 export function getStaticPaths() {
@@ -19,6 +20,7 @@ export function getStaticPaths() {
 interface Props { event: SyncedEvent }
 const { event: e } = Astro.props;
 const image = syncedImage(e.image);
+const preview = image && e.image ? await syncedPreview(e.image) : null;
 const pageUrl = absoluteUrl(eventPath(e));
 // Same transform as the social preview in Base.astro, so it's one file.
 const jsonImage = image ? await getImage({ src: image, width: image.width, height: image.height, fit: 'cover', format: 'jpg', quality: 80 }) : null;
@@ -68,8 +70,11 @@ const ext = { target: '_blank', rel: 'noopener' };
     <div class="wrap event-page">
       <div class="event-main">
         {image && (
-          <Picture src={image} alt="" widths={CARD_WIDTHS} sizes="(min-width: 1240px) 760px, (min-width: 960px) 60vw, 100vw"
-            formats={['avif', 'webp']} loading="eager" fetchpriority="high" class="media-16x9 event-img" />
+          <div class="event-photo lqip-frame">
+            {preview && <img class="lqip" {...preview} alt="" aria-hidden="true" />}
+            <Picture src={image} alt="" widths={CARD_WIDTHS} sizes="(min-width: 1240px) 760px, (min-width: 960px) 60vw, 100vw"
+              formats={['avif', 'webp']} loading="eager" fetchpriority="high" class="event-img" />
+          </div>
         )}
         {e.description_html
           ? <div class="prose" set:html={e.description_html} />
@@ -112,7 +117,7 @@ const ext = { target: '_blank', rel: 'noopener' };
   .event-chips:empty { display: none; }
   .event-page { display: grid; gap: 24px; }
   @media (min-width: 960px) { .event-page { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; } }
-  .event-main :global(.event-img) { border-radius: var(--radius); margin-bottom: 1.5rem; }
+  .event-photo { aspect-ratio: 16 / 9; border-radius: var(--radius); margin-bottom: 1.5rem; }
   .event-side { display: grid; gap: 16px; }
   .side { padding: clamp(20px, 3vw, 28px); }
   .h3 { font-size: var(--step-1); }

@@ -6,16 +6,24 @@ import Icon from './Icon.astro';
 import type { SyncedEvent } from '../lib/content';
 import { eventDisplay } from '../lib/event-display';
 import { CARD_WIDTHS } from '../lib/media';
+import { syncedPreview } from '../lib/lqip';
 
 interface Props { event: SyncedEvent; headingLevel?: 'h2' | 'h3' }
 const { event: e, headingLevel: H = 'h3' } = Astro.props;
 const d = eventDisplay(e);
 const meta = [d.place, d.price].filter(Boolean).join(' · ');
+// The flyer is drawn over a blurred preview, so a slow or failed download never leaves an empty box.
+const preview = d.image && e.image ? await syncedPreview(e.image) : null;
 ---
 <article class:list={['feature card', { 'feature--noimg': !d.image }]}>
   <div class="feature-media">
     {d.image
-      ? <Picture src={d.image} alt="" widths={CARD_WIDTHS} sizes="(min-width: 1240px) 320px, (min-width: 960px) 26vw, (min-width: 640px) 45vw, 100vw" formats={['avif', 'webp']} class="feature-img" />
+      ? (
+          <div class="feature-frame lqip-frame">
+            {preview && <img class="lqip" {...preview} alt="" aria-hidden="true" />}
+            <Picture src={d.image} alt="" widths={CARD_WIDTHS} sizes="(min-width: 1240px) 320px, (min-width: 960px) 26vw, (min-width: 640px) 45vw, 100vw" formats={['avif', 'webp']} class="feature-img" />
+          </div>
+        )
       : d.badge && (
           <div class="feature-date" aria-hidden="true">
             <span>{d.badge.month}</span><b class="tabular">{d.badge.day}</b><span>{d.when.split(' · ')[0]}</span>
@@ -41,7 +49,7 @@ const meta = [d.place, d.price].filter(Boolean).join(' · ');
   .feature { display: grid; overflow: hidden; }
   /* A flyer keeps its whole 16:9 frame (they often have text to the edges): inset, never cropped. */
   .feature-media { padding: 12px 12px 0; }
-  .feature-media :global(.feature-img) { width: 100%; aspect-ratio: 16 / 9; height: auto; object-fit: cover; border-radius: var(--radius-sm); }
+  .feature-frame { aspect-ratio: 16 / 9; border-radius: var(--radius-sm); }
   .feature--noimg .feature-media { padding: 0; }
   .feature-date { display: grid; justify-items: start; align-content: end; gap: 2px; height: 100%; min-height: 168px; padding: clamp(20px, 3vw, 32px);
     background: var(--accent-soft); color: var(--accent-text); line-height: 1; }

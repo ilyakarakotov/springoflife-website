@@ -20,3 +20,6 @@ export function lqip(path: string, width = 32): Promise<Preview> {
   }
   return cache.get(key)!;
 }
+
+/** The blurred preview of an image copied by the sync (src/assets/sync/<file>), e.g. an event flyer. */
+export const syncedPreview = (file: string) => lqip(`/src/assets/sync/${file}`);

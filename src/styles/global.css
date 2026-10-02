@@ -119,6 +119,9 @@ img { height: auto; }
 main img:not(.hero-img):not(.lqip) { filter: var(--photo-filter); }
 /* Blurred inline preview under a photo (src/lib/lqip.ts). The real image is drawn on top of it. */
 .lqip { filter: blur(14px); transform: scale(1.08); pointer-events: none; user-select: none; }
+/* A photo over its blurred preview: the frame sets the shape, preview and photo both fill it. */
+.lqip-frame { position: relative; overflow: hidden; background: var(--surface-soft); }
+.lqip-frame > .lqip, .lqip-frame > picture, .lqip-frame > picture > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; color: transparent; }
 a { color: inherit; }
 p { margin: 0 0 1em; }
 h1, h2, h3, h4 { margin: 0 0 0.5em; font-weight: 700; text-wrap: balance; }
