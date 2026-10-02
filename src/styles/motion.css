@@ -1,0 +1,75 @@
+/* Motion: the calm of walking into the sanctuary. Unhurried, warm, quiet; if a movement reads as
+   "an animation", it's too much.
+   - Only transform (translate, scale), opacity and clip-path move. Nothing changes layout.
+   - One easing family (var(--ease)); arrivals 0.9-1.2 s, hovers 240 ms; scroll-tied movement is
+     linear on the scroll.
+   - The first screen is never hidden: the hero photo and headline paint on the first frame and only
+     settle. One-shot arrivals further down are held by src/scripts/motion.ts ([data-pending]), so
+     without JavaScript everything simply shows.
+   - Depth tied to scroll (the hero photo lagging and dimming, the closing photo pulling back, the
+     page dusking into it) uses CSS scroll-driven animations, which run on the compositor. Browsers
+     without them get a still page.
+   - prefers-reduced-motion: reduce turns all of it off (global.css stops every animation and
+     transition; the script holds nothing back). Print shows everything. */
+
+/* ---- Arrivals (one-shot) ---- */
+[data-reveal] { transition: opacity var(--dur-arrive) var(--ease) var(--d, 0ms), translate var(--dur-arrive) var(--ease) var(--d, 0ms); }
+[data-reveal][data-pending] { opacity: 0; translate: 0 14px; }
+
+/* Headings: each line rises a little from behind its own mask. */
+[data-reveal="lines"] { transition: none; }
+[data-reveal="lines"][data-pending] { opacity: 1; translate: none; }
+.rl { display: inline-block; vertical-align: top; overflow: hidden; padding: 0.08em 0.06em 0.16em; margin: -0.08em -0.06em -0.16em; }
+.rl > span { display: inline-block; transition: translate 1.1s var(--ease) calc(var(--d, 0ms) + var(--l, 0) * 90ms), opacity 0.9s var(--ease) calc(var(--d, 0ms) + var(--l, 0) * 90ms); }
+[data-reveal="lines"][data-pending] .rl > span { translate: 0 0.42em; opacity: 0; }
+
+/* Photos: the frame opens from a slight inset while the photo settles into it. */
+[data-reveal="photo"] { clip-path: inset(0 round var(--radius-media)); transition: clip-path 1.2s var(--ease) var(--d, 0ms); }
+[data-reveal="photo"][data-pending] { opacity: 1; translate: none; clip-path: inset(5% 4% round var(--radius-media)); }
+[data-reveal="photo"] img:not(.lqip) { transition: scale 1.6s var(--ease) var(--d, 0ms); }
+[data-reveal="photo"][data-pending] img:not(.lqip) { scale: 1.06; }
+
+/* ---- Hero (Home): settles on load, then lags and dims as it leaves ---- */
+@keyframes settle-photo { from { scale: 1.06; } }
+@keyframes settle-text { from { translate: 0 14px; } }
+@keyframes hero-lag { to { translate: 0 12%; } }
+@keyframes hero-dim { to { opacity: 0.42; } }
+.hero-photo { animation: settle-photo 1.8s var(--ease) both; }
+.settle { animation: settle-text 1.2s var(--ease) 60ms both; }
+
+/* ---- The closing photo: pulls back slowly as it comes into view ---- */
+@keyframes pull-back { from { scale: 1.1; } to { scale: 1; } }
+@keyframes dusk { from { opacity: 0; } to { opacity: 1; } }
+
+@supports (animation-timeline: view()) {
+  .hero { view-timeline: --hero block; }
+  .hero-photo {
+    animation: settle-photo 1.8s var(--ease) both, hero-lag linear both;
+    animation-timeline: auto, --hero;
+    animation-range: normal, exit 0% exit 100%;
+  }
+  .hero-photo::after {
+    content: ''; position: absolute; inset: 0; z-index: 1; background: #05080f; opacity: 0; pointer-events: none;
+    animation: hero-dim linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%;
+  }
+  .invite { view-timeline: --invite block; }
+  .invite-photo { animation: pull-back linear both; animation-timeline: --invite; animation-range: cover 0% cover 60%; }
+  /* The page dusks a little as the closing photo rises: a soft shade on the section above it. */
+  .invite::before {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: min(42vh, 380px); pointer-events: none;
+    background: linear-gradient(to bottom, rgb(20 26 38 / 0), rgb(20 26 38 / 0.02) 50%, rgb(20 26 38 / 0.075));
+    opacity: 0; animation: dusk linear both; animation-timeline: --invite; animation-range: entry 0% entry 100%;
+  }
+}
+
+/* ---- Between pages: a soft continuity fade ---- */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 320ms; animation-timing-function: var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  [data-pending], [data-pending] .rl > span, [data-pending] img { opacity: 1 !important; translate: none !important; scale: none !important; clip-path: none !important; }
+}
+@media print {
+  [data-pending], [data-pending] .rl > span, [data-pending] img { opacity: 1 !important; translate: none !important; scale: none !important; clip-path: none !important; }
+}

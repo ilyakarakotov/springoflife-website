@@ -1,6 +1,9 @@
 ---
 import '@fontsource-variable/manrope';
+// The one accent face (Newsreader Italic, latin only): a line of Scripture or the mission (.scripture).
+import '@fontsource/newsreader/latin-400-italic.css';
 import '../styles/global.css';
+import '../styles/motion.css';
 import manropeLatin from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
 import { getImage } from 'astro:assets';
 import Header from '../components/Header.astro';
@@ -73,6 +76,7 @@ const ogAlt = image ? imageAlt : home.hero.image_alt;
       <slot />
     </main>
     <Footer />
+    <script>import '../scripts/motion';</script>
     {/* Structured data goes last: it carries Planning Center text, and the CSP <meta> that Astro
         adds to <head> only protects markup that comes after it. serializeJsonLd escapes < > &. */}
     {jsonLd.map((data) => <script type="application/ld+json" set:html={serializeJsonLd(data)} />)}
