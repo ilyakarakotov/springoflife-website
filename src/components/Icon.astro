@@ -1,9 +1,13 @@
 ---
 // Small inline stroke icons (24px grid, currentColor). Decorative unless `label` is given.
+// The arrow is drawn rather than rounded off: a butt-ended shaft and a mitred 45° head, so its tip
+// is sharp at any size. "external" is the very same arrow turned 45° up and out, so the two always
+// match. Each icon also gets the class i-<name> (hover nudges in global.css).
 interface Props { name: keyof typeof paths; label?: string; class?: string }
+const ARROW = '<path d="M3.5 12h15.75" stroke-linecap="butt"/><path d="m13.5 6.25 5.75 5.75-5.75 5.75" stroke-linecap="butt" stroke-linejoin="miter"/>';
 const paths = {
-  arrow: '<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>',
-  external: '<path d="M7 17 17 7"/><path d="M8 7h9v9"/>',
+  arrow: ARROW,
+  external: `<g transform="rotate(-45 12 12)">${ARROW}</g>`,
   globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/>',
   play: '<path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/>',
   check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
@@ -36,5 +40,5 @@ const paths = {
 };
 const { name, label, class: cls } = Astro.props;
 ---
-<svg class:list={['icon', cls]} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+<svg class:list={['icon', `i-${name}`, cls]} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
   aria-hidden={label ? undefined : 'true'} role={label ? 'img' : undefined} aria-label={label} set:html={paths[name]} />

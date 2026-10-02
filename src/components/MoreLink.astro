@@ -1,0 +1,11 @@
+---
+// "See all events", "All sermons": the words underlined and the arrow in its ring. A link to another
+// site gets the arrow turned up and out, and opens in a new tab.
+import Icon from './Icon.astro';
+import { href, isExternal } from '../lib/url';
+
+interface Props { to: string; label: string; class?: string }
+const { to, label, class: cls } = Astro.props;
+const ext = isExternal(to);
+---
+<a class:list={['more-link', cls]} href={href(to)} {...(ext ? { target: '_blank', rel: 'noopener' } : {})}><span>{label}</span><span class="arrow-circle arrow-circle--sm" aria-hidden="true"><Icon name={ext ? 'external' : 'arrow'} /></span></a>
