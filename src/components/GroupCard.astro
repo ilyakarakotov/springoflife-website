@@ -1,53 +1,71 @@
 ---
 // A Life Group card shows only what the leaders publish for everyone: when, roughly where, an
 // optional group type, and the Church Center link. Never the bio (it isn't even in the data).
+// Groups without a photo (or whose photo staff turned off) get a monogram tile.
 import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import type { PublicGroup } from '../lib/content';
 import { img } from '../lib/content';
-import { groupTagline, joinLabel } from '../lib/groups.mjs';
+import { groupLine, joinLabel, groupDisplayTitle, groupMonogram, scheduleDays, areaPlaces } from '../lib/groups.mjs';
 import { syncedImage, CARD_WIDTHS } from '../lib/media';
 
 interface Props { group: PublicGroup; eager?: boolean }
 const { group: g, eager = false } = Astro.props;
 const joinable = g.enrollment.status === 'open';
 const cta = joinLabel(g.enrollment);
-const tagline = groupTagline(g.audience);
 const pic = g.picture;
 const image = pic.kind === 'synced' ? syncedImage(pic.file) : pic.kind === 'asset' ? img(pic.path) : null;
 const loading = eager ? { loading: 'eager' as const, fetchpriority: 'high' as const } : { loading: 'lazy' as const };
+const title = groupDisplayTitle(g.title);
+// For the day/area filter on the Life Groups page.
+const days = scheduleDays(g.schedule).join(' ');
+const places = areaPlaces(g.area).map((p) => p.toLowerCase()).join('|');
 ---
-<article class="group card">
-  {image
-    ? <Picture src={image} alt="" widths={CARD_WIDTHS} width={720} height={405} fit="cover" sizes="(min-width: 1240px) 380px, (min-width: 960px) 30vw, (min-width: 640px) 46vw, 100vw"
-        formats={['avif', 'webp']} class="media-16x9" {...loading} />
-    : <div class="media-16x9 group-noimg" aria-hidden="true"><Icon name="users" /></div>}
-  <div class="group-body">
-    <h3>{g.title}</h3>
-    {g.schedule
-      ? <p class="group-meta"><Icon name="clock" /><span>{g.schedule}</span></p>
-      : <p class="group-meta group-meta--muted"><Icon name="clock" /><span>Day and time on Church Center</span></p>}
-    {g.area && <p class="group-meta"><Icon name="pin" /><span>{g.area}</span></p>}
-    {g.virtual && <p class="group-meta"><Icon name="globe" /><span>Meets online</span></p>}
-    {tagline && <p class="group-summary">{tagline}</p>}
-    <div class="group-actions">
-      <a class="btn btn--sm btn--outline" href={g.url} target="_blank" rel="noopener">
-        {cta}<span class="visually-hidden"> ({g.title} on Church Center)</span><Icon name="external" />
-      </a>
-      {!joinable && g.enrollment.status && <span class="chip">{g.enrollment.status === 'full' ? 'Full' : 'Closed'}</span>}
+<li class="group" data-days={days} data-places={places}>
+  <article class="group-card">
+    <div class="group-media">
+      {image
+        ? <Picture src={image} alt="" widths={CARD_WIDTHS} width={720} height={405} fit="cover" sizes="(min-width: 1240px) 290px, (min-width: 960px) 30vw, (min-width: 640px) 46vw, 100vw"
+            formats={['avif', 'webp']} class="group-img" {...loading} />
+        : <div class="group-tile" aria-hidden="true"><span>{groupMonogram(g.title)}</span></div>}
     </div>
-  </div>
-</article>
+    <div class="group-body">
+      <p class="group-chips">
+        {g.schedule
+          ? <span class="chip chip--accent"><Icon name="clock" />{g.schedule}</span>
+          : <span class="chip"><Icon name="clock" />Day and time on Church Center</span>}
+        {g.area && <span class="chip"><Icon name="pin" />{g.area}</span>}
+        {g.virtual && <span class="chip"><Icon name="globe" />Meets online</span>}
+      </p>
+      <h3 class="card-title">{title}</h3>
+      <p class="group-line">{groupLine(g.audience)}</p>
+      <div class="group-actions">
+        <a class:list={['btn btn--sm btn--block', joinable ? 'btn--outline' : 'btn--outline group-closed']} href={g.url} target="_blank" rel="noopener">
+          {cta}<span class="visually-hidden"> ({g.title} on Church Center)</span><Icon name="external" />
+        </a>
+        {!joinable && g.enrollment.status && <span class="chip">{g.enrollment.status === 'full' ? 'Full' : 'Closed'}</span>}
+      </div>
+    </div>
+  </article>
+</li>
 
 <style>
-  .group { overflow: hidden; display: flex; flex-direction: column; }
-  .group-noimg { display: grid; place-items: center; color: var(--muted); background: var(--bg-tint); }
-  .group-noimg :global(.icon) { width: 40px; height: 40px; }
-  .group-body { display: flex; flex-direction: column; gap: 0.5rem; padding: clamp(18px, 2.2vw, 24px); flex: 1; }
-  .group-body h3 { font-size: var(--step-1); margin: 0; }
-  .group-meta { display: flex; gap: 0.5rem; margin: 0; font-weight: 600; color: var(--accent-text); font-size: 0.95rem; }
-  .group-meta--muted { color: var(--text-2); font-weight: 500; }
-  .group-meta :global(.icon) { margin-top: 0.2em; }
-  .group-summary { margin: 0; color: var(--text-2); font-size: 0.95rem; }
+  .group { list-style: none; display: flex; }
+  .group[hidden] { display: none; }
+  .group-card { display: flex; flex-direction: column; width: 100%; overflow: hidden; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    transition: box-shadow var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease); }
+  .group-card:hover { box-shadow: var(--shadow-2); border-color: var(--border-strong); }
+  .group-media { aspect-ratio: 16 / 9; overflow: hidden; background: var(--surface-soft); }
+  .group-media :global(.group-img) { width: 100%; height: 100%; object-fit: cover; }
+  /* No photo: a monogram on the soft brand tint, with the logo's wave as a quiet signature. */
+  .group-tile { position: relative; display: grid; place-items: center; height: 100%; background: var(--bg-tint); color: var(--accent-text); overflow: hidden; }
+  .group-tile span { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.02em; }
+  .group-tile::after { content: ''; position: absolute; left: -10%; right: -10%; bottom: 18%; height: 40px; background: currentColor; opacity: 0.12;
+    -webkit-mask: var(--wave) center / 100% 100% no-repeat; mask: var(--wave) center / 100% 100% no-repeat; }
+  .group-body { display: flex; flex-direction: column; gap: 0.6rem; padding: clamp(18px, 2.2vw, 24px); flex: 1; }
+  .group-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; }
+  .group-chips :global(.icon) { width: 0.95em; height: 0.95em; }
+  .group-chips .chip { white-space: normal; }
+  .group-line { margin: 0; color: var(--text-2); font-size: 0.97rem; }
   .group-actions { display: flex; align-items: center; gap: 0.6rem; margin-top: auto; padding-top: 0.75rem; }
 </style>

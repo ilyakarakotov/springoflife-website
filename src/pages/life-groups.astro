@@ -2,17 +2,29 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import GroupCard from '../components/GroupCard.astro';
-import { site, groups } from '../lib/content';
+import { site, groups, forms } from '../lib/content';
+import { groupSummary, sortGroups, joinList, scheduleDays, dayName } from '../lib/groups.mjs';
+
+const sorted = sortGroups(groups);
+const lg = groupSummary(groups);
+// Filter choices come from the groups themselves, so they're always real.
+const dayOptions = [...new Set(groups.flatMap((g) => scheduleDays(g.schedule)))].sort((a, b) => a - b).map((d) => ({ value: String(d), label: dayName(d) }));
+const placeOptions = lg.places.map((p) => ({ value: p.toLowerCase(), label: p }));
+const showFilters = groups.length > 3 && (dayOptions.length > 1 || placeOptions.length > 1);
 ---
 <Base title="Life Groups" description="Find an English Life Group at Spring of Life Church. Small groups meet during the week to study the Bible, pray and build friendships.">
   <section class="page-hero">
     <div class="wrap">
-      <span class="eyebrow">Life Groups</span>
+      <span class="eyebrow eyebrow--accent eyebrow--wave">Life Groups</span>
       <h1>Find a Life Group</h1>
       <p class="lead">Fellowship is essential to your walk with Jesus. Life Groups meet during the week to study the Bible, pray together and build deep friendships. Pick a group to see the details and ask to join on Church Center.</p>
-      <div class="btn-row">
-        <a class="btn btn--outline btn--sm" href={site.links.groups} target="_blank" rel="noopener">Browse groups on Church Center <Icon name="external" /></a>
-      </div>
+      {groups.length > 0 && (
+        <p class="summary">
+          <span>{lg.count} English Life Groups</span>
+          {lg.days.length > 0 && <span>{joinList(lg.days)}</span>}
+          {lg.places.length > 0 && <span>{joinList(lg.places)}</span>}
+        </p>
+      )}
     </div>
   </section>
 
@@ -22,20 +34,105 @@ import { site, groups } from '../lib/content';
         ? <>
             {/* The cards are h3s; this keeps the heading order h1 -> h2 -> h3 (axe heading-order). */}
             <h2 class="visually-hidden">English Life Groups</h2>
-            <div class="grid grid--3" data-groups-count={groups.length}>{groups.map((g, i) => <GroupCard group={g} eager={i === 0} />)}</div>
+            {showFilters && (
+              <div class="filters" data-group-filters hidden>
+                {dayOptions.length > 1 && (
+                  <div class="filter" role="group" aria-labelledby="filter-day">
+                    <span class="filter-label" id="filter-day">Day</span>
+                    <button type="button" class="chip" data-filter="day" data-value="" aria-pressed="true">Any day</button>
+                    {dayOptions.map((o) => <button type="button" class="chip" data-filter="day" data-value={o.value} aria-pressed="false">{o.label}</button>)}
+                  </div>
+                )}
+                {placeOptions.length > 1 && (
+                  <div class="filter" role="group" aria-labelledby="filter-area">
+                    <span class="filter-label" id="filter-area">Area</span>
+                    <button type="button" class="chip" data-filter="area" data-value="" aria-pressed="true">Anywhere</button>
+                    {placeOptions.map((o) => <button type="button" class="chip" data-filter="area" data-value={o.value} aria-pressed="false">{o.label}</button>)}
+                  </div>
+                )}
+                <p class="filter-count meta" aria-live="polite" data-filter-count>Showing all {groups.length} groups</p>
+              </div>
+            )}
+            <ul class="groups" data-groups-count={groups.length}>
+              {sorted.map((g, i) => <GroupCard group={g} eager={i === 0} />)}
+              <li class="group group--help">
+                <div class="help-card">
+                  <h3 class="card-title">Not sure which group fits?</h3>
+                  <p>Ask us on a connect card, or browse every group on Church Center.</p>
+                  <div class="help-links">
+                    <a class="text-link" href={forms.connect} target="_blank" rel="noopener">Fill out a connect card<Icon name="external" /></a>
+                    <a class="text-link" href={site.links.groups} target="_blank" rel="noopener">Groups on Church Center<Icon name="external" /></a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <p class="no-match" data-no-match hidden>No group matches both choices. <button type="button" class="text-link" data-filter-reset>Show all groups</button></p>
           </>
         : (
-          <div class="card empty">
+          <div class="empty">
             <h2>Group listings are being updated</h2>
-            <p class="muted">See every open group on Church Center.</p>
-            <a class="btn btn--primary btn--sm" href={site.links.groups} target="_blank" rel="noopener">Life Groups on Church Center</a>
+            <p>See every open group on Church Center.</p>
+            <a class="text-link" href={site.links.groups} target="_blank" rel="noopener">Life Groups on Church Center<Icon name="external" /></a>
           </div>
         )}
     </div>
   </section>
 </Base>
 
+<script>
+  // Day and area filter. Without JavaScript the filter stays hidden and every group shows.
+  const bar = document.querySelector<HTMLElement>('[data-group-filters]');
+  if (bar) {
+    const cards = [...document.querySelectorAll<HTMLElement>('.groups > .group[data-days]')];
+    const count = bar.querySelector<HTMLElement>('[data-filter-count]');
+    const noMatch = document.querySelector<HTMLElement>('[data-no-match]');
+    const state: Record<string, string> = { day: '', area: '' };
+    const apply = () => {
+      let shown = 0;
+      for (const card of cards) {
+        const days = (card.dataset.days ?? '').split(' ');
+        const places = (card.dataset.places ?? '').split('|');
+        const ok = (!state.day || days.includes(state.day)) && (!state.area || places.includes(state.area));
+        card.hidden = !ok;
+        if (ok) shown++;
+      }
+      for (const b of bar.querySelectorAll<HTMLButtonElement>('[data-filter]')) b.setAttribute('aria-pressed', String(state[b.dataset.filter!] === b.dataset.value));
+      if (count) count.textContent = shown === cards.length ? `Showing all ${cards.length} groups` : `Showing ${shown} of ${cards.length} groups`;
+      if (noMatch) noMatch.hidden = shown > 0;
+    };
+    bar.addEventListener('click', (e) => {
+      const b = (e.target as Element).closest<HTMLButtonElement>('[data-filter]');
+      if (!b) return;
+      state[b.dataset.filter!] = b.dataset.value ?? '';
+      apply();
+    });
+    document.querySelector('[data-filter-reset]')?.addEventListener('click', () => { state.day = ''; state.area = ''; apply(); });
+    bar.hidden = false;
+  }
+</script>
+
 <style>
-  .empty { padding: clamp(22px, 3vw, 36px); }
+  .summary { display: grid; gap: 0.25rem; margin: 1.5rem 0 0; font-weight: 700; color: var(--text); }
+  @media (min-width: 640px) {
+    .summary { display: flex; flex-wrap: wrap; gap: 0.5rem 0; }
+    .summary span + span::before { content: '·'; margin: 0 0.6rem; color: var(--muted); }
+  }
+  .filters { display: grid; gap: 0.75rem; margin-bottom: clamp(20px, 3vw, 32px); }
+  .filter { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+  .filter-label { min-width: 3.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .filter .chip[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .filter-count { margin: 0; }
+  .groups { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(14px, 2vw, 22px); }
+  @media (min-width: 640px) { .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 960px) { .groups { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1200px) { .groups { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .group--help { list-style: none; display: flex; }
+  .help-card { display: flex; flex-direction: column; gap: 0.6rem; width: 100%; padding: clamp(20px, 2.4vw, 28px); border: 1.5px dashed var(--border-strong); border-radius: var(--radius); }
+  .help-card p { margin: 0; color: var(--text-2); }
+  .help-links { display: grid; justify-items: start; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
+  .no-match { margin: 1.5rem 0 0; color: var(--text-2); }
+  .no-match button { background: none; border: 0; padding: 0; font: inherit; font-weight: 700; cursor: pointer; }
+  .empty { padding: clamp(24px, 4vw, 40px) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
   .empty h2 { font-size: var(--step-2); }
+  .empty p { color: var(--text-2); }
 </style>
