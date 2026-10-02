@@ -13,11 +13,11 @@ intro: Spring of Life Church is a place where people can hear the Word of God, w
 
 ## Kids
 
-Kids are welcome in the service, and childcare and activities are available for all ages during the 12:00 pm service. [Placeholder: where to check kids in, age groups, and what kids do on Sunday.]
+Kids are welcome in the service, and childcare and activities are available for all ages during the 12:00 pm service. When you arrive, ask a greeter and they'll show you where to go.
 
 ## When you arrive
 
-[Placeholder: parking, which entrance to use, and who will greet you. Ask the greeting team for two or three sentences.]
+Come about 30 minutes early and grab a coffee before the service. Our greeters will be glad to help you find your way.
 
 ## Russian service
 

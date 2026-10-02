@@ -90,6 +90,7 @@ SITE_URL=https://ilyakarakotov.github.io/springoflife-website/ PREVIEW=true npm 
 | `SITE_URL` | `https://springoflifechurch.com` | Public address: canonical links, sitemap, social previews, the feed, the calendar. `https://<owner>.github.io/springoflife-website/` for the GitHub Pages preview |
 | `BASE_PATH` | path of `SITE_URL` | Only if the site lives under a different sub-path. Empty means unset |
 | `PREVIEW` | `false` | `true`: every page `noindex,nofollow`, robots.txt `Disallow: /`, no sitemap, and the feed says `"preview": true` |
+| `SHOW_PLACEHOLDERS` | off | `true`: a draft build that keeps `[placeholder]` text, marked with a yellow "Needs text" badge. Normal builds (preview and production) leave placeholders out, and `check:dist` fails if one is visible |
 | `SYNC_ALLOW_EMPTY` | off | `1` or `true` accepts an empty list when the site still lists 3 or more current items |
 | `SYNC_NOW` | now | Pretend it's another time (testing the "ended" logic) |
 | `HC_PING_URL` | none | Healthchecks.io check URL |
@@ -349,7 +350,12 @@ See `docs/HANDOFF.md` for the checklist. In short:
 | Visit, About, Give text | `src/content/pages/*.md` | Pages |
 
 Every YAML file is validated at build time. A typo fails the build with a message instead of
-publishing a broken page. Text in `[square brackets]` is a placeholder waiting for real wording.
+publishing a broken page.
+
+Text in `[square brackets]` is a placeholder waiting for real wording. The site leaves it out: a
+bracketed phrase is cut from its sentence, a paragraph or list item that starts with one isn't
+shown, and a ministry card or next step whose text is only a placeholder is hidden (with its
+section, if nothing else is in it). To see every gap, build with `SHOW_PLACEHOLDERS=true`.
 
 **Photos:** real church photos only, no stock and no AI-generated images. New photos go in
 `src/assets/` (JPG, PNG or WebP; no HEIC) and are resized automatically. `src/assets/sync/`

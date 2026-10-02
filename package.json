@@ -17,6 +17,7 @@
     "check:dist": "node scripts/check-dist.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "0.4.2",
     "@astrojs/sitemap": "3.7.4",
     "@fontsource-variable/manrope": "5.3.0",
     "astro": "7.3.5",

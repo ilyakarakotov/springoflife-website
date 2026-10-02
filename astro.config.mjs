@@ -4,6 +4,8 @@ import { defineConfig, envField } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { normalizeBase, withTrailingSlash } from './src/lib/paths.mjs';
 import { REDIRECTS, EXTERNAL_REDIRECTS, SUBSPLASH_MEDIA } from './src/lib/redirects.mjs';
+import { satteri } from '@astrojs/markdown-satteri';
+import { satteriPlaceholders, showPlaceholders } from './src/lib/placeholders.mjs';
 
 // ---- Where the site is served from -------------------------------------------------------------
 // SITE_URL   full public address: https://springoflifechurch.com (default), a *.pages.dev
@@ -75,7 +77,9 @@ export default defineConfig({
   ],
   image: { responsiveStyles: false },
   // No code blocks on this site; Shiki's inline styles would also conflict with the CSP below.
-  markdown: { syntaxHighlight: false },
+  // [Placeholder] paragraphs in the Markdown pages are left out (SHOW_PLACEHOLDERS=true keeps them,
+  // marked "Needs text"). See src/lib/placeholders.mjs.
+  markdown: { syntaxHighlight: false, processor: satteri({ mdastPlugins: [satteriPlaceholders({ show: showPlaceholders() })] }) },
   // Content-Security-Policy as a <meta> tag (GitHub Pages can't send headers). Astro adds
   // script-src/style-src with 'self' plus the hash of every script and style it renders, so no
   // inline event handler or injected <script> can run. Subsplash is the only allowed frame.

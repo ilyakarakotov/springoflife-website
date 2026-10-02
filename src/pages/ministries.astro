@@ -9,6 +9,8 @@ const sections = [
   { id: 'schools', title: 'Schools', lead: 'Investing in the next generation.' },
   { id: 'serve', title: 'Serve', lead: 'Use your gifts to serve the church and the city.' },
 ] as const;
+// A section shows only when it has a card (cards whose text is still a placeholder are left out).
+const visible = sections.map((s) => ({ ...s, items: ministries.filter((m) => m.group === s.id) })).filter((s) => s.items.length > 0);
 ---
 <Base title="Ministries" description="Ministries at Spring of Life Church: AWANA, kids choir, youth, Life Groups, SOL Music Academy, SOL Russian School and more.">
   <section class="page-hero">
@@ -17,17 +19,17 @@ const sections = [
       <h1>Find your place</h1>
       <p class="lead">Weekly programs for every age. Registration for each program runs through Church Center, and the buttons below always point to this year's signup.</p>
       <nav class="jump" aria-label="Ministry sections">
-        {sections.map((s) => <a class="chip" href={`#${s.id}`}>{s.title}</a>)}
+        {visible.map((s) => <a class="chip" href={`#${s.id}`}>{s.title}</a>)}
       </nav>
     </div>
   </section>
 
-  {sections.map((s, i) => (
+  {visible.map((s, i) => (
     <section class:list={['section', 'section--tight', { 'section--soft': i % 2 === 1 }]} id={s.id} aria-labelledby={`${s.id}-title`}>
       <div class="wrap">
         <div class="section-head"><div><h2 id={`${s.id}-title`}>{s.title}</h2><p class="muted">{s.lead}</p></div></div>
         <div class="grid grid--3">
-          {ministries.filter((m) => m.group === s.id).map((m) => <MinistryCard item={m} />)}
+          {s.items.map((m) => <MinistryCard item={m} />)}
         </div>
       </div>
     </section>

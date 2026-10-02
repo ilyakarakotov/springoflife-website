@@ -2,11 +2,11 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { img, external } from '../lib/content';
+import { isPlaceholder } from '../lib/placeholders.mjs';
 import { href } from '../lib/url';
 import type { ministries } from '../lib/content';
 interface Props { item: (typeof ministries)[number]; compact?: boolean }
 const { item: m, compact = false } = Astro.props;
-const isPlaceholder = (s: string) => s.startsWith('[');
 ---
 <article class:list={['ministry card', { 'ministry--compact': compact }]} id={m.id}>
   {!compact && m.image && (
@@ -14,10 +14,10 @@ const isPlaceholder = (s: string) => s.startsWith('[');
   )}
   <div class="ministry-body">
     <h3>{m.title}</h3>
-    <p class:list={{ 'placeholder-note': isPlaceholder(m.summary) }}>{m.summary}</p>
+    <p class:list={{ 'needs-text': isPlaceholder(m.summary) }}>{m.summary}</p>
     {!compact && m.details && (
       <ul class="checklist">
-        {m.details.map((d) => <li class:list={{ 'placeholder-note': isPlaceholder(d) }}><Icon name="check" /><span>{d}</span></li>)}
+        {m.details.map((d) => <li class:list={{ 'needs-text': isPlaceholder(d) }}><Icon name="check" /><span>{d}</span></li>)}
       </ul>
     )}
     {m.href && m.cta && (

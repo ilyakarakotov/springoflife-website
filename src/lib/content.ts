@@ -15,6 +15,10 @@ import eventsData from '../data/events.json';
 import groupsData from '../data/groups.json';
 import { isLive } from './events.mjs';
 import { AUDIENCES } from './groups.mjs';
+import { hidePlaceholders, showPlaceholders } from './placeholders.mjs';
+
+/** SHOW_PLACEHOLDERS=true: a draft build that keeps [placeholder] text, marked "Needs text". */
+export const SHOW_PLACEHOLDERS = showPlaceholders();
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/**/*.{jpg,jpeg,png,webp,avif}', { eager: true });
 
@@ -26,9 +30,14 @@ export function img(path: string): ImageMetadata {
   return mod.default;
 }
 
+/** Parse and validate a YAML file. [Placeholder] text is removed first (src/lib/placeholders.mjs). */
 function load<T extends z.ZodType>(name: string, raw: string, schema: T): z.infer<T> {
-  const result = schema.safeParse(parse(raw));
-  if (!result.success) throw new Error(`src/content/${name} is invalid:\n${z.prettifyError(result.error)}`);
+  const data = parse(raw);
+  const result = schema.safeParse(SHOW_PLACEHOLDERS ? data : hidePlaceholders(data));
+  if (!result.success) {
+    throw new Error(`src/content/${name} is invalid:\n${z.prettifyError(result.error)}\n`
+      + '(Text in [square brackets] is a placeholder and is left out of the site, so a required field cannot be only a placeholder.)');
+  }
   return result.data;
 }
 
@@ -78,6 +87,8 @@ const Ministry = z.object({
   link: opt(url),
   cta: opt(z.string()),
   image: opt(imagePath),
+  image_fit: z.preprocess((v) => (v === '' || v === null ? undefined : v), z.enum(['photo', 'logo']).default('photo')),
+  weekly: opt(z.string()),
 }).refine((m) => !(m.signup_id && m.link), 'use either signup_id or link, not both');
 
 export const ministries = load('ministry-links.yaml', ministriesRaw, z.object({ ministries: z.array(Ministry) })).ministries

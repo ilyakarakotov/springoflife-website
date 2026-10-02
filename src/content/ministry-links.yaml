@@ -7,8 +7,11 @@
 #   2. Replace `signup_id` below (and the year in `cta`). Save. Every button on the site updates.
 #
 # Fields: id, group (kids | adults | schools | serve), title, summary, details (list),
-#         signup_id (Church Center signup number) OR link (any URL), cta (button text), image.
-# Text in [square brackets] is a placeholder that still needs real wording from the ministry leader.
+#         signup_id (Church Center signup number) OR link (any URL), cta (button text), image,
+#         image_fit (photo | logo: a logo is shown whole on a light tile instead of cropped),
+#         weekly (short schedule for the home page "Every week" panel; only for confirmed times).
+# Text in [square brackets] is a placeholder: the site leaves it out (a card whose summary is a
+# placeholder isn't shown) until real wording replaces it.
 ministries:
   - id: awana
     group: kids
@@ -17,16 +20,18 @@ ministries:
     details:
       - Wednesdays, 7:00–8:45 pm, September through May
       - Kids ages 3–12
-      - $65 per child (handbook, uniform and awards included)
+      - $65 per child (handbook, awards and a uniform when needed)
+    weekly: Wednesdays, 7:00–8:45 pm · September–May
     signup_id: "3824843"
     cta: Register for 2026–27
 
   - id: kids-choir
     group: kids
     title: SOL Kids Choir
-    summary: Kids learn to worship through music and sing together at church services and concerts.
+    summary: Kids learn to worship through music and sing at English and Russian services, kids worship nights and Music Academy concerts.
     details:
-      - "[Placeholder: rehearsal day and time]"
+      - Fridays, 5:30–7:00 pm
+      - Ages 7 and up
       - Free
     signup_id: "3822440"
     cta: Sign up for 2026–27
@@ -34,42 +39,46 @@ ministries:
   - id: sunday-kids
     group: kids
     title: Kids on Sunday
-    summary: Childcare and activities for all ages during the 12:00 pm service, so parents can worship.
-    details:
-      - "[Placeholder: age groups, check-in and where to drop off]"
+    summary: Kids are welcome in the service, and childcare and activities are available for all ages during the 12:00 pm service.
     link: /visit#kids
-    cta: Plan your visit
+    cta: Plan a visit
 
+  # id stays "youth" so existing links keep working. The church says "youth" for young adults;
+  # this card is the teens ministry (подростковое служение).
   - id: youth
     group: kids
-    title: Youth
-    summary: "[Placeholder: a short description of the youth ministry from its leaders.]"
+    title: Teens
+    summary: Teens meet for Bible study in small groups and time together as a whole group, led by Sergiy Titarchuk, our Next Generation Pastor.
     details:
-      - "[Placeholder: confirm the youth meeting day and time]"
+      - Thursdays, 7:00 pm
 
   - id: life-groups
     group: adults
     title: Life Groups
-    summary: Small groups that meet during the week around Mukilteo, Everett and nearby cities to study the Bible, pray and build friendships.
+    summary: Small groups that meet during the week to study the Bible, pray together and build deep friendships.
     link: /life-groups
     cta: Find a Life Group
 
   - id: young-adults
     group: adults
     title: Young Adults
-    summary: "[Placeholder: a short description of the Young Adults fellowship, when and where it meets.]"
+    summary: Young adults meet every Monday night to grow in faith and friendship, and head to camp together at the end of summer.
+    details:
+      - Mondays, 7:00 pm
 
   - id: missions
     group: adults
     title: Missions
-    summary: "[Placeholder: the church's mission work, including the yearly trip to Mexico.]"
+    summary: We support pastors and missionaries overseas, help refugees, and send mission teams to Mexico.
+    link: https://springoflifechurch.churchcenter.com/people/forms/213642
+    cta: Serve with the missions team
 
   - id: christian-academy
     group: schools
     title: SOL Christian Academy
-    summary: A Christian private school at the church, teaching with Christian values and principles.
+    summary: A private Christian school at Spring of Life, offering an education grounded in academic excellence and biblical truth.
     details:
-      - "[Placeholder: confirm grades with the school (K–5, K–6 or K–8?)]"
+      - "Grades, tuition and enrollment: see the school's website"
     link: https://www.solchristianacademy.com
     cta: Visit the school site
 
@@ -81,23 +90,25 @@ ministries:
       - Tuesdays and Fridays, 4:30–8:40 pm
       - Students from age 6
       - Piano, cello, saxophone, clarinet, flute, voice, guitar and drums
+    weekly: Tuesdays and Fridays, 4:30–8:40 pm
     signup_id: "3645962"
     cta: Sign up for 2026–27
     image: /src/assets/photos/music-academy.jpg
+    image_fit: logo
 
   - id: russian-school
     group: schools
     title: SOL Russian School
-    summary: Russian as a second language, with classes for teens and adults who want to learn Russian.
+    summary: Russian-language classes at the church on Monday evenings, including a Russian-as-a-second-language class for teens and adults.
     details:
-      - The 2026–27 year started September 14 at 6:30 pm
-      - $150 registration fee
+      - Mondays, 6:30 pm
+      - $150 yearly fee per student, plus monthly tuition
     signup_id: "3533274"
     cta: Register for 2026–27
 
   - id: serve-teams
     group: serve
     title: Serve on a team
-    summary: Greeting, worship, media, staging, kids and more. Tell us where you'd like to help.
+    summary: Greeting, the coffee shop, worship band, tech, media, SOL Kids and more. Tell us where you'd like to help.
     link: https://springoflifechurch.churchcenter.com/people/forms/213642
     cta: Join a serving team

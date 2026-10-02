@@ -129,6 +129,12 @@ content:
           - { name: link, label: Link (if no signup), type: string }
           - { name: cta, label: Button text, type: string }
           - { name: image, type: image }
+          - name: image_fit
+            label: Image kind
+            type: select
+            description: '"logo" shows a logo whole on a light tile; "photo" fills the card.'
+            options: { values: [photo, logo] }
+          - { name: weekly, label: '"Every week" schedule (home page)', type: string, description: 'Short and confirmed only, e.g. "Wednesdays, 7:00–8:45 pm". Leave empty to keep it off the home page.' }
 
   - name: next-steps
     label: Next steps

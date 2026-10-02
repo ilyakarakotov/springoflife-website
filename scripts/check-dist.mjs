@@ -11,6 +11,7 @@
 //   - PREVIEW builds carry noindex on every page; production builds don't
 //   - nothing third-party (iframe, script, stylesheet, image) loads with the page
 //   - /feed/events.json matches the events listed on /events/
+//   - no [Placeholder] text is visible (unless SHOW_PLACEHOLDERS=true, a draft build)
 // Exits 1 with a list of problems.
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
@@ -22,6 +23,7 @@ const dist = process.env.DIST_DIR ? `${resolve(process.env.DIST_DIR)}/` : new UR
 const siteUrl = new URL(process.env.SITE_URL || 'https://springoflifechurch.com');
 const base = normalizeBase(process.env.BASE_PATH || siteUrl.pathname);
 const preview = process.env.PREVIEW === 'true';
+const draft = process.env.SHOW_PLACEHOLDERS === 'true' || process.env.SHOW_PLACEHOLDERS === '1';
 const problems = [];
 const fail = (where, msg) => problems.push(`${where}: ${msg}`);
 
@@ -105,6 +107,13 @@ for (const file of htmlFiles) {
   if (preview && !/noindex/.test(robots?.attribs.content ?? '')) fail(where, 'PREVIEW build without <meta name="robots" content="noindex…">');
   if (!preview && /noindex/.test(robots?.attribs.content ?? '') && where !== '404.html') fail(where, 'production page has noindex');
   if (!DomUtils.findOne((n) => n.attribs?.id === 'site-nav', doc.children)) fail(where, 'missing the main navigation (#site-nav)');
+  // Placeholders ([Placeholder: …]) never reach a normal build (src/lib/placeholders.mjs).
+  if (!draft) {
+    for (const t of DomUtils.filter((n) => n.type === 'text' && !['script', 'style'].includes(n.parent?.name), doc.children)) {
+      if (/\[\s*(placeholder|todo|tbd)\b/i.test(t.data)) fail(where, `placeholder text is visible: "${t.data.trim().slice(0, 80)}"`);
+    }
+    if (DomUtils.findOne((n) => /\bneeds-text\b/.test(n.attribs?.class ?? ''), doc.children)) fail(where, 'a "Needs text" placeholder is visible');
+  }
 }
 
 // CSS url() references

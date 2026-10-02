@@ -6,6 +6,6 @@ intro: God is generous, and so he calls us to be as well. Everything we have has
 
 ## Other ways to give
 
-**In person.** You can give during any of our church services.
+**In person.** You can give at any of our services.
 
-**By check.** Drop a check off at the church mailbox at 4711 116th St SW, Mukilteo. [Placeholder: confirm whether checks can be mailed to this address.]
+**By check.** Bring a check to any service, or drop it in the church mailbox at 4711 116th St SW, Mukilteo.
