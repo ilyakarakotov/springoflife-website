@@ -53,9 +53,12 @@ import { site } from '../lib/content';
   .links li + li { border-top: 1px solid var(--border); }
   .links a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; text-decoration: none; }
   .links a:hover b { text-decoration: underline; text-underline-offset: 3px; }
-  .links span { display: grid; }
+  /* Title + note stacks. Only these spans: a bare `.links span` also turned the app links into a
+     grid, stacking "iPhone", "·" and "Android" on three lines. */
+  .links a > span, .app-row > span:first-child { display: grid; }
   .links small { color: var(--muted); font-size: 0.88rem; }
   .app-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; }
-  .app-links { display: inline-flex; gap: 0.5rem; font-weight: 700; }
+  .app-links { display: inline-flex; align-items: baseline; gap: 0.5rem; font-weight: 700; white-space: nowrap; }
+  .app-links > span { color: var(--muted); }
   .links .app-links a { display: inline; padding: 0; color: var(--accent-text); text-underline-offset: 3px; }
 </style>
