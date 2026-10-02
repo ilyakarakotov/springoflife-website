@@ -7,6 +7,7 @@
 // The white Subsplash form sits in a deliberate frame (also in dark mode) sized to its tallest
 // step, so there's no slab of dead white under it; the form scrolls inside if a step is longer.
 import Icon from './Icon.astro';
+import LinkText from './LinkText.astro';
 import { site } from '../lib/content';
 ---
 <div class="give-frame">
@@ -17,7 +18,7 @@ import { site } from '../lib/content';
       <p>Give once or set up a recurring gift. The secure giving form from Subsplash, our giving provider, opens right here.</p>
       <div class="btn-row">
         <button type="button" class="btn btn--primary give-load" data-facade-load>Give online</button>
-        <a class="text-link" href={site.links.give} target="_blank" rel="noopener">Open giving in a new tab<Icon name="external" /></a>
+        <a class="text-link" href={site.links.give} target="_blank" rel="noopener"><LinkText text="Open giving in a new tab" icon="external" /></a>
       </div>
       <p class="meta give-note">Nothing from Subsplash loads until you choose one of these.</p>
     </div>
@@ -30,7 +31,7 @@ import { site } from '../lib/content';
 </script>
 
 <style>
-  .give-frame { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .give-frame { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-1); }
   .give-strip { display: flex; align-items: center; gap: 0.5rem; margin: 0; padding: 12px clamp(18px, 3vw, 28px); border-bottom: 1px solid var(--border); font-size: 0.875rem; font-weight: 700; color: var(--text-2); background: var(--bg-soft); }
   .give-strip :global(.icon) { color: var(--accent-text); }
   .give-facade-body { padding: clamp(24px, 4vw, 44px); }

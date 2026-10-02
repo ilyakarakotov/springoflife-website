@@ -2,16 +2,13 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import SermonEmbed from '../components/SermonEmbed.astro';
+import PageHero from '../components/PageHero.astro';
+import ClosingInvite from '../components/ClosingInvite.astro';
 import { site } from '../lib/content';
 ---
 <Base title="Watch" description="Watch the latest sermon from Spring of Life Church, or join the English service live on YouTube every Sunday at 12:00 pm.">
-  <section class="page-hero">
-    <div class="wrap">
-      <span class="eyebrow eyebrow--accent eyebrow--wave">Watch</span>
-      <h1>Sermons and live stream</h1>
-      <p class="lead">Catch up on the latest message, or join us live on YouTube every {site.service.day} at {site.service.time}.</p>
-    </div>
-  </section>
+  <PageHero eyebrow="Watch" title="Sermons and live stream"
+    lead={`Catch up on the latest message, or join us live on YouTube every ${site.service.day} at ${site.service.time}.`} />
 
   <section class="section section--tight">
     <div class="wrap watch">
@@ -21,43 +18,46 @@ import { site } from '../lib/content';
         <p class="meta small">The newest sermon appears here automatically after it's posted to our app.</p>
       </div>
       <aside class="watch-side">
-        <div class="card side-card live">
+        <div class="side live" data-reveal>
           <span class="eyebrow eyebrow--accent">Live on Sundays</span>
           <h2 class="h3">Join the service at {site.service.time}</h2>
           <p class="side-text">The English service streams live on our YouTube channel.</p>
           <a class="btn btn--primary" href={site.links.youtube_live} target="_blank" rel="noopener"><Icon name="youtube" />Watch live on YouTube</a>
         </div>
-        <div class="card side-card">
+        <div class="side" data-reveal>
           <ul class="links">
-            <li><a href={site.links.sermons} target="_blank" rel="noopener"><span><b>All sermons</b><small>Series, speakers and past messages</small></span><Icon name="external" /></a></li>
-            <li><a href={site.links.youtube} target="_blank" rel="noopener"><span><b>YouTube channel</b><small>Spring of Life Church | English</small></span><Icon name="external" /></a></li>
-            <li><a href={site.links.bulletin} target="_blank" rel="noopener"><span><b>Weekly bulletin</b><small>Announcements and sermon notes</small></span><Icon name="external" /></a></li>
+            <li><a href={site.links.sermons} target="_blank" rel="noopener"><span><b>All sermons</b><small>Series, speakers and past messages</small></span><span class="arrow-circle arrow-circle--sm" aria-hidden="true"><Icon name="external" /></span></a></li>
+            <li><a href={site.links.youtube} target="_blank" rel="noopener"><span><b>YouTube channel</b><small>Spring of Life Church | English</small></span><span class="arrow-circle arrow-circle--sm" aria-hidden="true"><Icon name="external" /></span></a></li>
+            <li><a href={site.links.bulletin} target="_blank" rel="noopener"><span><b>Weekly bulletin</b><small>Announcements and sermon notes</small></span><span class="arrow-circle arrow-circle--sm" aria-hidden="true"><Icon name="external" /></span></a></li>
             <li class="app-row"><span><b>Spring of Life app</b><small>Sermons on your phone</small></span><span class="app-links"><a href={site.links.app_ios} target="_blank" rel="noopener">iPhone</a><span aria-hidden="true">·</span><a href={site.links.app_android} target="_blank" rel="noopener">Android</a></span></li>
           </ul>
         </div>
       </aside>
     </div>
   </section>
+
+  {/* The poster above is the sanctuary, so the closing band shows the entrance. */}
+  <ClosingInvite image="/src/assets/photos/arrival.jpg" crop="upper" />
 </Base>
 
 <style>
-  .watch { display: grid; gap: 24px; }
-  @media (min-width: 1024px) { .watch { grid-template-columns: 1.7fr 1fr; align-items: start; } }
-  .h3 { font-size: var(--step-2); }
-  .small { font-size: 0.9rem; margin-top: 0.75rem; }
-  .watch-side { display: grid; gap: 16px; }
-  .side-card { padding: clamp(20px, 3vw, 30px); }
-  .live { background: var(--bg-tint); border-color: transparent; }
+  .watch { display: grid; gap: clamp(36px, 4vw, 56px); }
+  @media (min-width: 1024px) { .watch { grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); align-items: start; } }
+  .h3 { font-size: var(--step-2); letter-spacing: -0.02em; }
+  .small { font-size: 0.9rem; margin-top: 0.85rem; }
+  .watch-side { display: grid; gap: clamp(28px, 3vw, 40px); }
+  /* The live stream: a soft blue panel; the links on hairlines. */
+  .live { padding: clamp(24px, 3vw, 34px); border-radius: var(--radius); background: var(--bg-tint); }
   .side-text { color: var(--text-2); }
-  .links { list-style: none; margin: 0; padding: 0; }
-  .links li + li { border-top: 1px solid var(--border); }
-  .links a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; text-decoration: none; }
+  .links { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .links li { border-bottom: 1px solid var(--rule); }
+  .links a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; text-decoration: none; }
   .links a:hover b { text-decoration: underline; text-underline-offset: 3px; }
   /* Title + note stacks. Only these spans: a bare `.links span` also turned the app links into a
      grid, stacking "iPhone", "·" and "Android" on three lines. */
-  .links a > span, .app-row > span:first-child { display: grid; }
+  .links a > span:first-child, .app-row > span:first-child { display: grid; }
   .links small { color: var(--muted); font-size: 0.88rem; }
-  .app-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; }
+  .app-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; }
   .app-links { display: inline-flex; align-items: baseline; gap: 0.5rem; font-weight: 700; white-space: nowrap; }
   .app-links > span { color: var(--muted); }
   .links .app-links a { display: inline; padding: 0; color: var(--accent-text); text-underline-offset: 3px; }

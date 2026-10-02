@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
 import { events } from '../lib/content';
 import { eventPath } from '../lib/events.mjs';
 import { serializeJsonLd } from '../lib/serialize.mjs';
@@ -9,18 +11,13 @@ import { href } from '../lib/url';
 const eventPaths = Object.fromEntries(events.map((e) => [e.id, eventPath(e)]));
 ---
 <Base title="Page not found" description="This page doesn't exist." noindex>
-  <section class="page-hero">
-    <div class="wrap">
-      <span class="eyebrow eyebrow--accent eyebrow--wave">Page not found</span>
-      <h1>We couldn't find that page</h1>
-      <p class="lead">It may have moved when we updated our website.</p>
-      <div class="btn-row">
-        <a class="btn btn--primary" href={href('/')}>Go to the home page</a>
-        <a class="btn btn--outline" href={href('/visit')}>Plan a visit</a>
-        <a class="btn btn--outline" href={href('/events')}>Events</a>
-      </div>
+  <PageHero eyebrow="Page not found" title="We couldn't find that page" lead="It may have moved when we updated our website." class="nf">
+    <div class="btn-row">
+      <a class="btn btn--primary" href={href('/')}>Go to the home page<Icon name="arrow" /></a>
+      <a class="btn btn--outline" href={href('/visit')}>Plan a visit</a>
+      <a class="btn btn--outline" href={href('/events')}>Events</a>
     </div>
-  </section>
+  </PageHero>
   <script type="application/json" id="event-paths" set:html={serializeJsonLd(eventPaths)} />
 </Base>
 
@@ -42,3 +39,7 @@ const eventPaths = Object.fromEntries(events.map((e) => [e.id, eventPath(e)]));
   const target = eventId ? paths[eventId] ?? '/events/' : legacyMediaTarget(path);
   if (target) location.replace(target.startsWith('/') ? base + target : target);
 </script>
+
+<style>
+  :global(.nf) { padding-bottom: clamp(104px, 13vw, 200px); }
+</style>
