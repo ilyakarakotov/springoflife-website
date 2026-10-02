@@ -77,6 +77,10 @@ export default defineConfig({
     },
   ],
   image: { responsiveStyles: false },
+  // Page scripts are served as files, not inlined into every page: the HTML of the home page stays
+  // inside the first network round trip (~14 KB), and the browser caches the scripts across pages.
+  // Other assets keep Vite's default (inline below 4 KB).
+  vite: { build: { assetsInlineLimit: (file) => (file.endsWith('.js') ? false : undefined) } },
   // No code blocks on this site; Shiki's inline styles would also conflict with the CSP below.
   // [Placeholder] paragraphs in the Markdown pages are left out (SHOW_PLACEHOLDERS=true keeps them,
   // marked "Needs text"). See src/lib/placeholders.mjs. Times keep their am/pm on the same line (src/lib/text.mjs).
