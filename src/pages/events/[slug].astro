@@ -56,7 +56,7 @@ const ext = { target: '_blank', rel: 'noopener' };
         {status && <span class="chip">{status}</span>}
       </div>
       <div class="btn-row">
-        {state === 'open' && <a class="btn btn--primary" href={e.register_url} {...ext}>Register<span class="visually-hidden"> for {e.title}</span> on Church Center <Icon name="external" /></a>}
+        {state === 'open' && <a class="btn btn--primary" href={e.register_url} {...ext}><span>Register<span class="visually-hidden"> for {e.title}</span> on Church Center</span> <Icon name="external" /></a>}
         <a class:list={['btn', state === 'open' ? 'btn--outline' : 'btn--primary']} href={e.details_url} {...ext}>
           {state === 'open' ? 'Details on Church Center' : 'See it on Church Center'} <Icon name="external" />
         </a>
