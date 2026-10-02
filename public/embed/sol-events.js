@@ -11,6 +11,8 @@
 //   data-heading-level  2-6, the level of each event title (default 3)
 //   data-link           "site" (event pages on the new website) or "churchcenter"
 //                       (default: "churchcenter" while the feed is a preview build, else "site")
+//   data-align          "center": cards up to 420 px wide, the row and "See all events" centred
+//                       (default: left-aligned, cards fill the row)
 //
 // Robust by design: no dependencies, styles in a Shadow DOM (the host page's CSS can't reach it),
 // a 5-second timeout, an empty state and an error state that both link to Church Center, and
@@ -45,6 +47,8 @@
     '.more{margin-top:14px}.more a,.msg a{color:#1d4fc4;font-weight:700}',
     '.ph{height:150px;border-radius:16px;background:#f1f1ee}',
     '.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}',
+    // data-align="center": cards at most 420 px wide; a row of 1 or 2 is only as wide as its cards and sits in the middle.
+    '.c .n2{max-width:854px;margin:0 auto}.c .card{width:100%;max-width:420px;justify-self:center}.c .more,.c .msg{text-align:center}',
     '@media (prefers-reduced-motion:no-preference){.btn{transition:background-color .15s}.ph{animation:p 1.4s ease-in-out infinite}@keyframes p{50%{opacity:.55}}}',
   ].join('');
 
@@ -108,11 +112,12 @@
     var root = host.attachShadow({ mode: 'open' });
     var limit = Math.min(12, Math.max(1, parseInt(host.getAttribute('data-limit'), 10) || 3));
     var level = /^[2-6]$/.test(host.getAttribute('data-heading-level') || '') ? host.getAttribute('data-heading-level') : '3';
+    var cls = host.getAttribute('data-align') === 'center' ? 'sol c' : 'sol';
     var src = null;
     try { src = new URL(host.getAttribute('data-src') || '../feed/events.json', (script && script.src) || location.href).href; } catch (e) { /* error state below */ }
 
     function render(html, busy) {
-      root.innerHTML = '<style>' + CSS + '</style><div class="sol"' + (busy ? ' aria-busy="true"' : '') + '>' + html + '</div>';
+      root.innerHTML = '<style>' + CSS + '</style><div class="' + cls + '"' + (busy ? ' aria-busy="true"' : '') + '>' + html + '</div>';
     }
     function message(text, href, label) {
       render('<p class="msg">' + esc(text) + ' ' + link(href, esc(label) + NEW_TAB_SR, NEW_TAB) + '</p>');
@@ -133,7 +138,7 @@
       var mode = host.getAttribute('data-link');
       var toChurchCenter = mode ? mode === 'churchcenter' : feed.preview === true;
       var all = toChurchCenter ? signups : url(site.events_url) || signups;
-      render('<ul class="list" aria-label="Upcoming events">' + events.map(function (e) { return card(e, level, toChurchCenter); }).join('') + '</ul>'
+      render('<ul class="list n' + Math.min(events.length, 3) + '" aria-label="Upcoming events">' + events.map(function (e) { return card(e, level, toChurchCenter); }).join('') + '</ul>'
         + '<p class="more">' + link(all, 'See all events' + (toChurchCenter ? NEW_TAB_SR : ''), toChurchCenter ? NEW_TAB : ' target="_top"') + '</p>');
     }).catch(function () {
       message('Events couldn’t be loaded right now.', CHURCH_CENTER, 'See upcoming events on Church Center');

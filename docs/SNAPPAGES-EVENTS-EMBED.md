@@ -47,7 +47,8 @@ current events.
    private window.
 
 Optional: put a normal SnapPages heading ("Upcoming events") above the block. The widget has no
-heading of its own, so the page's heading structure stays yours.
+heading of its own, so the page's heading structure stays yours. If that heading is centred, add
+`data-align="center"` to the `<div>` so the cards sit under it.
 
 ## 3. What visitors see
 
@@ -76,6 +77,7 @@ After launch they go to the event's page on the new site. `data-link` overrides 
 | `data-limit` | `3` | Number of events, 1 to 12 |
 | `data-heading-level` | `3` | Heading level of each event title (2 to 6). Use `2` if the block sits directly under the page title. |
 | `data-link` | `churchcenter` for a preview feed, else `site` | Where titles and "See all events" go: `site` (the new website) or `churchcenter` |
+| `data-align` | left-aligned | `center`: for a block under a centred heading. Each card is at most 420 px wide, one or two cards sit in the middle of the row, and "See all events" (or the empty and error message) is centred. Three or more cards fill the row as usual. |
 
 Several widgets on one page are fine.
 
@@ -151,6 +153,6 @@ undocumented field appears.
 `npm test` checks the feed schema, privacy, register-URL rules and the widget's size budget. The
 widget was also tested in headless Chrome at 320, 390 and 1440 px, inside a SnapPages-like page on
 another origin with deliberately hostile CSS. Cases: 0, 1 and 3 events (plus one over the limit and
-one already ended), HTTP 500, a non-CORS response, an unknown feed version, and a feed that never
+one already ended), with and without `data-align="center"` (0 to 3 events at 390 and 1440 px), HTTP 500, a non-CORS response, an unknown feed version, and a feed that never
 answers (error state after 5 s). Each case passed with 0 axe violations, no page errors, no
 horizontal scroll, and Tab reaching every link with a visible focus ring.
