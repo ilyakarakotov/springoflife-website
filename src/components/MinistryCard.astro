@@ -18,7 +18,7 @@ const ICONS: Record<string, 'book' | 'chat' | 'music' | 'kids' | 'users' | 'glob
   youth: 'users', 'life-groups': 'users', 'young-adults': 'users', missions: 'globe',
 };
 ---
-<article class:list={['ministry card', { 'ministry--compact': compact }]} id={m.id}>
+<article class:list={['ministry', { 'ministry--compact': compact }]} id={m.id} data-reveal>
   {showMedia && (m.image
     ? (
       <div class:list={['ministry-media', { 'ministry-media--logo': logo }]}>
@@ -40,15 +40,19 @@ const ICONS: Record<string, 'book' | 'chat' | 'music' | 'kids' | 'users' | 'glob
   </div>
 </article>
 <style>
-  .ministry { overflow: hidden; display: flex; flex-direction: column; scroll-margin-top: 96px; }
-  .ministry-media { aspect-ratio: 16 / 9; overflow: hidden; background: var(--surface-soft); }
+  /* No box: a rounded tile (photo, logo or icon) and the words under it; the compact version (Home
+     "Schools") sits on a hairline instead of a tile. */
+  .ministry { display: flex; flex-direction: column; scroll-margin-top: 96px; }
+  .ministry-media { aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius); background: var(--surface-soft); }
   .ministry-media :global(img) { width: 100%; height: 100%; object-fit: cover; }
   /* A logo is a sticker on a light tile: whole, centred, never cropped (also in dark mode). */
-  .ministry-media--logo { display: grid; place-items: center; padding: clamp(16px, 3vw, 28px); background: #f4f4f1; border-bottom: 1px solid var(--border); }
+  .ministry-media--logo { display: grid; place-items: center; padding: clamp(16px, 3vw, 28px); background: #f4f4f1; box-shadow: inset 0 0 0 1px var(--border); }
   .ministry-media--logo :global(img) { width: auto; height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px; }
-  .ministry-media--tile { display: grid; place-items: center; background: var(--bg-tint); color: var(--accent-text); border-bottom: 1px solid var(--border); }
+  .ministry-media--tile { display: grid; place-items: center; background: var(--bg-tint); color: var(--accent-text); }
   .ministry-media--tile :global(.icon) { width: 44px; height: 44px; stroke-width: 1.4; }
-  .ministry-body { display: flex; flex-direction: column; gap: 0.75rem; padding: clamp(20px, 2.4vw, 28px); flex: 1; }
+  .ministry-body { display: flex; flex-direction: column; gap: 0.75rem; padding-top: clamp(18px, 2vw, 24px); flex: 1; }
+  .ministry--compact .ministry-body { border-top: 1px solid var(--rule); padding-top: clamp(20px, 2.2vw, 28px); }
   .ministry-body p { margin: 0; color: var(--text-2); }
-  .ministry-body .text-link { margin-top: auto; padding-top: 0.5rem; }
+  .ministry-body .text-link { margin-top: auto; padding-top: 0.5rem; align-self: flex-start; }
+  .ministry .card-title { font-size: var(--step-2); letter-spacing: -0.02em; }
 </style>

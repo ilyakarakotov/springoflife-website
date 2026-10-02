@@ -15,7 +15,7 @@ const meta = [d.place, d.price].filter(Boolean).join(' · ');
 // The flyer is drawn over a blurred preview, so a slow or failed download never leaves an empty box.
 const preview = d.image && e.image ? await syncedPreview(e.image) : null;
 ---
-<article class:list={['feature card', { 'feature--noimg': !d.image }]}>
+<article class:list={['feature panel', { 'feature--noimg': !d.image }]} data-reveal>
   <div class="feature-media">
     {d.image
       ? (
@@ -50,6 +50,7 @@ const preview = d.image && e.image ? await syncedPreview(e.image) : null;
   /* A flyer keeps its whole 16:9 frame (they often have text to the edges): inset, never cropped. */
   .feature-media { padding: 12px 12px 0; }
   .feature-frame { aspect-ratio: 16 / 9; border-radius: var(--radius-sm); }
+  .feature-title { text-wrap: balance; }
   .feature--noimg .feature-media { padding: 0; }
   .feature-date { display: grid; justify-items: start; align-content: end; gap: 2px; height: 100%; min-height: 168px; padding: clamp(20px, 3vw, 32px);
     background: var(--accent-soft); color: var(--accent-text); line-height: 1; }
@@ -57,7 +58,7 @@ const preview = d.image && e.image ? await syncedPreview(e.image) : null;
   .feature-date b { font-size: clamp(3.5rem, 2.5rem + 3vw, 5rem); font-weight: 800; letter-spacing: -0.04em; color: var(--text); margin: 4px 0 6px; }
   .feature-body { display: flex; flex-direction: column; gap: 0.4rem; padding: clamp(20px, 3vw, 32px); min-width: 0; }
   .feature-when { margin: 0; font-weight: 700; font-size: 0.9375rem; color: var(--accent-text); }
-  .feature-title { font-size: var(--step-2); margin: 0; }
+  .feature-title { font-size: var(--step-2); margin: 0; letter-spacing: -0.02em; }
   .feature-title a { text-decoration: none; }
   .feature-title a:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
   .feature-meta { margin: 0; color: var(--muted); font-size: 0.9375rem; }

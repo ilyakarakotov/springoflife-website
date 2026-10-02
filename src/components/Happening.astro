@@ -8,6 +8,7 @@ import Icon from './Icon.astro';
 import EventRow from './EventRow.astro';
 import EventFeature from './EventFeature.astro';
 import EveryWeek from './EveryWeek.astro';
+import MoreLink from './MoreLink.astro';
 import { site, type SyncedEvent } from '../lib/content';
 import { href } from '../lib/url';
 
@@ -18,13 +19,13 @@ const shown = events.slice(0, limit);
 <section class="section section--soft" aria-labelledby="coming-title">
   <div class="wrap">
     <div class="section-head">
-      <h2 id="coming-title">Coming up</h2>
-      {events.length > 0 && <a class="text-link" href={href('/events')}>See all events<Icon name="arrow" /></a>}
+      <h2 id="coming-title" data-reveal="lines">Coming up</h2>
+      {events.length > 0 && <MoreLink to="/events" label="See all events" />}
     </div>
     <div class="happening" data-events-count={events.length}>
       <div class="coming">
         {events.length === 0 && (
-          <p class="coming-empty">
+          <p class="coming-empty" data-reveal>
             No special events on the calendar right now.
             <a class="text-link" href={site.links.signups} target="_blank" rel="noopener">See all signups on Church Center<Icon name="external" /></a>
           </p>
@@ -35,16 +36,16 @@ const shown = events.slice(0, limit);
       </div>
       <EveryWeek />
     </div>
-    {events.length > 0 && events.length <= limit && <p class="section-foot"><a class="text-link" href={href('/events')}>See all events<Icon name="arrow" /></a></p>}
+    {events.length > 0 && events.length <= limit && <p class="section-foot"><MoreLink to="/events" label="See all events" /></p>}
   </div>
 </section>
 
 <style>
-  .happening { display: grid; gap: clamp(28px, 4vw, 48px); }
+  .happening { display: grid; gap: clamp(36px, 4.5vw, 64px); }
   @media (min-width: 960px) { .happening { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; } }
   .event-rows { list-style: none; margin: -18px 0 0; padding: 0; }
-  .coming-empty { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: baseline; margin: 0; padding: clamp(20px, 3vw, 28px) 0; font-size: var(--step-1); color: var(--text-2);
-    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .coming-empty { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: baseline; margin: 0; padding: clamp(22px, 3vw, 32px) 0; font-size: var(--step-1); color: var(--text-2);
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
   .coming-empty .text-link { font-size: var(--step-0); }
   .coming-more { margin: 1rem 0 0; }
 </style>
