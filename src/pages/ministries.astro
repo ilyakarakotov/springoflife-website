@@ -2,6 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import MinistryCard from '../components/MinistryCard.astro';
+import PageHero from '../components/PageHero.astro';
+import ClosingInvite from '../components/ClosingInvite.astro';
 import { ministries, external } from '../lib/content';
 import { href } from '../lib/url';
 
@@ -17,49 +19,47 @@ const visible = sections.map((s) => ({ ...s, items: ministries.filter((m) => m.g
 const gridFor = (n: number) => (n === 4 ? 'grid--4' : n === 2 ? 'grid--2' : 'grid--3');
 ---
 <Base title="Ministries" description="Ministries at Spring of Life Church: AWANA, kids choir, teens, Life Groups, young adults, SOL Music Academy, SOL Russian School and more.">
-  <section class="page-hero">
-    <div class="wrap">
-      <span class="eyebrow eyebrow--accent eyebrow--wave">Ministries</span>
-      <h1>Grow with us</h1>
-      <p class="lead">From AWANA on Wednesday nights to Life Groups during the week, here's what happens at Spring of Life beyond Sunday. Registration for each program is on Church Center, and every button below points to this year's signup.</p>
-      <nav class="jump" aria-label="Ministry sections">
-        {visible.map((s) => <a class="chip" href={`#${s.id}`}>{s.title}</a>)}
-        <a class="chip" href={href('/life-groups')}>Life Groups</a>
-      </nav>
-    </div>
-  </section>
+  <PageHero eyebrow="Ministries" title="Grow with us"
+    lead="From AWANA on Wednesday nights to Life Groups during the week, here's what happens at Spring of Life beyond Sunday. Registration for each program is on Church Center, and every button below points to this year's signup.">
+    <nav class="jump" aria-label="Ministry sections">
+      {visible.map((s) => <a class="chip" href={`#${s.id}`}>{s.title}</a>)}
+      <a class="chip" href={href('/life-groups')}>Life Groups</a>
+    </nav>
+  </PageHero>
 
   {visible.map((s, i) => s.id === 'serve' && s.items.length === 1 ? (
     /* A single serving card reads better as a band with one action. */
-    <section class="section section--tight serve-band" id={s.id} aria-labelledby={`${s.id}-title`}>
+    <section class="section section--tint serve-band" id={s.id} aria-labelledby={`${s.id}-title`}>
       <div class="wrap serve" id={s.items[0].id}>
-        <div>
-          <span class="eyebrow eyebrow--accent">{s.title}</span>
+        <div data-reveal>
+          <span class="eyebrow eyebrow--accent eyebrow--wave">{s.title}</span>
           <h2 id={`${s.id}-title`}>{s.items[0].title}</h2>
           <p>{s.items[0].summary}</p>
         </div>
         {s.items[0].href && s.items[0].cta && (
-          <a class="btn btn--primary" href={href(s.items[0].href)} {...external(s.items[0].href)}>{s.items[0].cta}<Icon name="external" /></a>
+          <div data-reveal><a class="btn btn--primary" href={href(s.items[0].href)} {...external(s.items[0].href)}>{s.items[0].cta}<Icon name="external" /></a></div>
         )}
       </div>
     </section>
   ) : (
-    <section class:list={['section', 'section--tight', { 'section--soft': i % 2 === 1 }]} id={s.id} aria-labelledby={`${s.id}-title`}>
+    <section class:list={['section', { 'section--soft': i % 2 === 1 }]} id={s.id} aria-labelledby={`${s.id}-title`}>
       <div class="wrap">
-        <div class="section-head"><div><h2 id={`${s.id}-title`}>{s.title}</h2><p class="muted">{s.lead}</p></div></div>
-        <div class:list={['grid', gridFor(s.items.length)]}>
+        <div class="section-head"><div><h2 id={`${s.id}-title`} data-reveal="lines">{s.title}</h2><p class="lead" data-reveal>{s.lead}</p></div></div>
+        <div class:list={['grid', 'ministries', gridFor(s.items.length)]}>
           {s.items.map((m) => <MinistryCard item={m} media={s.items.some((x) => x.image)} />)}
         </div>
       </div>
     </section>
   ))}
+
+  <ClosingInvite />
 </Base>
 
 <style>
-  .jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.75rem; }
+  .jump { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   section[id] { scroll-margin-top: 72px; }
-  .serve-band { background: var(--bg-tint); }
-  .serve { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2.5rem; scroll-margin-top: 96px; }
-  .serve h2 { margin-bottom: 0.3em; }
-  .serve p { margin: 0; color: var(--text-2); max-width: 40rem; }
+  .ministries { row-gap: clamp(40px, 5vw, 64px); column-gap: clamp(24px, 3vw, 40px); }
+  .serve { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem 3rem; scroll-margin-top: 96px; }
+  .serve h2 { margin-bottom: 0.35em; }
+  .serve p { margin: 0; color: var(--text-2); font-size: var(--step-1); line-height: 1.6; max-width: 40rem; }
 </style>
