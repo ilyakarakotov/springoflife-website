@@ -1,0 +1,79 @@
+---
+import '@fontsource-variable/manrope';
+import '../styles/global.css';
+import manropeLatin from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, img, home } from '../lib/content';
+import { serializeJsonLd } from '../lib/serialize.mjs';
+import { href, absoluteUrl, absoluteAsset, pagePath } from '../lib/url';
+import { PREVIEW } from 'astro:env/server';
+
+interface Props {
+  title?: string;          // page name; the church name is appended
+  description?: string;
+  image?: ImageMetadata;   // social preview image (defaults to the home hero photo)
+  imageAlt?: string;       // describes `image` for social previews (flyers usually have none)
+  overlayHeader?: boolean; // transparent header over a photo hero (home page)
+  jsonLd?: object[];
+  noindex?: boolean;       // keep this page out of search results (404)
+}
+const { title, description = site.description, image, imageAlt, overlayHeader = false, jsonLd = [], noindex = false } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | Mukilteo, WA`;
+const canonical = absoluteUrl(pagePath(Astro.url.pathname));
+// 1200x630 crop for large photos. A smaller image (PCO flyers are 720x405) keeps its own size and
+// shape instead of being upscaled or cropped, since flyers often have text near the edges.
+const ogSrc = image ?? img(home.hero.image);
+const ogSize = ogSrc.width >= 1200 ? { width: 1200, height: 630 } : { width: ogSrc.width, height: ogSrc.height };
+const og = await getImage({ src: ogSrc, ...ogSize, fit: 'cover', format: 'jpg', quality: 80 });
+const ogUrl = absoluteAsset(og.src);
+const ogAlt = image ? imageAlt : home.hero.image_alt;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {/* PREVIEW builds (a staging address, not the church's site) are kept out of search engines. */}
+    {(PREVIEW || noindex) && <meta name="robots" content={PREVIEW ? 'noindex,nofollow' : 'noindex'} />}
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <link rel="preload" href={manropeLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href={href('/favicon.ico')} sizes="32x32" />
+    <link rel="icon" href={href('/favicon.png')} type="image/png" />
+    <link rel="apple-touch-icon" href={href('/apple-touch-icon.png')} />
+    {!PREVIEW && <link rel="sitemap" href={href('/sitemap-index.xml')} />}
+    <link rel="alternate" type="text/calendar" title="Spring of Life Church events" href={href('/events.ics')} />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0f12" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-itunes-app" content={`app-id=${site.links.app_ios_id}`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title ?? site.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content={String(ogSize.width)} />
+    <meta property="og:image:height" content={String(ogSize.height)} />
+    {ogAlt && <meta property="og:image:alt" content={ogAlt} />}
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title ?? site.name} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header overlay={overlayHeader} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    {/* Structured data goes last: it carries Planning Center text, and the CSP <meta> that Astro
+        adds to <head> only protects markup that comes after it. serializeJsonLd escapes < > &. */}
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={serializeJsonLd(data)} />)}
+  </body>
+</html>

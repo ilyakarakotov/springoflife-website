@@ -1,0 +1,57 @@
+---
+import Icon from './Icon.astro';
+import { site, forms } from '../lib/content';
+import { href } from '../lib/url';
+const year = new Date().getFullYear();
+const cols = [
+  { title: 'Explore', links: [['Plan a visit', '/visit'], ['About us', '/about'], ['Ministries', '/ministries'], ['Watch', '/watch'], ['Events', '/events']] },
+  { title: 'Connect', links: [['Next steps', '/next-steps'], ['Life Groups', '/life-groups'], ['Connect card', forms.connect], ['Prayer request', forms.prayer], ['Give', '/give']] },
+];
+---
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="f-brand" href={href('/')}><span class="f-mark" aria-hidden="true"></span><span><b>Spring of Life</b> Church</span></a>
+      <p>{site.service.day}s at {site.service.time} (English)<br />{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postal_code}</p>
+      <p><a href={`tel:${site.phone.replace(/[^\d+]/g, '')}`}>{site.phone}</a><br /><a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </div>
+    {cols.map((c) => (
+      <nav aria-label={c.title}>
+        <h2>{c.title}</h2>
+        <ul>{c.links.map(([label, url]) => <li><a href={href(url)}>{label}</a></li>)}</ul>
+      </nav>
+    ))}
+    <div>
+      <h2>Follow</h2>
+      <ul class="social">
+        <li><a href={site.links.youtube}><Icon name="youtube" />YouTube</a></li>
+        <li><a href={site.links.instagram}><Icon name="instagram" />Instagram</a></li>
+        <li><a href={site.links.facebook}><Icon name="facebook" />Facebook</a></li>
+        <li><a href={site.links.app_ios}><Icon name="smartphone" />iPhone app</a></li>
+        <li><a href={site.links.app_android}><Icon name="smartphone" />Android app</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© {year} {site.name}</span>
+      <a href={site.links.russian_site} hreflang="ru" lang="ru">Русский сайт</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--dark); color: var(--on-dark-2); padding-top: clamp(48px, 7vw, 88px); font-size: 0.95rem; }
+  .footer-grid { display: grid; gap: 2rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-brand { grid-column: 1 / -1; }
+  @media (min-width: 900px) { .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; } .footer-brand { grid-column: auto; } }
+  .f-brand { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--on-dark); text-decoration: none; font-size: 1.15rem; margin-bottom: 1rem; }
+  .f-mark { width: 34px; height: 34px; background: currentColor; -webkit-mask: url('../assets/brand/mark.png') center / contain no-repeat; mask: url('../assets/brand/mark.png') center / contain no-repeat; }
+  .site-footer h2 { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--on-dark); margin: 0 0 1rem; }
+  .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .site-footer a { color: var(--on-dark-2); text-decoration: none; }
+  .site-footer a:hover { color: var(--on-dark); text-decoration: underline; text-underline-offset: 3px; }
+  .social a { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: clamp(36px, 5vw, 64px); padding-block: 1.5rem; border-top: 1px solid rgb(255 255 255 / 0.1); }
+  .footer-bottom a { color: var(--on-dark); font-weight: 700; }
+</style>

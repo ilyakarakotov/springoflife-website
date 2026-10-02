@@ -1,0 +1,103 @@
+# Ongoing ministries with a STABLE place on the website (Ministries page, Home "Schools" block).
+# They are NOT in the Events feed: the website category in Planning Center is for one-off events.
+#
+# ONCE A YEAR, when a new Church Center signup opens (for example "AWANA 2027-2028"):
+#   1. Open the new signup on Church Center and copy the number from its address:
+#        https://springoflifechurch.churchcenter.com/registrations/events/3824843   ->  3824843
+#   2. Replace `signup_id` below (and the year in `cta`). Save. Every button on the site updates.
+#
+# Fields: id, group (kids | adults | schools | serve), title, summary, details (list),
+#         signup_id (Church Center signup number) OR link (any URL), cta (button text), image.
+# Text in [square brackets] is a placeholder that still needs real wording from the ministry leader.
+ministries:
+  - id: awana
+    group: kids
+    title: AWANA
+    summary: A Christ-centered club where kids sing, play games, make friends and learn about Jesus through Bible lessons and Scripture memory.
+    details:
+      - Wednesdays, 7:00–8:45 pm, September through May
+      - Kids ages 3–12
+      - $65 per child (handbook, uniform and awards included)
+    signup_id: "3824843"
+    cta: Register for 2026–27
+
+  - id: kids-choir
+    group: kids
+    title: SOL Kids Choir
+    summary: Kids learn to worship through music and sing together at church services and concerts.
+    details:
+      - "[Placeholder: rehearsal day and time]"
+      - Free
+    signup_id: "3822440"
+    cta: Sign up for 2026–27
+
+  - id: sunday-kids
+    group: kids
+    title: Kids on Sunday
+    summary: Childcare and activities for all ages during the 12:00 pm service, so parents can worship.
+    details:
+      - "[Placeholder: age groups, check-in and where to drop off]"
+    link: /visit#kids
+    cta: Plan your visit
+
+  - id: youth
+    group: kids
+    title: Youth
+    summary: "[Placeholder: a short description of the youth ministry from its leaders.]"
+    details:
+      - "[Placeholder: confirm the youth meeting day and time]"
+
+  - id: life-groups
+    group: adults
+    title: Life Groups
+    summary: Small groups that meet during the week around Mukilteo, Everett and nearby cities to study the Bible, pray and build friendships.
+    link: /life-groups
+    cta: Find a Life Group
+
+  - id: young-adults
+    group: adults
+    title: Young Adults
+    summary: "[Placeholder: a short description of the Young Adults fellowship, when and where it meets.]"
+
+  - id: missions
+    group: adults
+    title: Missions
+    summary: "[Placeholder: the church's mission work, including the yearly trip to Mexico.]"
+
+  - id: christian-academy
+    group: schools
+    title: SOL Christian Academy
+    summary: A Christian private school at the church, teaching with Christian values and principles.
+    details:
+      - "[Placeholder: confirm grades with the school (K–5, K–6 or K–8?)]"
+    link: https://www.solchristianacademy.com
+    cta: Visit the school site
+
+  - id: music-academy
+    group: schools
+    title: SOL Music Academy
+    summary: Teaching and inspiring children to serve God through musical worship. Music theory and solfeggio in groups, plus private lessons.
+    details:
+      - Tuesdays and Fridays, 4:30–8:40 pm
+      - Students from age 6
+      - Piano, cello, saxophone, clarinet, flute, voice, guitar and drums
+    signup_id: "3645962"
+    cta: Sign up for 2026–27
+    image: /src/assets/photos/music-academy.jpg
+
+  - id: russian-school
+    group: schools
+    title: SOL Russian School
+    summary: Russian as a second language, with classes for teens and adults who want to learn Russian.
+    details:
+      - The 2026–27 year started September 14 at 6:30 pm
+      - $150 registration fee
+    signup_id: "3533274"
+    cta: Register for 2026–27
+
+  - id: serve-teams
+    group: serve
+    title: Serve on a team
+    summary: Greeting, worship, media, staging, kids and more. Tell us where you'd like to help.
+    link: https://springoflifechurch.churchcenter.com/people/forms/213642
+    cta: Join a serving team

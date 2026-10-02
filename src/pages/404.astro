@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import { events } from '../lib/content';
+import { eventPath } from '../lib/events.mjs';
+import { serializeJsonLd } from '../lib/serialize.mjs';
+import { href } from '../lib/url';
+
+// Current event pages by Planning Center ID, so a link to a renamed event still finds it.
+const eventPaths = Object.fromEntries(events.map((e) => [e.id, eventPath(e)]));
+---
+<Base title="Page not found" description="This page doesn't exist." noindex>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">404</span>
+      <h1>We couldn't find that page</h1>
+      <p class="lead">It may have moved when we updated our website.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href={href('/')}>Go to the home page</a>
+        <a class="btn btn--outline" href={href('/visit')}>Plan a visit</a>
+        <a class="btn btn--outline" href={href('/events')}>Events</a>
+      </div>
+    </div>
+  </section>
+  <script type="application/json" id="event-paths" set:html={serializeJsonLd(eventPaths)} />
+</Base>
+
+<script>
+  // Static hosts serve this page for every unknown URL. Old springoflifechurch.com sermon pages
+  // (/media/<code>/<slug>, about 45 of them, shared on social media) go to the same sermon on
+  // Subsplash instead of a dead end; any other old /media/ URL goes to /watch. Cloudflare Pages
+  // does the same with real 301s (_redirects).
+  //
+  // A link to an event page whose title changed goes to its current page; one whose event has
+  // ended (its page is gone) goes to the events list.
+  import { legacyMediaTarget } from '../lib/redirects.mjs';
+  import { eventIdFromPath } from '../lib/events.mjs';
+  const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
+  const path = base && location.pathname.startsWith(base) ? location.pathname.slice(base.length) : location.pathname;
+  const eventId = eventIdFromPath(path);
+  let paths: Record<string, string> = {};
+  try { paths = JSON.parse(document.getElementById('event-paths')?.textContent || '{}'); } catch { /* keep {} */ }
+  const target = eventId ? paths[eventId] ?? '/events/' : legacyMediaTarget(path);
+  if (target) location.replace(target.startsWith('/') ? base + target : target);
+</script>

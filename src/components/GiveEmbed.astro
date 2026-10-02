@@ -1,0 +1,36 @@
+---
+// Subsplash Giving, click to load. The embedded form sets a Stripe cookie (m.stripe.com) and
+// Subsplash cookies as soon as it loads, which cost Best Practices 77 on /give (review P1-11) and
+// break "no cookies by default". Nothing loads until the visitor presses "Give online"; the form
+// then appears in place and gets focus. "Open giving in a new tab" always works, also without
+// JavaScript. Payments, receipts and recurring gifts stay in Subsplash. Styling is minimal.
+import Icon from './Icon.astro';
+import { site } from '../lib/content';
+---
+<div class="give-facade card" data-facade data-src={site.embeds.give} data-title="Give to Spring of Life Church (secure Subsplash form)">
+  <div class="give-facade-body">
+    <h2 class="h3">Give securely online</h2>
+    <p class="muted">Give once or set up a recurring gift. The secure giving form from Subsplash, our giving provider, opens right here.</p>
+    <div class="btn-row">
+      <button type="button" class="btn btn--primary give-load" data-facade-load>Give online</button>
+      <a class="btn btn--outline" href={site.links.give} target="_blank" rel="noopener">Open giving in a new tab <Icon name="external" /></a>
+    </div>
+    <p class="muted small">Nothing from Subsplash loads until you choose one of these.</p>
+  </div>
+</div>
+
+<script>
+  import { initFacades } from '../scripts/facade';
+  initFacades();
+</script>
+
+<style>
+  .give-facade { overflow: hidden; }
+  .give-facade-body { padding: clamp(22px, 3.5vw, 40px); }
+  .give-facade .h3 { font-size: var(--step-2); }
+  .small { font-size: 0.9rem; margin: 1rem 0 0; }
+  .give-facade.is-loaded { padding: 0; background: #fff; }
+  .give-facade :global(iframe) { display: block; width: 100%; height: 800px; border: 0; }
+  @media (min-width: 640px) { .give-facade :global(iframe) { height: 880px; } }
+  @media (scripting: none) { .give-load { display: none; } .small { display: none; } }
+</style>

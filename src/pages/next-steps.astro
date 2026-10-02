@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import StepIcon from '../components/StepIcon.astro';
+import { steps, external } from '../lib/content';
+import { href } from '../lib/url';
+---
+<Base title="Next Steps" description="Take your next step at Spring of Life Church: get baptized, become a member, join a Life Group, serve, or send a prayer request.">
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Next steps</span>
+      <h1>Take your next step</h1>
+      <p class="lead">Wherever you are in your walk with Jesus, there's a next step. Each one opens a short form or signup on Church Center.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap grid grid--3">
+      {steps.map((s) => (
+        <article class="card step" id={s.id}>
+          <StepIcon id={s.id} />
+          <h2>{s.title}</h2>
+          <p>{s.text}</p>
+          <div class="btn-row">
+            <a class="btn btn--primary btn--sm" href={href(s.url)} {...external(s.url)}>{s.cta}{s.url.startsWith('http') && <Icon name="external" />}</a>
+            {s.secondary_url && <a class="btn btn--outline btn--sm" href={href(s.secondary_url)} {...external(s.secondary_url)}>{s.secondary_cta}</a>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .step { display: flex; flex-direction: column; gap: 0.6rem; padding: clamp(22px, 3vw, 30px); scroll-margin-top: 96px; }
+  .step :global(.step-icon) { width: 30px; height: 30px; color: var(--accent-text); }
+  .step h2 { font-size: var(--step-2); margin: 0.5rem 0 0; }
+  .step p { color: var(--text-2); margin: 0; }
+  .step .btn-row { margin-top: auto; padding-top: 0.75rem; }
+</style>

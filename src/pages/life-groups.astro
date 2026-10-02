@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import GroupCard from '../components/GroupCard.astro';
+import { site, groups } from '../lib/content';
+---
+<Base title="Life Groups" description="Find an English Life Group at Spring of Life Church. Small groups meet during the week to study the Bible, pray and build friendships.">
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Life Groups</span>
+      <h1>Do life together</h1>
+      <p class="lead">Life Groups meet during the week to study the Bible, pray and build friendships. Pick a group below to see the details and ask to join on Church Center.</p>
+      <div class="btn-row">
+        <a class="btn btn--outline btn--sm" href={site.links.groups} target="_blank" rel="noopener">Browse groups on Church Center <Icon name="external" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      {groups.length > 0
+        ? <>
+            {/* The cards are h3s; this keeps the heading order h1 -> h2 -> h3 (axe heading-order). */}
+            <h2 class="visually-hidden">English Life Groups</h2>
+            <div class="grid grid--3" data-groups-count={groups.length}>{groups.map((g, i) => <GroupCard group={g} eager={i === 0} />)}</div>
+          </>
+        : (
+          <div class="card empty">
+            <h2>Group listings are being updated</h2>
+            <p class="muted">See every open group on Church Center.</p>
+            <a class="btn btn--primary btn--sm" href={site.links.groups} target="_blank" rel="noopener">Life Groups on Church Center</a>
+          </div>
+        )}
+      <p class="notice"><Icon name="refresh" />Group leaders keep these details current in Planning Center Groups.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .empty { padding: clamp(22px, 3vw, 36px); }
+  .empty h2 { font-size: var(--step-2); }
+</style>

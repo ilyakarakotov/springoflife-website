@@ -1,0 +1,33 @@
+# HTTP headers for Cloudflare Pages (DEPLOY_TARGET=cloudflare). GitHub Pages ignores this file and
+# sends its own headers (including Access-Control-Allow-Origin: * on every file), so the feed works
+# there too. The Content-Security-Policy itself is a <meta> tag in every page (astro.config.mjs);
+# headers can add only what a <meta> CSP can't: frame-ancestors, HSTS and friends.
+# Paths assume the site is served at the domain root, as on Cloudflare Pages.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+  Strict-Transport-Security: max-age=15552000
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+
+# The public events feed: readable from any site (the SnapPages widget), cached briefly.
+/feed/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, must-revalidate
+
+# The SnapPages widget script.
+/embed/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600
+
+# Calendar subscribers poll this file.
+/events.ics
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=900
+
+# Build output with content hashes in the file names never changes.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

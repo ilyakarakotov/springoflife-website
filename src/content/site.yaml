@@ -1,0 +1,43 @@
+# Site-wide settings: name, service time, address, links and embeds.
+# Edit in Pages CMS ("Site settings") or directly here. Used by every page, the footer,
+# the weekly digest and the structured data search engines read.
+name: Spring of Life Church
+tagline: Following Jesus together.
+mission: We exist for the glory of God. We glorify God by making disciples through the Word of God in worship and fellowship.
+description: Spring of Life Church in Mukilteo, Washington. Join us for our English service every Sunday at 12:00 pm.
+service:
+  day: Sunday
+  time: "12:00 pm"
+  start_24h: "12:00"
+  length: About 90 minutes
+  russian: The Russian-language service meets Sundays at 10:00 am.
+address:
+  street: 4711 116th St SW
+  city: Mukilteo
+  region: WA
+  postal_code: "98275"
+  country: US
+  lat: 47.8940668
+  lng: -122.2972691
+  maps_url: https://www.google.com/maps/search/?api=1&query=4711+116th+St+SW%2C+Mukilteo%2C+WA+98275
+phone: (425) 493-1602
+email: info@springoflifechurch.com
+links:
+  church_center: https://springoflifechurch.churchcenter.com
+  signups: https://springoflifechurch.churchcenter.com/registrations
+  groups: https://springoflifechurch.churchcenter.com/groups/english-life-groups
+  youtube: https://www.youtube.com/@SpringofLifeChurchEn
+  youtube_live: https://www.youtube.com/@SpringofLifeChurchEn/live
+  instagram: https://www.instagram.com/springoflifechurch/
+  facebook: https://www.facebook.com/sproflifechurch/
+  russian_site: https://www.springoflifechurchru.com
+  sermons: https://subsplash.com/springoflifechurch/media
+  bulletin: https://notes.subsplash.com/fill-in/view?page=s0QXz9UctPL
+  give: https://subsplash.com/u/-JSGMH3/give
+  app_ios: https://apps.apple.com/us/app/id1546637557
+  app_android: https://play.google.com/store/apps/details?id=com.subsplashconsulting.s_JSGMH3
+  app_ios_id: "1546637557"
+embeds:
+  # Subsplash "Most Recent Media Item": always shows the newest sermon (Nick's upload + Date field).
+  latest_sermon: https://subsplash.com/u/-JSGMH3/media/embed/d/*?
+  give: https://subsplash.com/u/-JSGMH3/give?embed=true

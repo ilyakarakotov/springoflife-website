@@ -1,0 +1,36 @@
+# "What we believe" (About page). Text copied from the current What We Believe page.
+intro: These biblical doctrines from the Spring of Life Church Statement of Faith represent the core beliefs of our faith.
+beliefs:
+  - title: God the Father
+    text: We believe God is the creator and ruler of Heaven and Earth. He is one God in three persons, God the Father, God the Son and God the Holy Spirit. These three are equal and are one God.
+  - title: Jesus Christ
+    text: We believe Jesus Christ is the Son of God and he is equal with God. Jesus was incarnated, lived a sinless life and offered himself as a sacrifice for the sins of people by dying on the cross. He rose from the dead after three days, demonstrating his power over sin and death. Afterwards, he ascended to Heaven and will return again to judge and reign as King of Kings and Lord of Lords.
+  - title: The Holy Spirit
+    text: We believe the Holy Spirit is equal with the Father and the Son. He lives in every Christian from the moment of salvation, empowering them to live fruitful lives. He is also present in the world to convict people of sin and show them their need for Jesus.
+  - title: The Bible
+    text: We believe that the Bible is the Word of God. The Bible is God-breathed, inerrant, infallible and profitable for teaching, reproof, correction and training in righteousness.
+  - title: Man
+    text: We believe that all people are created in the image of God and as a result possess intrinsic dignity and worth.
+  - title: Sin
+    text: We believe that all have sinned and fallen short of the glory of God, and this has fractured God's creation and relationship with man. This is why we are in desperate need of salvation.
+  - title: Salvation
+    text: We believe that we are saved by grace alone, through faith alone, in Jesus Christ alone. There is no other way for salvation.
+  - title: The Church
+    text: We believe that the Church is the body of Christ commissioned to proclaim the gospel to the world.
+  - title: Eternity
+    text: We believe that people exist forever. We will either exist eternally separated from God by sin or eternally with God by grace and forgiveness.
+# Doctrinal statement link and affiliations, copied from the current page.
+# Hidden for now (show_affiliations: false) because the English site uses the name
+# "Spring of Life Church" only. The pastors decide whether to show them; set to true to publish.
+show_affiliations: false
+statement:
+  label: Baptist Faith and Message 2000
+  url: https://bfm.sbc.net/bfm2000/
+  text: To go into more detail, read the Baptist Faith and Message 2000.
+affiliations:
+  - name: Pacific Coast Slavic Baptist Association (PCSBA)
+    url: https://pcsba.org/index.php/en/
+  - name: Southern Baptist Convention (SBC)
+    url: https://www.sbc.net
+  - name: Northwest Association of Slavic Baptist Churches (NWASBC)
+    url: https://baptistnw.org

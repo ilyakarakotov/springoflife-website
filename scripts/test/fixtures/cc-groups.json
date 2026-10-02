@@ -1,0 +1,874 @@
+{
+ "links": {
+  "self": "https://api.churchcenter.com/groups/v2/group_types/222818/groups?include=location%2Cgroup_type&per_page=100"
+ },
+ "data": [
+  {
+   "type": "Group",
+   "id": "1744406",
+   "attributes": {
+    "abilities": {},
+    "automated_event_reminder_defaults": {
+     "enabled": false,
+     "schedule_offset": null,
+     "options_for_select": [
+      {
+       "label": "1 day before",
+       "value": 86400
+      },
+      {
+       "label": "2 days before",
+       "value": 172800
+      },
+      {
+       "label": "3 days before",
+       "value": 259200
+      },
+      {
+       "label": "4 days before",
+       "value": 345600
+      },
+      {
+       "label": "5 days before",
+       "value": 432000
+      },
+      {
+       "label": "6 days before",
+       "value": 518400
+      },
+      {
+       "label": "7 days before",
+       "value": 604800
+      },
+      {
+       "label": "8 days before",
+       "value": 691200
+      },
+      {
+       "label": "9 days before",
+       "value": 777600
+      },
+      {
+       "label": "10 days before",
+       "value": 864000
+      }
+     ]
+    },
+    "calendar_subscription_links": [],
+    "calendar_subscription_url": null,
+    "can_contact": false,
+    "church_center_web_my_group_url": "https://springoflifechurch.churchcenter.com/my/groups/daniel-and-sarra-kulik",
+    "church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/daniel-and-sarra-kulik",
+    "default_event_rsvp_guests_enabled": false,
+    "default_event_rsvps_enabled": true,
+    "description": "<div>Tue. 7PM - Mukilteo/Kirkland</div><div>Synthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other. </div>",
+    "description_as_plain_text": "Tue. 7PM - Mukilteo/KirklandSynthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.",
+    "enrollment_localization": {
+     "enrollment_stategy": "request to join",
+     "enrollment_open": "open",
+     "enrollment_not_open": "closed"
+    },
+    "enrollment_open": true,
+    "enrollment_status": "open",
+    "enrollment_strategy": "request_to_join",
+    "header_image": {
+     "thumbnail": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1744406/thumbnail_IMG_2217.jpg",
+     "medium": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1744406/medium_IMG_2217.jpg",
+     "original": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1744406/IMG_2217.jpg"
+    },
+    "list_leader_names_publicly": false,
+    "location_type_preference": "physical",
+    "members_are_confidential": false,
+    "membership_availability": "Group is open",
+    "memberships_count": 2,
+    "name": "Daniel and Sarra Kulik",
+    "planning_center_settings_url": "https://groups.planningcenteronline.com/groups/1744406/settings",
+    "planning_center_url": "https://groups.planningcenteronline.com/groups/1744406",
+    "schedule": null,
+    "turnstile_site_key": "0x4AAAAAACpXPnew-rKWqJPn",
+    "unread_message_count": "0",
+    "virtual_location_url": null
+   },
+   "relationships": {
+    "group_type": {
+     "data": {
+      "type": "GroupType",
+      "id": "222818"
+     }
+    },
+    "location": {
+     "data": null
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/groups/v2/group_types/222818/groups/1744406"
+   }
+  },
+  {
+   "type": "Group",
+   "id": "1568408",
+   "attributes": {
+    "abilities": {},
+    "automated_event_reminder_defaults": {
+     "enabled": false,
+     "schedule_offset": null,
+     "options_for_select": [
+      {
+       "label": "1 day before",
+       "value": 86400
+      },
+      {
+       "label": "2 days before",
+       "value": 172800
+      },
+      {
+       "label": "3 days before",
+       "value": 259200
+      },
+      {
+       "label": "4 days before",
+       "value": 345600
+      },
+      {
+       "label": "5 days before",
+       "value": 432000
+      },
+      {
+       "label": "6 days before",
+       "value": 518400
+      },
+      {
+       "label": "7 days before",
+       "value": 604800
+      },
+      {
+       "label": "8 days before",
+       "value": 691200
+      },
+      {
+       "label": "9 days before",
+       "value": 777600
+      },
+      {
+       "label": "10 days before",
+       "value": 864000
+      }
+     ]
+    },
+    "calendar_subscription_links": [],
+    "calendar_subscription_url": null,
+    "can_contact": false,
+    "church_center_web_my_group_url": "https://springoflifechurch.churchcenter.com/my/groups/eduard-and-alena-yarin",
+    "church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/eduard-and-alena-yarin",
+    "default_event_rsvp_guests_enabled": false,
+    "default_event_rsvps_enabled": true,
+    "description": "<div>Meeting Day - Friday<br>Meeting City - Everett<br><br>Synthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.</div>",
+    "description_as_plain_text": "Meeting Day - Friday\nMeeting City - Everett\n\nSynthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.",
+    "enrollment_localization": {
+     "enrollment_stategy": "request to join",
+     "enrollment_open": "open",
+     "enrollment_not_open": "closed"
+    },
+    "enrollment_open": true,
+    "enrollment_status": "open",
+    "enrollment_strategy": "request_to_join",
+    "header_image": {
+     "thumbnail": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568408/thumbnail_photo_2022-01-08_12.07.30.jpeg",
+     "medium": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568408/medium_photo_2022-01-08_12.07.30.jpeg",
+     "original": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568408/photo_2022-01-08_12.07.30.jpeg"
+    },
+    "list_leader_names_publicly": true,
+    "location_type_preference": "physical",
+    "members_are_confidential": false,
+    "membership_availability": "Group is open",
+    "memberships_count": 3,
+    "name": "Eduard and Alena Yarin",
+    "planning_center_settings_url": "https://groups.planningcenteronline.com/groups/1568408/settings",
+    "planning_center_url": "https://groups.planningcenteronline.com/groups/1568408",
+    "schedule": null,
+    "turnstile_site_key": "0x4AAAAAACpXPnew-rKWqJPn",
+    "unread_message_count": "0",
+    "virtual_location_url": null
+   },
+   "relationships": {
+    "group_type": {
+     "data": {
+      "type": "GroupType",
+      "id": "222818"
+     }
+    },
+    "location": {
+     "data": null
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/groups/v2/group_types/222818/groups/1568408"
+   }
+  },
+  {
+   "type": "Group",
+   "id": "1570021",
+   "attributes": {
+    "abilities": {},
+    "automated_event_reminder_defaults": {
+     "enabled": false,
+     "schedule_offset": null,
+     "options_for_select": [
+      {
+       "label": "1 day before",
+       "value": 86400
+      },
+      {
+       "label": "2 days before",
+       "value": 172800
+      },
+      {
+       "label": "3 days before",
+       "value": 259200
+      },
+      {
+       "label": "4 days before",
+       "value": 345600
+      },
+      {
+       "label": "5 days before",
+       "value": 432000
+      },
+      {
+       "label": "6 days before",
+       "value": 518400
+      },
+      {
+       "label": "7 days before",
+       "value": 604800
+      },
+      {
+       "label": "8 days before",
+       "value": 691200
+      },
+      {
+       "label": "9 days before",
+       "value": 777600
+      },
+      {
+       "label": "10 days before",
+       "value": 864000
+      }
+     ]
+    },
+    "calendar_subscription_links": [],
+    "calendar_subscription_url": null,
+    "can_contact": false,
+    "church_center_web_my_group_url": "https://springoflifechurch.churchcenter.com/my/groups/ivan-and-sveta-ryakhovskiy",
+    "church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/ivan-and-sveta-ryakhovskiy",
+    "default_event_rsvp_guests_enabled": false,
+    "default_event_rsvps_enabled": true,
+    "description": "<div>Meeting Day - Tuesday<br>Meeting City - Monroe<br><br>Synthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other. </div>",
+    "description_as_plain_text": "Meeting Day - Tuesday\nMeeting City - Monroe\n\nSynthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.",
+    "enrollment_localization": {
+     "enrollment_stategy": "request to join",
+     "enrollment_open": "open",
+     "enrollment_not_open": "closed"
+    },
+    "enrollment_open": true,
+    "enrollment_status": "open",
+    "enrollment_strategy": "request_to_join",
+    "header_image": {
+     "thumbnail": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1570021/thumbnail_AM4A0032.jpg",
+     "medium": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1570021/medium_AM4A0032.jpg",
+     "original": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1570021/AM4A0032.jpg"
+    },
+    "list_leader_names_publicly": true,
+    "location_type_preference": "physical",
+    "members_are_confidential": false,
+    "membership_availability": "Group is open",
+    "memberships_count": 0,
+    "name": "Ivan and Sveta Ryakhovskiy",
+    "planning_center_settings_url": "https://groups.planningcenteronline.com/groups/1570021/settings",
+    "planning_center_url": "https://groups.planningcenteronline.com/groups/1570021",
+    "schedule": null,
+    "turnstile_site_key": "0x4AAAAAACpXPnew-rKWqJPn",
+    "unread_message_count": "0",
+    "virtual_location_url": null
+   },
+   "relationships": {
+    "group_type": {
+     "data": {
+      "type": "GroupType",
+      "id": "222818"
+     }
+    },
+    "location": {
+     "data": null
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/groups/v2/group_types/222818/groups/1570021"
+   }
+  },
+  {
+   "type": "Group",
+   "id": "1744407",
+   "attributes": {
+    "abilities": {},
+    "automated_event_reminder_defaults": {
+     "enabled": false,
+     "schedule_offset": null,
+     "options_for_select": [
+      {
+       "label": "1 day before",
+       "value": 86400
+      },
+      {
+       "label": "2 days before",
+       "value": 172800
+      },
+      {
+       "label": "3 days before",
+       "value": 259200
+      },
+      {
+       "label": "4 days before",
+       "value": 345600
+      },
+      {
+       "label": "5 days before",
+       "value": 432000
+      },
+      {
+       "label": "6 days before",
+       "value": 518400
+      },
+      {
+       "label": "7 days before",
+       "value": 604800
+      },
+      {
+       "label": "8 days before",
+       "value": 691200
+      },
+      {
+       "label": "9 days before",
+       "value": 777600
+      },
+      {
+       "label": "10 days before",
+       "value": 864000
+      }
+     ]
+    },
+    "calendar_subscription_links": [],
+    "calendar_subscription_url": null,
+    "can_contact": false,
+    "church_center_web_my_group_url": "https://springoflifechurch.churchcenter.com/my/groups/mark-and-louisa-nosov",
+    "church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/mark-and-louisa-nosov",
+    "default_event_rsvp_guests_enabled": false,
+    "default_event_rsvps_enabled": true,
+    "description": "<div>Tue. 7PM - Everett/Mukilteo</div><div>Synthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other. </div>",
+    "description_as_plain_text": "Tue. 7PM - Everett/MukilteoSynthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.",
+    "enrollment_localization": {
+     "enrollment_stategy": "request to join",
+     "enrollment_open": "open",
+     "enrollment_not_open": "closed"
+    },
+    "enrollment_open": true,
+    "enrollment_status": "open",
+    "enrollment_strategy": "request_to_join",
+    "header_image": {
+     "thumbnail": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1744407/thumbnail_IMG_2216.jpg",
+     "medium": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1744407/medium_IMG_2216.jpg",
+     "original": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1744407/IMG_2216.jpg"
+    },
+    "list_leader_names_publicly": false,
+    "location_type_preference": "physical",
+    "members_are_confidential": false,
+    "membership_availability": "Group is open",
+    "memberships_count": 0,
+    "name": "Mark and Louisa Nosov",
+    "planning_center_settings_url": "https://groups.planningcenteronline.com/groups/1744407/settings",
+    "planning_center_url": "https://groups.planningcenteronline.com/groups/1744407",
+    "schedule": null,
+    "turnstile_site_key": "0x4AAAAAACpXPnew-rKWqJPn",
+    "unread_message_count": "0",
+    "virtual_location_url": null
+   },
+   "relationships": {
+    "group_type": {
+     "data": {
+      "type": "GroupType",
+      "id": "222818"
+     }
+    },
+    "location": {
+     "data": null
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/groups/v2/group_types/222818/groups/1744407"
+   }
+  },
+  {
+   "type": "Group",
+   "id": "1568410",
+   "attributes": {
+    "abilities": {},
+    "automated_event_reminder_defaults": {
+     "enabled": false,
+     "schedule_offset": null,
+     "options_for_select": [
+      {
+       "label": "1 day before",
+       "value": 86400
+      },
+      {
+       "label": "2 days before",
+       "value": 172800
+      },
+      {
+       "label": "3 days before",
+       "value": 259200
+      },
+      {
+       "label": "4 days before",
+       "value": 345600
+      },
+      {
+       "label": "5 days before",
+       "value": 432000
+      },
+      {
+       "label": "6 days before",
+       "value": 518400
+      },
+      {
+       "label": "7 days before",
+       "value": 604800
+      },
+      {
+       "label": "8 days before",
+       "value": 691200
+      },
+      {
+       "label": "9 days before",
+       "value": 777600
+      },
+      {
+       "label": "10 days before",
+       "value": 864000
+      }
+     ]
+    },
+    "calendar_subscription_links": [],
+    "calendar_subscription_url": null,
+    "can_contact": false,
+    "church_center_web_my_group_url": "https://springoflifechurch.churchcenter.com/my/groups/michael-and-anastasia-sagun",
+    "church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/michael-and-anastasia-sagun",
+    "default_event_rsvp_guests_enabled": false,
+    "default_event_rsvps_enabled": true,
+    "description": "<div>Alex &amp; Sam Example</div><div>Young Family Group</div><div>Meeting Day - Tuesday<br>Meeting City - Everett<br><br>Synthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.</div>",
+    "description_as_plain_text": "Alex & Sam ExampleYoung Family GroupMeeting Day - Tuesday\nMeeting City - Everett\n\nSynthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.",
+    "enrollment_localization": {
+     "enrollment_stategy": "request to join",
+     "enrollment_open": "open",
+     "enrollment_not_open": "closed"
+    },
+    "enrollment_open": true,
+    "enrollment_status": "open",
+    "enrollment_strategy": "request_to_join",
+    "header_image": {
+     "thumbnail": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568410/thumbnail_Image_1-8-22_at_1.18_PM.jpg",
+     "medium": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568410/medium_Image_1-8-22_at_1.18_PM.jpg",
+     "original": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568410/Image_1-8-22_at_1.18_PM.jpg"
+    },
+    "list_leader_names_publicly": true,
+    "location_type_preference": "physical",
+    "members_are_confidential": false,
+    "membership_availability": "Group is open",
+    "memberships_count": 5,
+    "name": "Michael and Anastasia Sagun",
+    "planning_center_settings_url": "https://groups.planningcenteronline.com/groups/1568410/settings",
+    "planning_center_url": "https://groups.planningcenteronline.com/groups/1568410",
+    "schedule": null,
+    "turnstile_site_key": "0x4AAAAAACpXPnew-rKWqJPn",
+    "unread_message_count": "0",
+    "virtual_location_url": null
+   },
+   "relationships": {
+    "group_type": {
+     "data": {
+      "type": "GroupType",
+      "id": "222818"
+     }
+    },
+    "location": {
+     "data": null
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/groups/v2/group_types/222818/groups/1568410"
+   }
+  },
+  {
+   "type": "Group",
+   "id": "1568405",
+   "attributes": {
+    "abilities": {},
+    "automated_event_reminder_defaults": {
+     "enabled": false,
+     "schedule_offset": null,
+     "options_for_select": [
+      {
+       "label": "1 day before",
+       "value": 86400
+      },
+      {
+       "label": "2 days before",
+       "value": 172800
+      },
+      {
+       "label": "3 days before",
+       "value": 259200
+      },
+      {
+       "label": "4 days before",
+       "value": 345600
+      },
+      {
+       "label": "5 days before",
+       "value": 432000
+      },
+      {
+       "label": "6 days before",
+       "value": 518400
+      },
+      {
+       "label": "7 days before",
+       "value": 604800
+      },
+      {
+       "label": "8 days before",
+       "value": 691200
+      },
+      {
+       "label": "9 days before",
+       "value": 777600
+      },
+      {
+       "label": "10 days before",
+       "value": 864000
+      }
+     ]
+    },
+    "calendar_subscription_links": [],
+    "calendar_subscription_url": null,
+    "can_contact": false,
+    "church_center_web_my_group_url": "https://springoflifechurch.churchcenter.com/my/groups/michael-verlan",
+    "church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/michael-verlan",
+    "default_event_rsvp_guests_enabled": false,
+    "default_event_rsvps_enabled": true,
+    "description": "<div>Meeting Day - Tuesday<br>Meeting City - Mukilteo (varies)<br><br>Synthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.</div>",
+    "description_as_plain_text": "Meeting Day - Tuesday\nMeeting City - Mukilteo (varies)\n\nSynthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.",
+    "enrollment_localization": {
+     "enrollment_stategy": "request to join",
+     "enrollment_open": "open",
+     "enrollment_not_open": "closed"
+    },
+    "enrollment_open": true,
+    "enrollment_status": "open",
+    "enrollment_strategy": "request_to_join",
+    "header_image": {
+     "thumbnail": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568405/thumbnail_photo_2022-01-08_12.17.44_2.jpeg",
+     "medium": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568405/medium_photo_2022-01-08_12.17.44_2.jpeg",
+     "original": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568405/photo_2022-01-08_12.17.44_2.jpeg"
+    },
+    "list_leader_names_publicly": false,
+    "location_type_preference": "physical",
+    "members_are_confidential": false,
+    "membership_availability": "Group is open",
+    "memberships_count": 3,
+    "name": "Michael Verlan",
+    "planning_center_settings_url": "https://groups.planningcenteronline.com/groups/1568405/settings",
+    "planning_center_url": "https://groups.planningcenteronline.com/groups/1568405",
+    "schedule": null,
+    "turnstile_site_key": "0x4AAAAAACpXPnew-rKWqJPn",
+    "unread_message_count": "0",
+    "virtual_location_url": null
+   },
+   "relationships": {
+    "group_type": {
+     "data": {
+      "type": "GroupType",
+      "id": "222818"
+     }
+    },
+    "location": {
+     "data": null
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/groups/v2/group_types/222818/groups/1568405"
+   }
+  },
+  {
+   "type": "Group",
+   "id": "1568415",
+   "attributes": {
+    "abilities": {},
+    "automated_event_reminder_defaults": {
+     "enabled": false,
+     "schedule_offset": null,
+     "options_for_select": [
+      {
+       "label": "1 day before",
+       "value": 86400
+      },
+      {
+       "label": "2 days before",
+       "value": 172800
+      },
+      {
+       "label": "3 days before",
+       "value": 259200
+      },
+      {
+       "label": "4 days before",
+       "value": 345600
+      },
+      {
+       "label": "5 days before",
+       "value": 432000
+      },
+      {
+       "label": "6 days before",
+       "value": 518400
+      },
+      {
+       "label": "7 days before",
+       "value": 604800
+      },
+      {
+       "label": "8 days before",
+       "value": 691200
+      },
+      {
+       "label": "9 days before",
+       "value": 777600
+      },
+      {
+       "label": "10 days before",
+       "value": 864000
+      }
+     ]
+    },
+    "calendar_subscription_links": [],
+    "calendar_subscription_url": null,
+    "can_contact": false,
+    "church_center_web_my_group_url": "https://springoflifechurch.churchcenter.com/my/groups/yuriy-velichko",
+    "church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/yuriy-velichko",
+    "default_event_rsvp_guests_enabled": false,
+    "default_event_rsvps_enabled": true,
+    "description": "<div>Meeting Day - Friday<br>Meeting City - Everett<br><br>Synthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.<br>A second line of synthetic text.</div>",
+    "description_as_plain_text": "Meeting Day - Friday\nMeeting City - Everett\n\nSynthetic bio text for tests: we read a passage together, talk about it over dinner and pray for each other.\nA second line of synthetic text.",
+    "enrollment_localization": {
+     "enrollment_stategy": "request to join",
+     "enrollment_open": "open",
+     "enrollment_not_open": "closed"
+    },
+    "enrollment_open": true,
+    "enrollment_status": "open",
+    "enrollment_strategy": "request_to_join",
+    "header_image": {
+     "thumbnail": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568415/thumbnail_photo_2022-01-08_12.43.08.jpeg",
+     "medium": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568415/medium_photo_2022-01-08_12.43.08.jpeg",
+     "original": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1568415/photo_2022-01-08_12.43.08.jpeg"
+    },
+    "list_leader_names_publicly": true,
+    "location_type_preference": "physical",
+    "members_are_confidential": false,
+    "membership_availability": "Group is open",
+    "memberships_count": 2,
+    "name": "Yuriy Velichko",
+    "planning_center_settings_url": "https://groups.planningcenteronline.com/groups/1568415/settings",
+    "planning_center_url": "https://groups.planningcenteronline.com/groups/1568415",
+    "schedule": null,
+    "turnstile_site_key": "0x4AAAAAACpXPnew-rKWqJPn",
+    "unread_message_count": "0",
+    "virtual_location_url": null
+   },
+   "relationships": {
+    "group_type": {
+     "data": {
+      "type": "GroupType",
+      "id": "222818"
+     }
+    },
+    "location": {
+     "data": null
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/groups/v2/group_types/222818/groups/1568415"
+   }
+  },
+  {
+   "type": "Group",
+   "id": "1477604",
+   "attributes": {
+    "abilities": {},
+    "automated_event_reminder_defaults": {
+     "enabled": false,
+     "schedule_offset": null,
+     "options_for_select": [
+      {
+       "label": "1 day before",
+       "value": 86400
+      },
+      {
+       "label": "2 days before",
+       "value": 172800
+      },
+      {
+       "label": "3 days before",
+       "value": 259200
+      },
+      {
+       "label": "4 days before",
+       "value": 345600
+      },
+      {
+       "label": "5 days before",
+       "value": 432000
+      },
+      {
+       "label": "6 days before",
+       "value": 518400
+      },
+      {
+       "label": "7 days before",
+       "value": 604800
+      },
+      {
+       "label": "8 days before",
+       "value": 691200
+      },
+      {
+       "label": "9 days before",
+       "value": 777600
+      },
+      {
+       "label": "10 days before",
+       "value": 864000
+      }
+     ]
+    },
+    "calendar_subscription_links": [],
+    "calendar_subscription_url": null,
+    "can_contact": false,
+    "church_center_web_my_group_url": "https://springoflifechurch.churchcenter.com/my/groups/cafe-sol",
+    "church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-service-ministries/cafe-sol",
+    "default_event_rsvp_guests_enabled": false,
+    "default_event_rsvps_enabled": true,
+    "description": null,
+    "description_as_plain_text": null,
+    "enrollment_localization": {
+     "enrollment_stategy": "request to join",
+     "enrollment_open": "open",
+     "enrollment_not_open": "closed"
+    },
+    "enrollment_open": true,
+    "enrollment_status": "open",
+    "enrollment_strategy": "request_to_join",
+    "header_image": {
+     "thumbnail": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1477604/thumbnail_image-1624902680487.jpg",
+     "medium": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1477604/medium_image-1624902680487.jpg",
+     "original": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1477604/image-1624902680487.jpg"
+    },
+    "list_leader_names_publicly": false,
+    "location_type_preference": "physical",
+    "members_are_confidential": false,
+    "membership_availability": "Group is open",
+    "memberships_count": 2,
+    "name": "Cafe SOL",
+    "planning_center_settings_url": "https://groups.planningcenteronline.com/groups/1477604/settings",
+    "planning_center_url": "https://groups.planningcenteronline.com/groups/1477604",
+    "schedule": null,
+    "unread_message_count": "0",
+    "virtual_location_url": null
+   },
+   "relationships": {
+    "group_type": {
+     "data": {
+      "type": "GroupType",
+      "id": "210826"
+     }
+    },
+    "location": {
+     "data": null
+    }
+   },
+   "links": {
+    "applications": "https://api.churchcenter.com/groups/v2/groups/1477604/applications",
+    "applications_jolt_channel": "https://api.churchcenter.com/groups/v2/groups/1477604/applications_jolt_channel",
+    "attendance_average": "https://api.churchcenter.com/groups/v2/groups/1477604/attendance_average",
+    "attendances": "https://api.churchcenter.com/groups/v2/groups/1477604/attendances",
+    "campuses": "https://api.churchcenter.com/groups/v2/groups/1477604/campuses",
+    "chat_conversation_payload": "https://api.churchcenter.com/groups/v2/groups/1477604/chat_conversation_payload",
+    "chat_status": "https://api.churchcenter.com/groups/v2/groups/1477604/chat_status",
+    "contact": "https://api.churchcenter.com/groups/v2/groups/1477604/contact",
+    "cross_app_events": "https://api.churchcenter.com/groups/v2/groups/1477604/cross_app_events",
+    "email": "https://api.churchcenter.com/groups/v2/groups/1477604/email",
+    "enroll": "https://api.churchcenter.com/groups/v2/groups/1477604/enroll",
+    "events": "https://api.churchcenter.com/groups/v2/groups/1477604/events",
+    "forum_topics": "https://api.churchcenter.com/groups/v2/groups/1477604/forum_topics",
+    "location": null,
+    "locations": "https://api.churchcenter.com/groups/v2/groups/1477604/locations",
+    "meeting_schedule": "https://api.churchcenter.com/groups/v2/groups/1477604/meeting_schedule",
+    "membership_attendances": "https://api.churchcenter.com/groups/v2/groups/1477604/membership_attendances",
+    "memberships": "https://api.churchcenter.com/groups/v2/groups/1477604/memberships",
+    "memberships_jolt_channel": "https://api.churchcenter.com/groups/v2/groups/1477604/memberships_jolt_channel",
+    "my_digest_subscription": "https://api.churchcenter.com/groups/v2/groups/1477604/my_digest_subscription",
+    "my_membership": "https://api.churchcenter.com/groups/v2/groups/1477604/my_membership",
+    "my_messaging_status": "https://api.churchcenter.com/groups/v2/groups/1477604/my_messaging_status",
+    "my_shared_attributes": "https://api.churchcenter.com/groups/v2/groups/1477604/my_shared_attributes",
+    "non_member_group_summary": "https://api.churchcenter.com/groups/v2/groups/1477604/non_member_group_summary",
+    "resources": "https://api.churchcenter.com/groups/v2/groups/1477604/resources",
+    "rsvp_responses": "https://api.churchcenter.com/groups/v2/groups/1477604/rsvp_responses",
+    "set_shared_person_attributes": "https://api.churchcenter.com/groups/v2/groups/1477604/set_shared_person_attributes",
+    "subscribe_to_calendar": "https://api.churchcenter.com/groups/v2/groups/1477604/subscribe_to_calendar",
+    "tags": "https://api.churchcenter.com/groups/v2/groups/1477604/tags",
+    "topic_for_episode": "https://api.churchcenter.com/groups/v2/groups/1477604/topic_for_episode",
+    "self": "https://api.churchcenter.com/groups/v2/groups/1477604"
+   }
+  }
+ ],
+ "included": [],
+ "meta": {
+  "total_count": 7,
+  "count": 7,
+  "can_order_by": [
+   "name"
+  ],
+  "can_query_by": [
+   "name",
+   "tags"
+  ],
+  "can_include": [
+   "campuses",
+   "location",
+   "meeting_schedule",
+   "my_digest_subscription",
+   "rsvp_responses"
+  ],
+  "can_filter": [
+   "default",
+   "enrollment",
+   "campus",
+   "tag"
+  ],
+  "parent": {
+   "id": "222818",
+   "type": "GroupType"
+  }
+ },
+ "_note": "Test fixture in the shape of Church Center /groups/v2/group_types/222818/groups (7 English Life Groups, captured 2026-10-01) plus one English Service Ministries group (type 210826) to prove the type filter. The descriptions keep the leaders' header lines (meeting day, city, group type) verbatim; the bios after them are replaced with SYNTHETIC text, and the one name line is a made-up name."
+}

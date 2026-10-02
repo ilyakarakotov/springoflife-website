@@ -1,0 +1,186 @@
+# Pulls Planning Center data every 30 minutes and commits ONLY when something changed; a data
+# commit then starts "Build and deploy". See README "The sync" and "When something fails".
+#
+# INACTIVE until a repo admin sets the repository variable SITE_AUTOMATION_ENABLED = true.
+#
+# Secrets:   PCO_APP_ID, PCO_SECRET (Personal Access Token, for SYNC_ADAPTER=pco)
+#            HC_PING_URL (Healthchecks.io check; strongly recommended, see README)
+# Variables: SYNC_ADAPTER            "pco" (default, production) or "churchcenter" (prototype)
+#            ALLOW_PROTOTYPE_ADAPTER "1" is required to run the churchcenter prototype here
+#            PCO_WEBSITE_CATEGORY_ID, PCO_LIFE_GROUP_TYPE_ID (defaults 111199, 222818)
+#            SITE_URL                used in the calendar feed and the weekly digest
+#            ALERT_MENTIONS          optional "@owner1 @owner2" for the failure issue
+#
+# 60-day rule: in a PUBLIC repository GitHub disables scheduled workflows after 60 days without
+# any repository activity (a quiet summer with no Planning Center changes means no bot commits).
+# The weekly "keepalive" job below re-enables this workflow through the API, which keeps the
+# schedule alive without dummy commits. GitHub also emails the repo admins before it disables a
+# schedule; if it happens anyway: Actions → Sync Planning Center → "Enable workflow".
+name: Sync Planning Center
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'   # every 30 min, off the top of the hour (GitHub delays :00 jobs)
+    - cron: '23 16 * * 1'    # weekly (Mondays): also runs the keepalive job
+  workflow_dispatch:          # "Run workflow" button = sync now
+    inputs:
+      allow_empty:
+        description: 'Accept an empty events or groups list (only when it is real, e.g. every event was untagged)'
+        type: boolean
+        default: false
+
+permissions: {}               # every job asks for exactly what it needs
+
+concurrency:
+  group: sync                 # one sync at a time
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: vars.SITE_AUTOMATION_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write   # commit the synced data (only the commit step gets the token)
+      actions: write    # start the deploy workflow after a data commit
+    outputs:
+      previous_failed: ${{ steps.previous.outputs.failed }}
+    env:
+      HC_PING_URL: ${{ secrets.HC_PING_URL }}
+    steps:
+      - name: Tell Healthchecks the sync started
+        if: env.HC_PING_URL != ''
+        run: curl -fsS -m 10 --retry 3 "$HC_PING_URL/start" || true
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false   # no write token on disk while dependencies are installed and run
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --ignore-scripts   # the sync only needs htmlparser2 and yaml
+
+      # A partial failure (one feed or image) still writes the parts that worked, so this step may
+      # fail and the commit still runs. The job is marked failed at the end.
+      - name: Sync from Planning Center
+        id: sync
+        continue-on-error: true
+        env:
+          SYNC_ADAPTER: ${{ vars.SYNC_ADAPTER || 'pco' }}
+          ALLOW_PROTOTYPE_ADAPTER: ${{ vars.ALLOW_PROTOTYPE_ADAPTER }}
+          PCO_APP_ID: ${{ secrets.PCO_APP_ID }}
+          PCO_SECRET: ${{ secrets.PCO_SECRET }}
+          PCO_WEBSITE_CATEGORY_ID: ${{ vars.PCO_WEBSITE_CATEGORY_ID || '111199' }}
+          PCO_LIFE_GROUP_TYPE_ID: ${{ vars.PCO_LIFE_GROUP_TYPE_ID || '222818' }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://springoflifechurch.com' }}
+          SYNC_ALLOW_EMPTY: ${{ inputs.allow_empty && '1' || '' }}
+        run: npm run sync
+
+      - name: Put the weekly digest draft in the run summary (copy it from there)
+        if: always() && hashFiles('out/weekly-digest.md') != ''
+        run: cat out/weekly-digest.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Keep the digest as a download (Saturdays and manual runs only)
+        id: weekday
+        run: echo "dow=$(TZ=America/Los_Angeles date +%u)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always() && hashFiles('out/weekly-digest.md') != '' && (github.event_name == 'workflow_dispatch' || steps.weekday.outputs.dow == '6')
+        with:
+          name: weekly-digest
+          path: out/weekly-digest.md
+          retention-days: 14
+          overwrite: true
+
+      - name: Commit if anything changed
+        id: commit
+        if: always() && steps.sync.outcome != 'skipped'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git add src/data src/assets/sync public/events.ics
+          if git diff --cached --quiet; then
+            echo "No changes."; echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          git -c user.name="sol-sync-bot" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "sync: Planning Center data $(date -u +%Y-%m-%dT%H:%MZ)"
+          # The token is used only here, and removed again right after the push.
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git pull --rebase --autostash
+          git push
+          git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # Pushes made with GITHUB_TOKEN don't trigger other workflows, so start the deploy explicitly.
+      - name: Rebuild and deploy the site
+        if: always() && steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REF: ${{ github.ref_name }}
+        run: gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref "$REF"
+
+      - name: Fail the run if the sync failed (the parts that worked were committed above)
+        if: steps.sync.outcome == 'failure'
+        run: |
+          echo "::error::The sync failed or was partial. Open the 'Sync from Planning Center' step and read the SYNC FAILED / SYNC PARTIAL message (README: When something fails)."
+          exit 1
+
+      # Lets the report job run only on a failure or right after one (not on every green run).
+      - name: Was the previous run red?
+        id: previous
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          last=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow sync.yml --limit 5 --json databaseId,conclusion \
+            --jq "[.[] | select(.databaseId != ${GITHUB_RUN_ID} and .conclusion != \"\")][0].conclusion" || true)
+          echo "failed=$([ "$last" = "failure" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Tell Healthchecks how it went
+        if: always() && env.HC_PING_URL != ''
+        run: curl -fsS -m 10 --retry 3 "$HC_PING_URL/${{ job.status == 'success' && '0' || 'fail' }}" || true
+
+  # Weekly: keep the 30-minute schedule from being disabled by GitHub's 60-day rule (public repos).
+  keepalive:
+    if: vars.SITE_AUTOMATION_ENABLED == 'true' && github.event_name == 'schedule' && github.event.schedule == '23 16 * * 1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+    steps:
+      - name: Re-enable the scheduled workflows
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for wf in sync.yml deploy.yml; do
+            gh api -X PUT "repos/${GITHUB_REPOSITORY}/actions/workflows/${wf}/enable" && echo "enabled ${wf}"
+          done
+
+  # A failed sync opens (or comments on) one GitHub issue, so the repository's watchers get an
+  # email; the next successful sync closes it. Green runs after green runs skip this job.
+  report:
+    needs: sync
+    if: always() && (needs.sync.result == 'failure' || (needs.sync.result == 'success' && needs.sync.outputs.previous_failed == 'true'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      FAILED: ${{ needs.sync.result == 'failure' }}
+      TITLE: 'Planning Center sync is failing'
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      MENTIONS: ${{ vars.ALERT_MENTIONS }}
+    steps:
+      - name: Open, update or close the alert issue
+        run: |
+          gh label create site-alert --color B60205 --description "Automated alert from GitHub Actions" --force >/dev/null
+          open=$(gh issue list --label site-alert --state open --json number,title --jq ".[] | select(.title == \"$TITLE\") | .number" | head -1)
+          if [ "$FAILED" = "true" ]; then
+            body="The **Sync Planning Center** run failed: $RUN_URL
+
+          Open the run, then the step \"Sync from Planning Center\", and read the line that starts with SYNC FAILED or SYNC PARTIAL. README \"When something fails\" says what each message means. The site keeps its last good data. ${MENTIONS}"
+            if [ -n "$open" ]; then gh issue comment "$open" --body "$body"; else gh issue create --title "$TITLE" --label site-alert --body "$body"; fi
+          elif [ -n "$open" ]; then
+            gh issue close "$open" --comment "Fixed: $RUN_URL succeeded."
+          fi

@@ -1,0 +1,134 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../lib/content';
+import { href, pagePath } from '../lib/url';
+
+interface Props { overlay?: boolean }
+const { overlay = false } = Astro.props;
+const path = pagePath(Astro.url.pathname);
+const nav = [
+  { href: '/visit', label: 'Visit' },
+  { href: '/about', label: 'About' },
+  { href: '/ministries', label: 'Ministries', also: ['/life-groups'] },
+  { href: '/watch', label: 'Watch' },
+  { href: '/events', label: 'Events' },
+  { href: '/next-steps', label: 'Next Steps' },
+  { href: '/give', label: 'Give' },
+];
+const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.also ?? []).includes(path);
+---
+<header class:list={['site-header', { 'site-header--overlay': overlay }]} data-header>
+  <div class="wrap header-row">
+    <a class="brand" href={href('/')}>
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text"><b>Spring of Life</b> <span>Church</span></span>
+    </a>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        {nav.map((item) => (
+          <li><a href={href(item.href)} aria-current={isCurrent(item) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+      <a class="btn btn--primary nav-cta" href={href('/visit')}>Plan a visit</a>
+    </nav>
+    <div class="header-actions">
+      <a class="lang" href={site.links.russian_site} hreflang="ru" lang="ru" title="Русский сайт церкви">
+        <Icon name="globe" /><span class="lang-full">Русский</span><span class="lang-short">RU</span>
+      </a>
+      <a class:list={['btn btn--sm header-cta', overlay ? 'btn--light' : 'btn--dark']} href={href('/visit')}>Plan a visit</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-btn>
+        <Icon name="menu" class="i-open" /><Icon name="close" class="i-close" />
+        <span class="visually-hidden">Menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Phone menu. Without JavaScript the toggle is hidden and the links show as a plain list
+  // (@media (scripting: none) below). While the menu is open:
+  //   - focus moves to the first link, Escape closes it and returns focus to the toggle;
+  //   - the skip link, <main> and <footer> are inert, so Tab stays in the header and screen
+  //     readers don't wander into the page behind the menu;
+  //   - the page behind doesn't scroll.
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+  const nav = document.getElementById('site-nav');
+  if (header && btn && nav) {
+    const isOpen = () => header.hasAttribute('data-open');
+    const set = (open: boolean, { returnFocus = false } = {}) => {
+      if (open === isOpen()) return;
+      header.toggleAttribute('data-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+      for (const el of document.querySelectorAll<HTMLElement>('.skip-link, main, footer')) el.inert = open;
+      if (open) nav.querySelector<HTMLElement>('a')?.focus();
+      else if (returnFocus) btn.focus();
+    };
+    btn.addEventListener('click', () => set(!isOpen()));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen()) { e.preventDefault(); set(false, { returnFocus: true }); }
+    });
+    // A link to a section of the current page (e.g. /ministries/#kids) must close the menu.
+    nav.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) set(false); });
+    matchMedia('(min-width: 1080px)').addEventListener('change', (e) => { if (e.matches) set(false); });
+  }
+</script>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 92%, transparent); -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--border); color: var(--text); }
+  .site-header--overlay { position: absolute; inset: 0 0 auto; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; border-bottom: 0; color: #fff; }
+  /* A backdrop-filter makes the header the containing block for position:fixed children, which
+     squeezed the open phone menu into the 72px header on every inner page. No filter while open. */
+  .site-header[data-open] { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--bg); }
+  .header-row { display: flex; align-items: center; gap: 1rem; min-height: 72px; }
+  .site-header--overlay .header-row { min-height: 88px; }
+
+  .brand { display: inline-flex; align-items: center; gap: 0.65rem; text-decoration: none; color: inherit; margin-right: auto; }
+  .brand-mark { width: 38px; height: 38px; flex: none; background: currentColor; -webkit-mask: url('../assets/brand/mark.png') center / contain no-repeat; mask: url('../assets/brand/mark.png') center / contain no-repeat; }
+  .brand-text { display: flex; flex-direction: column; line-height: 1; text-transform: uppercase; }
+  .brand-text b { font-size: 1.12rem; font-weight: 800; letter-spacing: 0.01em; }
+  .brand-text span { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.32em; margin-top: 4px; opacity: 0.9; }
+
+  .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+  .lang { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; padding: 0 0.6rem; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 0.92rem; color: inherit; }
+  .lang:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+  .lang-short { display: none; }
+  .menu-btn { display: none; width: 48px; height: 48px; border-radius: 999px; border: 0; background: transparent; color: inherit; cursor: pointer; align-items: center; justify-content: center; }
+  .menu-btn :global(.icon) { width: 26px; height: 26px; }
+  .menu-btn :global(.i-close), [data-open] .menu-btn :global(.i-open) { display: none; }
+  [data-open] .menu-btn :global(.i-close) { display: block; }
+
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.25rem; }
+  .nav a:not(.btn) { display: block; padding: 0.55rem 0.8rem; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.97rem; color: inherit; opacity: 0.92; }
+  .nav a:not(.btn):hover { opacity: 1; background: color-mix(in srgb, currentColor 9%, transparent); }
+  .nav a[aria-current='page'] { opacity: 1; background: color-mix(in srgb, currentColor 10%, transparent); }
+  .nav-cta { display: none; }
+
+  @media (max-width: 1079.98px) {
+    .menu-btn { display: inline-flex; }
+    .header-cta, .lang-full { display: none; }
+    .lang-short { display: inline; }
+    .lang :global(.icon) { display: none; }
+    .lang { width: 44px; justify-content: center; padding: 0; background: color-mix(in srgb, currentColor 14%, transparent); }
+    .nav { display: none; }
+    [data-open] .nav {
+      display: flex; flex-direction: column; gap: 1.25rem; position: fixed; inset: 72px 0 0; z-index: 49; padding: 1.25rem var(--gutter) 2rem;
+      background: var(--bg); color: var(--text); overflow-y: auto; border-top: 1px solid var(--border);
+    }
+    .site-header--overlay[data-open] { background: var(--bg); color: var(--text); }
+    .site-header--overlay[data-open] .header-row { min-height: 72px; }
+    [data-open] .nav ul { flex-direction: column; gap: 0; }
+    [data-open] .nav a:not(.btn) { font-size: 1.5rem; font-weight: 800; padding: 0.7rem 0; border-radius: 0; border-bottom: 1px solid var(--border); }
+    [data-open] .nav a[aria-current='page'] { background: none; color: var(--accent-text); }
+    [data-open] .nav-cta { display: inline-flex; }
+  }
+  @media (max-width: 380px) { .brand-text b { font-size: 1rem; } .brand-mark { width: 34px; height: 34px; } }
+  /* No JavaScript: no toggle; the links wrap under the logo instead. */
+  @media (scripting: none) and (max-width: 1079.98px) {
+    .menu-btn { display: none; }
+    .header-row { flex-wrap: wrap; padding-bottom: 0.5rem; }
+    .nav { display: block; order: 3; flex-basis: 100%; }
+    .nav ul { flex-wrap: wrap; gap: 0 0.1rem; margin-left: -0.8rem; }
+  }
+</style>

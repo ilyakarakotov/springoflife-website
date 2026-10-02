@@ -1,0 +1,114 @@
+[
+  {
+    "id": "1744406",
+    "title": "Daniel and Sarra Kulik",
+    "schedule": "Tuesdays, 7:00 pm",
+    "area": "Mukilteo and Kirkland",
+    "audience": null,
+    "virtual": false,
+    "enrollment": {
+      "status": "open",
+      "strategy": "request_to_join"
+    },
+    "image": "group-1744406-d46922edb74f.jpg",
+    "url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/daniel-and-sarra-kulik",
+    "updated_at": null,
+    "source": "churchcenter"
+  },
+  {
+    "id": "1568408",
+    "title": "Eduard and Alena Yarin",
+    "schedule": "Fridays",
+    "area": "Everett",
+    "audience": null,
+    "virtual": false,
+    "enrollment": {
+      "status": "open",
+      "strategy": "request_to_join"
+    },
+    "image": "group-1568408-bb05a277bf6e.jpg",
+    "url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/eduard-and-alena-yarin",
+    "updated_at": null,
+    "source": "churchcenter"
+  },
+  {
+    "id": "1570021",
+    "title": "Ivan and Sveta Ryakhovskiy",
+    "schedule": "Tuesdays",
+    "area": "Monroe",
+    "audience": null,
+    "virtual": false,
+    "enrollment": {
+      "status": "open",
+      "strategy": "request_to_join"
+    },
+    "image": null,
+    "url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/ivan-and-sveta-ryakhovskiy",
+    "updated_at": null,
+    "source": "churchcenter"
+  },
+  {
+    "id": "1744407",
+    "title": "Mark and Louisa Nosov",
+    "schedule": "Tuesdays, 7:00 pm",
+    "area": "Everett and Mukilteo",
+    "audience": null,
+    "virtual": false,
+    "enrollment": {
+      "status": "open",
+      "strategy": "request_to_join"
+    },
+    "image": "group-1744407-238ba56fa84b.jpg",
+    "url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/mark-and-louisa-nosov",
+    "updated_at": null,
+    "source": "churchcenter"
+  },
+  {
+    "id": "1568410",
+    "title": "Michael and Anastasia Sagun",
+    "schedule": "Tuesdays",
+    "area": "Everett",
+    "audience": "young family",
+    "virtual": false,
+    "enrollment": {
+      "status": "open",
+      "strategy": "request_to_join"
+    },
+    "image": "group-1568410-c0a0ba39ae2e.jpg",
+    "url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/michael-and-anastasia-sagun",
+    "updated_at": null,
+    "source": "churchcenter"
+  },
+  {
+    "id": "1568405",
+    "title": "Michael Verlan",
+    "schedule": "Tuesdays",
+    "area": "Mukilteo (location varies)",
+    "audience": null,
+    "virtual": false,
+    "enrollment": {
+      "status": "open",
+      "strategy": "request_to_join"
+    },
+    "image": "group-1568405-a16e0f7e25a9.jpg",
+    "url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/michael-verlan",
+    "updated_at": null,
+    "source": "churchcenter"
+  },
+  {
+    "id": "1568415",
+    "title": "Yuriy Velichko",
+    "schedule": "Fridays",
+    "area": "Everett",
+    "audience": null,
+    "virtual": false,
+    "enrollment": {
+      "status": "open",
+      "strategy": "request_to_join"
+    },
+    "image": "group-1568415-c62c65285e48.jpg",
+    "url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/yuriy-velichko",
+    "updated_at": null,
+    "source": "churchcenter"
+  }
+]

@@ -1,0 +1,67 @@
+---
+import { getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site, img, forms } from '../lib/content';
+
+const page = await getEntry('pages', 'visit');
+if (!page) throw new Error('src/content/pages/visit.md is missing');
+const { Content } = await render(page);
+const building = img('/src/assets/photos/building.jpg');
+---
+<Base title={page.data.title} description={page.data.description} image={building}>
+  <section class="page-hero">
+    <div class="wrap visit-hero">
+      <div>
+        <span class="eyebrow">Plan your visit</span>
+        <h1>We'd love to meet you</h1>
+        <p class="lead">{page.data.intro}</p>
+        <div class="facts">
+          <div><Icon name="clock" /><span><b>Every {site.service.day} at {site.service.time}</b><small>{site.service.length}</small></span></div>
+          <div><Icon name="pin" /><span><b>{site.address.street}</b><small>{site.address.city}, {site.address.region} {site.address.postal_code}</small></span></div>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={site.address.maps_url} target="_blank" rel="noopener">Get directions</a>
+          <a class="btn btn--outline" href={forms.connect} target="_blank" rel="noopener">Let us know you're coming</a>
+        </div>
+      </div>
+      <Image src={building} alt="The Spring of Life Church building on 116th St SW in Mukilteo" widths={[480, 720]} width={720} sizes="(min-width: 960px) 40vw, 100vw" class="visit-img" loading="eager" />
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap visit-body">
+      <article class="prose"><Content /></article>
+      <aside class="card contact" id="contact">
+        <h2>Contact us</h2>
+        <ul>
+          <li><Icon name="phone" /><a href={`tel:${site.phone.replace(/[^\d+]/g, '')}`}>{site.phone}</a></li>
+          <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><Icon name="card" /><a href={forms.connect} target="_blank" rel="noopener">Fill out a connect card</a></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .visit-hero { display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 960px) { .visit-hero { grid-template-columns: 1.2fr 1fr; } }
+  .visit-hero :global(.visit-img) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); }
+  .facts { display: grid; gap: 14px; margin: 1.75rem 0 1.5rem; }
+  @media (min-width: 560px) { .facts { grid-template-columns: 1fr 1fr; } }
+  .facts > div { display: flex; gap: 0.75rem; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; }
+  .facts :global(.icon) { color: var(--accent-text); width: 22px; height: 22px; margin-top: 2px; }
+  .facts span { display: grid; }
+  .facts small { color: var(--muted); }
+  .page-hero .btn-row { margin-top: 0; }
+  .visit-body { display: grid; gap: 28px; }
+  @media (min-width: 960px) { .visit-body { grid-template-columns: 1.6fr 1fr; align-items: start; } }
+  .contact { padding: clamp(20px, 3vw, 30px); scroll-margin-top: 96px; }
+  .contact h2 { font-size: var(--step-1); }
+  .contact ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+  .contact li { display: flex; gap: 0.6rem; align-items: center; }
+  .contact :global(.icon) { color: var(--accent-text); }
+  .contact a { color: var(--text); font-weight: 600; text-underline-offset: 3px; overflow-wrap: anywhere; }
+</style>

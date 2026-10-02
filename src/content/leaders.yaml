@@ -1,0 +1,33 @@
+# Leadership team (About page). Names, roles and photos come from the current site's Leadership page.
+# Order here is the order on the page. Photos live in src/assets/leaders/.
+leaders:
+  - name: Pavel Belev
+    role: Senior Pastor
+    photo: /src/assets/leaders/pavel-belev.jpg
+  - name: Igor Karabut
+    role: English Ministry Pastor
+    photo: /src/assets/leaders/igor-karabut.jpg
+  - name: Andrey Shuvarikov
+    role: Associate Pastor
+    photo: /src/assets/leaders/andrey-shuvarikov.jpg
+  - name: Sergiy Titarchuk
+    role: Next Generation Pastor
+    photo: /src/assets/leaders/sergiy-titarchuk.jpg
+  - name: Yuriy Kryvoshey
+    role: Small Group Pastor
+    photo: /src/assets/leaders/yuriy-kryvoshey.jpg
+  - name: Vladimir Usenko
+    role: Pastor
+    photo: /src/assets/leaders/vladimir-usenko.jpg
+  - name: Tim Karpenko
+    role: Men's Ministry Pastor
+    photo: /src/assets/leaders/tim-karpenko.jpg
+  - name: Michael Sagun
+    role: Youth Leader
+    photo: /src/assets/leaders/michael-sagun.jpg
+  - name: Viktor Avdeyev
+    role: Elder
+    photo: /src/assets/leaders/viktor-avdeyev.jpg
+  - name: Viktor Glinkin
+    role: Elder
+    photo: /src/assets/leaders/viktor-glinkin.jpg

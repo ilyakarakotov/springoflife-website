@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import EventCard from '../components/EventCard.astro';
+import EventsEmpty from '../components/EventsEmpty.astro';
+import { site, events, ministries } from '../lib/content';
+import { href } from '../lib/url';
+
+const ongoing = ministries.filter((m) => m.signup_id);
+---
+<Base title="Events" description="Upcoming events at Spring of Life Church in Mukilteo, WA. Register on Church Center.">
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Events</span>
+      <h1>What's happening</h1>
+      <p class="lead">Upcoming events at Spring of Life Church. Registration and payment happen on Church Center, our Planning Center site.</p>
+      <div class="btn-row">
+        <a class="btn btn--outline btn--sm" href={href('/events.ics')}><Icon name="calendar" />Add to your calendar</a>
+        <a class="btn btn--outline btn--sm" href={site.links.signups} target="_blank" rel="noopener">All signups on Church Center <Icon name="external" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap events-list" data-events-count={events.length}>
+      {events.length === 0 ? <EventsEmpty /> : events.map((e, i) => <EventCard event={e} layout="wide" headingLevel="h2" eager={i === 0} />)}
+      <p class="notice"><Icon name="refresh" />This list updates automatically from Planning Center.</p>
+    </div>
+  </section>
+
+  <section class="section section--soft section--tight">
+    <div class="wrap">
+      <h2 class="h3">Looking for a weekly program?</h2>
+      <p class="muted">Ongoing ministries have their own pages, with a link to this year's registration.</p>
+      <ul class="ongoing">
+        {ongoing.map((m) => <li><a class="chip" href={href(`/ministries#${m.id}`)}>{m.title}</a></li>)}
+        <li><a class="chip" href={href('/life-groups')}>Life Groups</a></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .events-list { display: grid; gap: 20px; }
+  .h3 { font-size: var(--step-2); }
+  .ongoing { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .ongoing .chip { padding: 0.5rem 0.9rem; font-size: 0.92rem; text-decoration: none; }
+  .ongoing .chip:hover { border-color: var(--text); }
+</style>

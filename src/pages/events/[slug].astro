@@ -1,0 +1,121 @@
+---
+// One page per website event (Google: "each event must have a unique URL ... and markup on that
+// URL"). Built from the synced feed; it disappears with the event. Registration and payment stay
+// on Church Center. Layout is deliberately plain (Stage 2 designs it).
+import { Picture, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { events, site, buildTime, type SyncedEvent } from '../../lib/content';
+import { eventSlug, eventPath, registrationStatus, registrationLabel } from '../../lib/events.mjs';
+import { formatDateLabel, formatTimeLabel, formatRange } from '../../lib/time.mjs';
+import { eventJsonLd } from '../../lib/jsonld';
+import { syncedImage, CARD_WIDTHS } from '../../lib/media';
+import { href, absoluteUrl, absoluteAsset } from '../../lib/url';
+
+export function getStaticPaths() {
+  return events.map((event) => ({ params: { slug: eventSlug(event) }, props: { event } }));
+}
+
+interface Props { event: SyncedEvent }
+const { event: e } = Astro.props;
+const image = syncedImage(e.image);
+const pageUrl = absoluteUrl(eventPath(e));
+// Same transform as the social preview in Base.astro, so it's one file.
+const jsonImage = image ? await getImage({ src: image, width: image.width, height: image.height, fit: 'cover', format: 'jpg', quality: 80 }) : null;
+const state = registrationStatus(e, buildTime);
+const status = registrationLabel(e, buildTime);
+const dateLabel = formatDateLabel(e);
+const timeLabel = formatTimeLabel(e);
+const isChurch = Boolean(e.location?.address && e.location.address.includes(site.address.street));
+const placeName = e.location?.name || (isChurch ? site.name : null);
+const address = e.location?.type === 'online' ? null : e.location?.address ?? null;
+const mapUrl = isChurch ? site.address.maps_url : address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : null;
+const online = e.location?.type === 'online';
+
+// Search snippet: when, where, then the organizer's own first sentence; at most ~160 characters.
+const lead = [formatRange(e), placeName && `at ${placeName}`].filter(Boolean).join(' ');
+const rawDescription = `${lead}. ${e.summary || `An event at ${site.name}.`}`;
+const description = rawDescription.length <= 160 ? rawDescription : `${rawDescription.slice(0, 157).replace(/\s+\S*$/, '')}…`;
+const ext = { target: '_blank', rel: 'noopener' };
+---
+<Base title={e.title} description={description} image={image ?? undefined}
+  jsonLd={eventJsonLd(e, { pageUrl, imageUrl: jsonImage ? absoluteAsset(jsonImage.src) : null })}>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="back"><a class="text-link" href={href('/events')}><Icon name="arrow" class="flip" />All events</a></p>
+      <span class="eyebrow">Event</span>
+      <h1>{e.title}</h1>
+      <ul class="facts">
+        <li><Icon name="calendar" /><span>{dateLabel}</span></li>
+        {timeLabel && <li><Icon name="clock" /><span>{timeLabel}</span></li>}
+        {placeName && <li><Icon name="pin" /><span>{placeName}{address && !isChurch ? `, ${address}` : ''}</span></li>}
+        {online && <li><Icon name="globe" /><span>Online (link on Church Center after you register)</span></li>}
+      </ul>
+      <div class="event-chips">
+        {e.price && <span class="chip">{e.price.label}</span>}
+        {status && <span class="chip">{status}</span>}
+      </div>
+      <div class="btn-row">
+        {state === 'open' && <a class="btn btn--primary" href={e.register_url} {...ext}>Register<span class="visually-hidden"> for {e.title}</span> on Church Center <Icon name="external" /></a>}
+        <a class:list={['btn', state === 'open' ? 'btn--outline' : 'btn--primary']} href={e.details_url} {...ext}>
+          {state === 'open' ? 'Details on Church Center' : 'See it on Church Center'} <Icon name="external" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap event-page">
+      <div class="event-main">
+        {image && (
+          <Picture src={image} alt="" widths={CARD_WIDTHS} sizes="(min-width: 1240px) 760px, (min-width: 960px) 60vw, 100vw"
+            formats={['avif', 'webp']} loading="eager" fetchpriority="high" class="media-16x9 event-img" />
+        )}
+        {e.description_html
+          ? <div class="prose" set:html={e.description_html} />
+          : <p class="muted">Details are on Church Center.</p>}
+      </div>
+      <aside class="event-side">
+        {e.more_times.length > 0 && (
+          <div class="card side">
+            <h2 class="h3">All dates</h2>
+            <ul class="dates">
+              {[e, ...e.more_times].map((t) => <li>{formatRange(t)}</li>)}
+            </ul>
+          </div>
+        )}
+        {(placeName || address) && (
+          <div class="card side">
+            <h2 class="h3">Where</h2>
+            {placeName && <p class="place">{placeName}</p>}
+            {address && <p class="muted">{address}</p>}
+            {mapUrl && <a class="text-link" href={mapUrl} {...ext}>Get directions <Icon name="external" /></a>}
+          </div>
+        )}
+        <div class="card side">
+          <h2 class="h3">Questions?</h2>
+          <p class="muted">Registration, payment and any changes happen on Church Center, our Planning Center site.</p>
+          <a class="text-link" href={href('/events.ics')}>Add all church events to your calendar <Icon name="calendar" /></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .back { margin: 0 0 1.25rem; }
+  .back :global(.flip) { transform: scaleX(-1); }
+  .facts { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: 0.4rem; font-weight: 600; color: var(--text-2); }
+  .facts li { display: flex; gap: 0.5rem; align-items: flex-start; }
+  .facts :global(.icon) { margin-top: 0.25em; color: var(--accent-text); }
+  .event-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .event-chips:empty { display: none; }
+  .event-page { display: grid; gap: 24px; }
+  @media (min-width: 960px) { .event-page { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; } }
+  .event-main :global(.event-img) { border-radius: var(--radius); margin-bottom: 1.5rem; }
+  .event-side { display: grid; gap: 16px; }
+  .side { padding: clamp(20px, 3vw, 28px); }
+  .h3 { font-size: var(--step-1); }
+  .place { font-weight: 700; margin-bottom: 0.25rem; }
+  .dates { margin: 0; padding-left: 1.1em; color: var(--text-2); }
+</style>

@@ -1,0 +1,12 @@
+# Life Groups page: per-group exceptions. Everything else on a group card comes from Planning
+# Center Groups automatically (meeting day and time, area, and the "Request to join" link).
+#
+# id     the group's number from its Planning Center address
+#        (https://groups.planningcenteronline.com/groups/1570021 -> "1570021")
+# image  none                 show the neutral placeholder instead of the group's PCO header image
+#        /src/assets/....jpg  show this church photo instead (real photos only)
+# note   why the override exists (not shown on the site)
+groups:
+  - id: "1570021"
+    image: none
+    note: The PCO header image is the building entrance with the old "Slavic Baptist Church" sign.

@@ -1,0 +1,835 @@
+{
+ "links": {
+  "self": "https://api.churchcenter.com/registrations/v2/events?filter=unarchived%2Cpublished&include=categories%2Cevent_location%2Cevent_times&order=starts_at&per_page=100"
+ },
+ "data": [
+  {
+   "type": "Event",
+   "id": "3894463",
+   "attributes": {
+    "active_registration_count": 0,
+    "allow_ach_payments": false,
+    "allow_credit_card_payments": true,
+    "allow_minimum_deposits": false,
+    "allow_offline_payments": false,
+    "allow_registrants_to_cancel": true,
+    "allowed_registrations": "any",
+    "any_attendee_types_have_capacity": false,
+    "archived": false,
+    "archived_on": null,
+    "at_maximum_capacity": false,
+    "can_register_household_members": true,
+    "can_register_outside_members": true,
+    "close_at": null,
+    "closed": false,
+    "created_at": "2026-09-16T02:07:33Z",
+    "currency": "$",
+    "current_registration_id": null,
+    "current_registration_url": null,
+    "current_visibility": "listed",
+    "description": "<div><p><strong>Parenting is a gift, and it was never meant to be done alone.</strong></p><p>As a church, we believe the family is one of God’s most foundational institutions, created for His glory and designed to reflect His truth. Yet, we know the world is pressing hard against God’s design for the family. As parents, you are on the front lines, but you are not fighting alone. Our Family Ministries team desires to stand alongside you, build a supportive community, and strengthen our church, one family at a time.</p><p>Join us for an evening of biblical wisdom, honest conversation, and practical encouragement as we seek God’s direction for raising children with purpose, grace, and conviction.</p><p><strong>Evening Schedule &amp; Program</strong></p><ul><li><strong>Session 1: Biblical Teaching &amp; Encouragement<br></strong>We will open with a scripture-based message on what it means to raise children intentionally in a godly home. Grounded in biblical truth and shaped by grace, this session will offer encouragement and practical insights for navigating the daily joys and challenges of family life.</li><li><strong>Session 2: Live Q&amp;A Session<br></strong>Following the teaching, we will host a live Q&amp;A session addressing the real issues, questions, and concerns facing families today.</li></ul><p><strong>We Want to Hear From You: Poll &amp; Q&amp;A Submission</strong></p><p>To help us address the real joys, stresses, and needs of our congregation, please take a moment to complete our quick pulse poll and submit your questions ahead of time.</p><ul><li><strong>Take the Pulse Poll &amp; Submit Your Questions Here: </strong><a href=\"https://app.sli.do/event/tz2WwnXw4yCrHThnFst2tT\">https://app.sli.do/event/tz2WwnXw4yCrHThnFst2tT</a></li></ul><p><em>(Your responses are completely anonymous and will directly shape our live Q&amp;A session!)</em></p><p><strong>Registration &amp; Childcare Information</strong></p><ul><li><strong>Event Registration:</strong> Please register today to let us know you are coming!&nbsp;</li><li><strong>Childcare: </strong>Childcare is provided so you can fully focus on and enjoy the evening. To help our team prepare, please register your children in advance.&nbsp;</li></ul><p>Come be equipped, encouraged, and reminded that God’s Word speaks boldly and faithfully to every season of parenting. We look forward to gathering together for His glory!</p><div></div></div>",
+    "direct_link_only": false,
+    "ends_at": "2026-10-04T04:00:00Z",
+    "event_price_with_range": "Free",
+    "event_time": "3 October 2026",
+    "featured": true,
+    "free": false,
+    "guest_mode": "disabled",
+    "has_addons_module": true,
+    "has_attendee_questions_module": true,
+    "has_attendees_module": true,
+    "has_payments_module": true,
+    "has_registrant_questions_module": true,
+    "link_only": false,
+    "listed": true,
+    "logo_url": "https://images.planningcenterusercontent.com/v1/transform?bucket=registrations-production&expires_at=425-555-0100&key=uploads%2Fevent%2Flogo%2F3894463%2Fimage-425-555-0100837.jpeg&thumb=720x405%23&version=425-555-0100&signature=fixture",
+    "logo_url_for_og": "https://registrations.planningcenteronline.com/signups/3894463/logo",
+    "maximum_capacity_set": false,
+    "maximum_registration_attendees": null,
+    "name": "Intentional Parenting",
+    "new_registration_url": "https://springoflifechurch.churchcenter.com/registrations/events/3894463/reservations/new",
+    "open": true,
+    "open_at": "2026-09-15T07:00:00Z",
+    "payment_method": "credit",
+    "profile_collect": "detailed",
+    "public_url": "https://springoflifechurch.churchcenter.com/registrations/events/3894463",
+    "questions_for_registrant_available": false,
+    "recent_registration_urls": {},
+    "register_for_separate_times": false,
+    "registered_for_event": false,
+    "registrant_collection_options": {
+     "name": "required",
+     "email_address": "required",
+     "address": "hidden",
+     "phone_number": "hidden"
+    },
+    "registration_available": true,
+    "registration_state": "open",
+    "registration_status_message": "Registration is open",
+    "registration_type": "detailed",
+    "scheduled_to_close": false,
+    "scheduled_to_hide": false,
+    "scheduled_to_open": false,
+    "scheduled_to_show": false,
+    "starts_at": "2026-10-04T01:00:00Z",
+    "stripped_description": "Parenting is a gift, and it was never meant to be done alone.As a church, we believe the family is one of God’s most foundational institutions, created for His glory and designed to reflect His truth. Yet, we know the world is pressing hard against God’s design for the family. As parents, you are on the front lines, but you are not fighting alone. Our Family Ministries team desires to stand alongside you, build a supportive community, and strengthen our church, one family at a time.Join us for an evening of biblical wisdom, honest conversation, and practical encouragement as we seek God’s direction for raising children with purpose, grace, and conviction.Evening Schedule &amp; ProgramSession 1: Biblical Teaching &amp; EncouragementWe will open with a scripture-based message on what it means to raise children intentionally in a godly home. Grounded in biblical truth and shaped by grace, this session will offer encouragement and practical insights for navigating the daily joys and challenges of family life.Session 2: Live Q&amp;A SessionFollowing the teaching, we will host a live Q&amp;A session addressing the real issues, questions, and concerns facing families today.We Want to Hear From You: Poll &amp; Q&amp;A SubmissionTo help us address the real joys, stresses, and needs of our congregation, please take a moment to complete our quick pulse poll and submit your questions ahead of time.Take the Pulse Poll &amp; Submit Your Questions Here: https://app.sli.do/event/tz2WwnXw4yCrHThnFst2tT(Your responses are completely anonymous and will directly shape our live Q&amp;A session!)Registration &amp; Childcare InformationEvent Registration: Please register today to let us know you are coming!&nbsp;Childcare: Childcare is provided so you can fully focus on and enjoy the evening. To help our team prepare, please register your children in advance.&nbsp;Come be equipped, encouraged, and reminded that God’s Word speaks boldly and faithfully to every season of parenting. We look forward to gathering together for His glory!",
+    "template_attendee_type_count": 0,
+    "updated_at": "2026-09-20T17:22:01Z",
+    "visibility": "public",
+    "waitlist_available": false
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3894463"
+   },
+   "relationships": {
+    "categories": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3894463/categories"
+     },
+     "data": [
+      {
+       "type": "Category",
+       "id": "111199"
+      }
+     ]
+    },
+    "event_location": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3894463/event_location"
+     },
+     "data": {
+      "type": "EventLocation",
+      "id": "2627940"
+     }
+    },
+    "event_times": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3894463/event_times"
+     },
+     "data": [
+      {
+       "type": "EventTime",
+       "id": "6558749"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "type": "Event",
+   "id": "915918",
+   "attributes": {
+    "active_registration_count": 0,
+    "allow_ach_payments": false,
+    "allow_credit_card_payments": true,
+    "allow_minimum_deposits": false,
+    "allow_offline_payments": false,
+    "allow_registrants_to_cancel": false,
+    "allowed_registrations": "any",
+    "any_attendee_types_have_capacity": false,
+    "archived": false,
+    "archived_on": null,
+    "at_maximum_capacity": false,
+    "can_register_household_members": true,
+    "can_register_outside_members": true,
+    "close_at": null,
+    "closed": false,
+    "created_at": "2021-06-23T19:17:57Z",
+    "currency": "$",
+    "current_registration_id": null,
+    "current_registration_url": null,
+    "current_visibility": "listed",
+    "description": "<div>\n<p>Ready to proclaim your faith? Sign up to get baptized!&nbsp;</p>\n<div></div>\n</div>",
+    "direct_link_only": false,
+    "ends_at": null,
+    "event_price_with_range": "Free",
+    "event_time": null,
+    "featured": false,
+    "free": true,
+    "guest_mode": "disabled",
+    "has_addons_module": true,
+    "has_attendee_questions_module": true,
+    "has_attendees_module": true,
+    "has_payments_module": true,
+    "has_registrant_questions_module": true,
+    "link_only": false,
+    "listed": true,
+    "logo_url": "https://images.planningcenterusercontent.com/v1/transform?bucket=registrations-production&expires_at=425-555-0100&key=uploads%2Fevent%2Flogo%2F915918%2Fimage-425-555-0100499&thumb=720x405%23&version=425-555-0100&signature=fixture",
+    "logo_url_for_og": "https://registrations.planningcenteronline.com/signups/915918/logo",
+    "maximum_capacity_set": false,
+    "maximum_registration_attendees": null,
+    "name": "Get Baptized! ",
+    "new_registration_url": "https://springoflifechurch.churchcenter.com/registrations/events/915918/reservations/new",
+    "open": true,
+    "open_at": "2021-11-24T10:53:33Z",
+    "payment_method": "credit",
+    "profile_collect": "detailed",
+    "public_url": "https://springoflifechurch.churchcenter.com/registrations/events/915918",
+    "questions_for_registrant_available": false,
+    "recent_registration_urls": {},
+    "register_for_separate_times": false,
+    "registered_for_event": false,
+    "registrant_collection_options": {
+     "name": "required",
+     "email_address": "required",
+     "address": "hidden",
+     "phone_number": "hidden"
+    },
+    "registration_available": true,
+    "registration_state": "open",
+    "registration_status_message": "Registration is open",
+    "registration_type": "detailed",
+    "scheduled_to_close": false,
+    "scheduled_to_hide": false,
+    "scheduled_to_open": false,
+    "scheduled_to_show": false,
+    "starts_at": null,
+    "stripped_description": "\nReady to proclaim your faith? Sign up to get baptized!&nbsp;\n\n",
+    "template_attendee_type_count": 0,
+    "updated_at": "2021-06-23T19:22:00Z",
+    "visibility": "public",
+    "waitlist_available": false
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/915918"
+   },
+   "relationships": {
+    "categories": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/915918/categories"
+     },
+     "data": []
+    },
+    "event_location": {
+     "data": null
+    },
+    "event_times": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/915918/event_times"
+     },
+     "data": []
+    }
+   }
+  },
+  {
+   "type": "Event",
+   "id": "2346933",
+   "attributes": {
+    "active_registration_count": 0,
+    "allow_ach_payments": false,
+    "allow_credit_card_payments": true,
+    "allow_minimum_deposits": false,
+    "allow_offline_payments": false,
+    "allow_registrants_to_cancel": false,
+    "allowed_registrations": "any",
+    "any_attendee_types_have_capacity": false,
+    "archived": false,
+    "archived_on": null,
+    "at_maximum_capacity": false,
+    "can_register_household_members": true,
+    "can_register_outside_members": true,
+    "close_at": null,
+    "closed": false,
+    "created_at": "2024-06-02T17:52:28Z",
+    "currency": "$",
+    "current_registration_id": null,
+    "current_registration_url": null,
+    "current_visibility": "listed",
+    "description": "<div>\n<p>Interested in becoming a member at Spring of Life Church? This class is your next step!</p>\n<div></div>\n</div>",
+    "direct_link_only": false,
+    "ends_at": null,
+    "event_price_with_range": "Free",
+    "event_time": null,
+    "featured": false,
+    "free": true,
+    "guest_mode": "disabled",
+    "has_addons_module": true,
+    "has_attendee_questions_module": true,
+    "has_attendees_module": true,
+    "has_payments_module": true,
+    "has_registrant_questions_module": true,
+    "link_only": false,
+    "listed": true,
+    "logo_url": "https://images.planningcenterusercontent.com/v1/transform?bucket=registrations-production&expires_at=425-555-0100&key=uploads%2Fevent%2Flogo%2F2346933%2Fimage-425-555-0100639.jpg&thumb=720x405%23&version=425-555-0100&signature=fixture",
+    "logo_url_for_og": "https://registrations.planningcenteronline.com/signups/2346933/logo",
+    "maximum_capacity_set": false,
+    "maximum_registration_attendees": null,
+    "name": "SOL 101 - Church Membership Class ",
+    "new_registration_url": "https://springoflifechurch.churchcenter.com/registrations/events/2346933/reservations/new",
+    "open": true,
+    "open_at": "2024-06-02T17:52:26Z",
+    "payment_method": "credit",
+    "profile_collect": "detailed",
+    "public_url": "https://springoflifechurch.churchcenter.com/registrations/events/2346933",
+    "questions_for_registrant_available": false,
+    "recent_registration_urls": {},
+    "register_for_separate_times": false,
+    "registered_for_event": false,
+    "registrant_collection_options": {
+     "name": "required",
+     "email_address": "required",
+     "address": "hidden",
+     "phone_number": "hidden"
+    },
+    "registration_available": true,
+    "registration_state": "open",
+    "registration_status_message": "Registration is open",
+    "registration_type": "detailed",
+    "scheduled_to_close": false,
+    "scheduled_to_hide": false,
+    "scheduled_to_open": false,
+    "scheduled_to_show": false,
+    "starts_at": null,
+    "stripped_description": "\nInterested in becoming a member at Spring of Life Church? This class is your next step!\n\n",
+    "template_attendee_type_count": 0,
+    "updated_at": "2024-06-02T17:59:43Z",
+    "visibility": "public",
+    "waitlist_available": false
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/2346933"
+   },
+   "relationships": {
+    "categories": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/2346933/categories"
+     },
+     "data": []
+    },
+    "event_location": {
+     "data": null
+    },
+    "event_times": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/2346933/event_times"
+     },
+     "data": []
+    }
+   }
+  },
+  {
+   "type": "Event",
+   "id": "3645962",
+   "attributes": {
+    "active_registration_count": 0,
+    "allow_ach_payments": false,
+    "allow_credit_card_payments": true,
+    "allow_minimum_deposits": false,
+    "allow_offline_payments": false,
+    "allow_registrants_to_cancel": false,
+    "allowed_registrations": "any",
+    "any_attendee_types_have_capacity": false,
+    "archived": false,
+    "archived_on": null,
+    "at_maximum_capacity": false,
+    "can_register_household_members": false,
+    "can_register_outside_members": true,
+    "close_at": null,
+    "closed": false,
+    "created_at": "2026-05-12T20:24:44Z",
+    "currency": "$",
+    "current_registration_id": null,
+    "current_registration_url": null,
+    "current_visibility": "listed",
+    "description": "<div><p><strong>Our mission<br></strong>Our mission is to teach and inspire children&nbsp; to serve God through musical worship in local churches. We are committed to&nbsp; developing their musical skills and creative potential, taking into account the individual characteristics of each student.</p><p><strong>Program Overview<br></strong>Students learn music theory, solfeggio, and fundamental harmony principles in groups. Additionally, they receive personalized lessons for playing a variety of musical instruments. Our students showcase their talents in biannual musical concerts and actively contribute to church services.&nbsp;</p><p><strong>Our team<br></strong>Our teachers are professionals with higher musical education and years of experience. We take an individual approach to each student, encouraging their passion for music and their desire for self-improvement and exploration.&nbsp;</p><p><strong>We work on Tuesdays and Fridays from 4:30 to 8:40. <br><br>Lesson Tuition:<br>Full Course $1,620</strong> - One-Year Course (30 lessons) = <strong>$180</strong> per month<br><strong>Group Vocal $540</strong> – (30 lessons) = <strong>$60</strong> per month<br><strong>$250</strong> – Registration Fee (Used for school supply, snacks, gifts for students and parties after concerts)<strong><br><br></strong>No refund for missing lessons.<strong><br><br>Age of students - starting from 6-years-old<br><br>Classes<br>1. Individual: </strong>Piano, Cello, Saxophone, Clarinet, Flute, Vocal, Guitar, Drums.<br><strong>2. Music Theory/Solfeggio</strong><br><strong>3. Music Composition and Arrangement (6 Grade)<br></strong><br><br><br>Any questions, please call:<br>Education/scheduling: <strong>Alex Paskul 425-555-0100</strong><br>Administration: <strong>Anna Yemets: 425-555-0100</strong></p><div></div></div>",
+    "direct_link_only": false,
+    "ends_at": null,
+    "event_price_with_range": "$250",
+    "event_time": null,
+    "featured": false,
+    "free": false,
+    "guest_mode": "disabled",
+    "has_addons_module": true,
+    "has_attendee_questions_module": true,
+    "has_attendees_module": true,
+    "has_payments_module": true,
+    "has_registrant_questions_module": true,
+    "link_only": false,
+    "listed": true,
+    "logo_url": "https://images.planningcenterusercontent.com/v1/transform?bucket=registrations-production&expires_at=425-555-0100&key=uploads%2Fevent%2Flogo%2F3645962%2Fimage-425-555-0100525.jpeg&thumb=720x405%23&version=425-555-0100&signature=fixture",
+    "logo_url_for_og": "https://registrations.planningcenteronline.com/signups/3645962/logo",
+    "maximum_capacity_set": false,
+    "maximum_registration_attendees": null,
+    "name": "SOL Music Academy 2026-2027",
+    "new_registration_url": "https://springoflifechurch.churchcenter.com/registrations/events/3645962/reservations/new",
+    "open": true,
+    "open_at": "2024-07-24T17:06:49Z",
+    "payment_method": "credit",
+    "profile_collect": "detailed",
+    "public_url": "https://springoflifechurch.churchcenter.com/registrations/events/3645962",
+    "questions_for_registrant_available": false,
+    "recent_registration_urls": {},
+    "register_for_separate_times": false,
+    "registered_for_event": false,
+    "registrant_collection_options": {
+     "name": "required",
+     "email_address": "required",
+     "address": "hidden",
+     "phone_number": "hidden"
+    },
+    "registration_available": true,
+    "registration_state": "open",
+    "registration_status_message": "Registration is open",
+    "registration_type": "detailed",
+    "scheduled_to_close": false,
+    "scheduled_to_hide": false,
+    "scheduled_to_open": false,
+    "scheduled_to_show": false,
+    "starts_at": null,
+    "stripped_description": "Our missionOur mission is to teach and inspire children&nbsp; to serve God through musical worship in local churches. We are committed to&nbsp; developing their musical skills and creative potential, taking into account the individual characteristics of each student.Program OverviewStudents learn music theory, solfeggio, and fundamental harmony principles in groups. Additionally, they receive personalized lessons for playing a variety of musical instruments. Our students showcase their talents in biannual musical concerts and actively contribute to church services.&nbsp;Our teamOur teachers are professionals with higher musical education and years of experience. We take an individual approach to each student, encouraging their passion for music and their desire for self-improvement and exploration.&nbsp;We work on Tuesdays and Fridays from 4:30 to 8:40. Lesson Tuition:Full Course $1,620 - One-Year Course (30 lessons) = $180 per monthGroup Vocal $540 – (30 lessons) = $60 per month$250 – Registration Fee (Used for school supply, snacks, gifts for students and parties after concerts)No refund for missing lessons.Age of students - starting from 6-years-oldClasses1. Individual: Piano, Cello, Saxophone, Clarinet, Flute, Vocal, Guitar, Drums.2. Music Theory/Solfeggio3. Music Composition and Arrangement (6 Grade)Any questions, please call:Education/scheduling: Alex Paskul 425-555-0100Administration: Anna Yemets: 425-555-0100",
+    "template_attendee_type_count": 0,
+    "updated_at": "2026-05-12T20:24:45Z",
+    "visibility": "public",
+    "waitlist_available": false
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3645962"
+   },
+   "relationships": {
+    "categories": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3645962/categories"
+     },
+     "data": []
+    },
+    "event_location": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3645962/event_location"
+     },
+     "data": {
+      "type": "EventLocation",
+      "id": "2436438"
+     }
+    },
+    "event_times": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3645962/event_times"
+     },
+     "data": []
+    }
+   }
+  },
+  {
+   "type": "Event",
+   "id": "3533274",
+   "attributes": {
+    "active_registration_count": 0,
+    "allow_ach_payments": false,
+    "allow_credit_card_payments": true,
+    "allow_minimum_deposits": false,
+    "allow_offline_payments": false,
+    "allow_registrants_to_cancel": false,
+    "allowed_registrations": "any",
+    "any_attendee_types_have_capacity": true,
+    "archived": false,
+    "archived_on": null,
+    "at_maximum_capacity": false,
+    "can_register_household_members": true,
+    "can_register_outside_members": true,
+    "close_at": null,
+    "closed": false,
+    "created_at": "2026-03-17T04:25:39Z",
+    "currency": "$",
+    "current_registration_id": null,
+    "current_registration_url": null,
+    "current_visibility": "listed",
+    "description": "<div><p>НАЧАЛО ЗАНЯТИЙ 14 СЕНТЯБРЯ 2026 г. в 18:30 (6:30pm)<br><br>Годовой взнос $100 принимается с аппликацией до 1 июня за каждого студента. После 1 июня<br>взнос повышается до $150 за каждого студента.<br>Взнос необходим для приобретения тетрадей, дневников, книг и школьных принадлежностей для<br>учащихся, поощрения ученикам, зарплату учителям и бухгалтеру.<br><br>ОПЛАТА ДОЛЖНА БЫТЬ ВНЕСЕНА ПРИ РЕГИСТРАЦИИ, ВЗНОС НЕ ВОЗВРАЩАЕТСЯ.<br><br>Оплата обучения в месяц: $60 (для членов поместной церкви) за каждого ребёнка<br><br>+ $5 скидка за 2го и более ребёнка<br><br>Оплата обучения в месяц: $70 (для не членов поместной церкви) за каждого ребёнка<br><br>+ $5 скидка за 2го и более ребёнка<br><br>Оплата обучения рассчитана за 1 месяц обучения, независимо от количества занятий и<br>посещений.<br>Оплата вносится сразу за 3 месяца в первые две недели сентября, декабря, марта (в случае<br>финансовых затруднений обращаться к администрации школы)</p><div></div></div>",
+    "direct_link_only": false,
+    "ends_at": null,
+    "event_price_with_range": "$150",
+    "event_time": null,
+    "featured": false,
+    "free": false,
+    "guest_mode": "disabled",
+    "has_addons_module": true,
+    "has_attendee_questions_module": true,
+    "has_attendees_module": true,
+    "has_payments_module": true,
+    "has_registrant_questions_module": true,
+    "link_only": false,
+    "listed": true,
+    "logo_url": "https://images.planningcenterusercontent.com/v1/transform?bucket=registrations-production&expires_at=425-555-0100&key=uploads%2Fevent%2Flogo%2F3533274%2Fimage-425-555-0100960.jpg&thumb=720x405%23&version=425-555-0100&signature=fixture",
+    "logo_url_for_og": "https://registrations.planningcenteronline.com/signups/3533274/logo",
+    "maximum_capacity_set": false,
+    "maximum_registration_attendees": null,
+    "name": "SOL Russian School 2026-2027",
+    "new_registration_url": "https://springoflifechurch.churchcenter.com/registrations/events/3533274/reservations/new",
+    "open": true,
+    "open_at": "2023-07-08T07:00:00Z",
+    "payment_method": "credit",
+    "profile_collect": "detailed",
+    "public_url": "https://springoflifechurch.churchcenter.com/registrations/events/3533274",
+    "questions_for_registrant_available": false,
+    "recent_registration_urls": {},
+    "register_for_separate_times": false,
+    "registered_for_event": false,
+    "registrant_collection_options": {
+     "name": "required",
+     "email_address": "required",
+     "address": "hidden",
+     "phone_number": "hidden"
+    },
+    "registration_available": true,
+    "registration_state": "open",
+    "registration_status_message": "Registration is open",
+    "registration_type": "detailed",
+    "scheduled_to_close": false,
+    "scheduled_to_hide": false,
+    "scheduled_to_open": false,
+    "scheduled_to_show": false,
+    "starts_at": null,
+    "stripped_description": "НАЧАЛО ЗАНЯТИЙ 14 СЕНТЯБРЯ 2026 г. в 18:30 (6:30pm)Годовой взнос $100 принимается с аппликацией до 1 июня за каждого студента. После 1 июнявзнос повышается до $150 за каждого студента.Взнос необходим для приобретения тетрадей, дневников, книг и школьных принадлежностей дляучащихся, поощрения ученикам, зарплату учителям и бухгалтеру.ОПЛАТА ДОЛЖНА БЫТЬ ВНЕСЕНА ПРИ РЕГИСТРАЦИИ, ВЗНОС НЕ ВОЗВРАЩАЕТСЯ.Оплата обучения в месяц: $60 (для членов поместной церкви) за каждого ребёнка+ $5 скидка за 2го и более ребёнкаОплата обучения в месяц: $70 (для не членов поместной церкви) за каждого ребёнка+ $5 скидка за 2го и более ребёнкаОплата обучения рассчитана за 1 месяц обучения, независимо от количества занятий ипосещений.Оплата вносится сразу за 3 месяца в первые две недели сентября, декабря, марта (в случаефинансовых затруднений обращаться к администрации школы)",
+    "template_attendee_type_count": 0,
+    "updated_at": "2026-09-03T01:05:45Z",
+    "visibility": "public",
+    "waitlist_available": false
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3533274"
+   },
+   "relationships": {
+    "categories": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3533274/categories"
+     },
+     "data": []
+    },
+    "event_location": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3533274/event_location"
+     },
+     "data": {
+      "type": "EventLocation",
+      "id": "2348856"
+     }
+    },
+    "event_times": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3533274/event_times"
+     },
+     "data": []
+    }
+   }
+  },
+  {
+   "type": "Event",
+   "id": "3824843",
+   "attributes": {
+    "active_registration_count": 0,
+    "allow_ach_payments": false,
+    "allow_credit_card_payments": true,
+    "allow_minimum_deposits": false,
+    "allow_offline_payments": false,
+    "allow_registrants_to_cancel": false,
+    "allowed_registrations": "any",
+    "any_attendee_types_have_capacity": true,
+    "archived": false,
+    "archived_on": null,
+    "at_maximum_capacity": false,
+    "can_register_household_members": true,
+    "can_register_outside_members": true,
+    "close_at": null,
+    "closed": false,
+    "created_at": "2026-08-17T04:31:55Z",
+    "currency": "$",
+    "current_registration_id": null,
+    "current_registration_url": null,
+    "current_visibility": "listed",
+    "description": "<div><p>Awana is a Christ-centered program where kids come together each week to sing, play games, make friends, and learn about Jesus! Through engaging Bible lessons, Scripture memorization, games, and small-group activities, kids are encouraged to grow in their faith and build a lasting relationship with God. Awana stands for “Approved Workmen Are Not Ashamed,” based on 2 Timothy 2:15, and our goal is to help kids know, love, and follow Jesus.</p><p>Where: Spring of Life Church<br>When: Every Wednesday, 7:00–8:45 PM<br>Who: Kids ages 3–12<br>Cost: $65 per child</p><p>Registration includes:</p><ul><li>Awana handbook</li><li>Uniform, when needed</li><li>Awards</li><li>Regular Awana materials</li></ul><p>Replacement items are available for an additional fee.</p><p>Information &amp; Permission Slip:<br>Please print and complete the \"Information &amp; Permission Slip\" form before the first night of Awana. The completed form can be turned in when you arrive. If you are unable to print it ahead of time, copies will be available at registration.</p><p>Questions?<br>Contact Vladislav Aleksandruk at 425-555-0100.</p><p><br><br>Awana это христианская программа, где дети каждую неделю собираются вместе, чтобы петь, играть в игры, находить новых друзей и, самое главное, узнавать больше об Иисусе! На интересных библейских уроках, во время заучивания стихов из Библии, игр и занятий в небольших группах дети учатся расти в вере и строить свои отношения с Богом. Название Awana происходит от английской фразы “Approved Workmen Are Not Ashamed” («трудящийся, достойный одобрения и не стыдящийся»), основанной на 2 Тимофею 2:15. Наша цель помочь детям познать Иисуса, полюбить Его и следовать за Ним.</p><p>Где: Spring of Life Church<br>Когда: каждую среду, с 19:00 до 20:45<br>Для кого: дети от 3 до 12 лет<br>Стоимость: $65 за ребёнка</p><p>Регистрация включает:</p><ul><li>Пособие Awana</li><li>Форму, если она необходима</li><li>Награды</li><li>Все необходимые материалы Awana</li></ul><p>Замена потерянных или повреждённых материалов оплачивается отдельно.</p><p>Информационная Форма И Разрешение :</p><p>Пожалуйста, распечатайте и заполните форму \"Информационная Форма И Разрешение\" до первого занятия Awana. Заполненную форму можно принести с собой в первый день. Если у вас нет возможности распечатать форму заранее, её можно будет заполнить на месте при регистрации.</p><p>Если у вас есть вопросы, обращайтесь к Владиславу Александруку по телефону 425-555-0100.</p><div></div></div>",
+    "direct_link_only": false,
+    "ends_at": "2027-05-27T03:45:00Z",
+    "event_price_with_range": "$65",
+    "event_time": "9 September 2026 – 26 May 2027",
+    "featured": false,
+    "free": false,
+    "guest_mode": "disabled",
+    "has_addons_module": true,
+    "has_attendee_questions_module": true,
+    "has_attendees_module": true,
+    "has_payments_module": true,
+    "has_registrant_questions_module": true,
+    "link_only": false,
+    "listed": true,
+    "logo_url": "https://images.planningcenterusercontent.com/v1/transform?bucket=registrations-production&expires_at=425-555-0100&key=uploads%2Fevent%2Flogo%2F3824843%2Fimage-425-555-0100654.jpeg&thumb=720x405%23&version=425-555-0100&signature=fixture",
+    "logo_url_for_og": "https://registrations.planningcenteronline.com/signups/3824843/logo",
+    "maximum_capacity_set": false,
+    "maximum_registration_attendees": null,
+    "name": "AWANA 2026-2027",
+    "new_registration_url": "https://springoflifechurch.churchcenter.com/registrations/events/3824843/reservations/new",
+    "open": true,
+    "open_at": "2026-08-16T07:00:00Z",
+    "payment_method": "credit",
+    "profile_collect": "detailed",
+    "public_url": "https://springoflifechurch.churchcenter.com/registrations/events/3824843",
+    "questions_for_registrant_available": true,
+    "recent_registration_urls": {},
+    "register_for_separate_times": false,
+    "registered_for_event": false,
+    "registrant_collection_options": {
+     "name": "required",
+     "email_address": "required",
+     "address": "required",
+     "phone_number": "required"
+    },
+    "registration_available": true,
+    "registration_state": "open",
+    "registration_status_message": "Registration is open",
+    "registration_type": "detailed",
+    "scheduled_to_close": false,
+    "scheduled_to_hide": false,
+    "scheduled_to_open": false,
+    "scheduled_to_show": false,
+    "starts_at": "2026-09-10T02:00:00Z",
+    "stripped_description": "Awana is a Christ-centered program where kids come together each week to sing, play games, make friends, and learn about Jesus! Through engaging Bible lessons, Scripture memorization, games, and small-group activities, kids are encouraged to grow in their faith and build a lasting relationship with God. Awana stands for “Approved Workmen Are Not Ashamed,” based on 2 Timothy 2:15, and our goal is to help kids know, love, and follow Jesus.Where: Spring of Life ChurchWhen: Every Wednesday, 7:00–8:45 PMWho: Kids ages 3–12Cost: $65 per childRegistration includes:Awana handbookUniform, when neededAwardsRegular Awana materialsReplacement items are available for an additional fee.Information &amp; Permission Slip:Please print and complete the \"Information &amp; Permission Slip\" form before the first night of Awana. The completed form can be turned in when you arrive. If you are unable to print it ahead of time, copies will be available at registration.Questions?Contact Vladislav Aleksandruk at 425-555-0100.Awana это христианская программа, где дети каждую неделю собираются вместе, чтобы петь, играть в игры, находить новых друзей и, самое главное, узнавать больше об Иисусе! На интересных библейских уроках, во время заучивания стихов из Библии, игр и занятий в небольших группах дети учатся расти в вере и строить свои отношения с Богом. Название Awana происходит от английской фразы “Approved Workmen Are Not Ashamed” («трудящийся, достойный одобрения и не стыдящийся»), основанной на 2 Тимофею 2:15. Наша цель помочь детям познать Иисуса, полюбить Его и следовать за Ним.Где: Spring of Life ChurchКогда: каждую среду, с 19:00 до 20:45Для кого: дети от 3 до 12 летСтоимость: $65 за ребёнкаРегистрация включает:Пособие AwanaФорму, если она необходимаНаградыВсе необходимые материалы AwanaЗамена потерянных или повреждённых материалов оплачивается отдельно.Информационная Форма И Разрешение :Пожалуйста, распечатайте и заполните форму \"Информационная Форма И Разрешение\" до первого занятия Awana. Заполненную форму можно принести с собой в первый день. Если у вас нет возможности распечатать форму заранее, её можно будет заполнить на месте при регистрации.Если у вас есть вопросы, обращайтесь к Владиславу Александруку по телефону 425-555-0100.",
+    "template_attendee_type_count": 0,
+    "updated_at": "2026-08-18T23:44:31Z",
+    "visibility": "public",
+    "waitlist_available": true
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3824843"
+   },
+   "relationships": {
+    "categories": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3824843/categories"
+     },
+     "data": []
+    },
+    "event_location": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3824843/event_location"
+     },
+     "data": {
+      "type": "EventLocation",
+      "id": "2574455"
+     }
+    },
+    "event_times": {
+     "links": {
+      "related": "https://api.churchcenter.com/registrations/v2/events/3824843/event_times"
+     },
+     "data": [
+      {
+       "type": "EventTime",
+       "id": "6436115"
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "included": [
+  {
+   "type": "Category",
+   "id": "111199",
+   "attributes": {
+    "name": "Website Category "
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/categories/111199"
+   }
+  },
+  {
+   "type": "EventLocation",
+   "id": "2627940",
+   "attributes": {
+    "address_data": [],
+    "formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "full_formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "latitude": "47.8940668",
+    "location_type": "address",
+    "longitude": "-122.2972691",
+    "name": "Spring Of Life Church",
+    "subpremise": null,
+    "url": null
+   },
+   "relationships": {
+    "event": {
+     "data": {
+      "type": "Event",
+      "id": "3894463"
+     }
+    },
+    "campus": {
+     "data": {
+      "type": "Campus",
+      "id": "50035"
+     }
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3894463/event_location/2627940"
+   }
+  },
+  {
+   "type": "EventTime",
+   "id": "6558749",
+   "attributes": {
+    "all_day": false,
+    "at_maximum_capacity": false,
+    "available_for_registrations": true,
+    "date": "3 Oct 2026",
+    "ends_at": "2026-10-04T04:00:00Z",
+    "starts_at": "2026-10-04T01:00:00Z",
+    "time": "6:00pm – 9:00pm"
+   },
+   "relationships": {
+    "event": {
+     "data": {
+      "type": "Event",
+      "id": "3894463"
+     }
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3894463/event_times/6558749"
+   }
+  },
+  {
+   "type": "EventLocation",
+   "id": "2436438",
+   "attributes": {
+    "address_data": [],
+    "formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "full_formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "latitude": "47.8940668",
+    "location_type": "address",
+    "longitude": "-122.2972691",
+    "name": "Spring Of Life Church",
+    "subpremise": null,
+    "url": null
+   },
+   "relationships": {
+    "event": {
+     "data": {
+      "type": "Event",
+      "id": "3645962"
+     }
+    },
+    "campus": {
+     "data": {
+      "type": "Campus",
+      "id": "50035"
+     }
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3645962/event_location/2436438"
+   }
+  },
+  {
+   "type": "EventLocation",
+   "id": "2348856",
+   "attributes": {
+    "address_data": [],
+    "formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "full_formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "latitude": "47.8940668",
+    "location_type": "address",
+    "longitude": "-122.2972691",
+    "name": "Spring Of Life Church",
+    "subpremise": null,
+    "url": null
+   },
+   "relationships": {
+    "event": {
+     "data": {
+      "type": "Event",
+      "id": "3533274"
+     }
+    },
+    "campus": {
+     "data": {
+      "type": "Campus",
+      "id": "50035"
+     }
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3533274/event_location/2348856"
+   }
+  },
+  {
+   "type": "EventLocation",
+   "id": "2574455",
+   "attributes": {
+    "address_data": [],
+    "formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "full_formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "latitude": "47.8940668",
+    "location_type": "address",
+    "longitude": "-122.2972691",
+    "name": "Spring Of Life Church",
+    "subpremise": null,
+    "url": null
+   },
+   "relationships": {
+    "event": {
+     "data": {
+      "type": "Event",
+      "id": "3824843"
+     }
+    },
+    "campus": {
+     "data": {
+      "type": "Campus",
+      "id": "50035"
+     }
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3824843/event_location/2574455"
+   }
+  },
+  {
+   "type": "EventTime",
+   "id": "6436115",
+   "attributes": {
+    "all_day": true,
+    "at_maximum_capacity": false,
+    "available_for_registrations": true,
+    "date": "9 Sep 2026 – 26 May 2027",
+    "ends_at": "2027-05-27T03:45:00Z",
+    "starts_at": "2026-09-10T02:00:00Z",
+    "time": null
+   },
+   "relationships": {
+    "event": {
+     "data": {
+      "type": "Event",
+      "id": "3824843"
+     }
+    }
+   },
+   "links": {
+    "self": "https://api.churchcenter.com/registrations/v2/events/3824843/event_times/6436115"
+   }
+  }
+ ],
+ "meta": {
+  "total_count": 6,
+  "count": 6,
+  "can_order_by": [
+   "starts_at"
+  ],
+  "can_query_by": [
+   "categories",
+   "campuses",
+   "featured"
+  ],
+  "can_filter": [
+   "active",
+   "published",
+   "has_no_event_times",
+   "with_event_times",
+   "unarchived",
+   "listed"
+  ],
+  "parent": {
+   "id": "367520",
+   "type": "Organization"
+  }
+ },
+ "_note": "Test fixture: anonymous Church Center /registrations/v2/events response (all listed signups, unfiltered), captured 2026-10-01. Phone numbers replaced with 555 numbers."
+}

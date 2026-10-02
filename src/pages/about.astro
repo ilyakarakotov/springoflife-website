@@ -1,0 +1,72 @@
+---
+import { getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { site, img, leaders, beliefs } from '../lib/content';
+
+const page = await getEntry('pages', 'about');
+if (!page) throw new Error('src/content/pages/about.md is missing');
+const { Content } = await render(page);
+---
+<Base title={page.data.title} description={page.data.description}>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">About us</span>
+      <h1>{site.mission.split('.')[0]}.</h1>
+      <p class="lead">{site.mission.split('.').slice(1).join('.').trim()}</p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap"><div class="prose story"><Content /></div></div>
+  </section>
+
+  <section class="section section--soft" id="beliefs" aria-labelledby="beliefs-title">
+    <div class="wrap">
+      <div class="section-head"><div><span class="eyebrow">Statement of faith</span><h2 id="beliefs-title">What we believe</h2></div></div>
+      <p class="lead">{beliefs.intro}</p>
+      <div class="grid grid--3 beliefs">
+        {beliefs.beliefs.map((b) => (
+          <article class="card belief"><h3>{b.title}</h3><p>{b.text}</p></article>
+        ))}
+      </div>
+      {beliefs.show_affiliations && (
+        <div class="affiliations">
+          <p><a href={beliefs.statement.url} target="_blank" rel="noopener">{beliefs.statement.label}</a>: {beliefs.statement.text}</p>
+          <ul>{beliefs.affiliations.map((a) => <li><a href={a.url} target="_blank" rel="noopener">{a.name}</a></li>)}</ul>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section" id="leadership" aria-labelledby="leaders-title">
+    <div class="wrap">
+      <div class="section-head"><div><span class="eyebrow">Leadership</span><h2 id="leaders-title">Pastors and elders</h2></div></div>
+      <ul class="leaders">
+        {leaders.map((l) => (
+          <li>
+            <Image src={img(l.photo)} alt={`${l.name}, ${l.role}`} widths={[320, 480]} width={480} sizes="(min-width: 960px) 20vw, 45vw" class="leader-img" />
+            <b>{l.name}</b><span>{l.role}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero h1 { max-width: 18ch; }
+  .story { max-width: 44rem; }
+  .beliefs { margin-top: 2rem; }
+  .belief { padding: clamp(20px, 2.6vw, 28px); }
+  .belief h3 { font-size: var(--step-1); }
+  .belief p { color: var(--text-2); margin: 0; font-size: 0.97rem; }
+  .affiliations { margin-top: 2rem; color: var(--text-2); }
+  .affiliations a { color: var(--accent-text); }
+  .leaders { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 720px) { .leaders { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .leaders { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  .leaders li { display: grid; gap: 0.15rem; }
+  .leaders :global(.leader-img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 25%; border-radius: 16px; margin-bottom: 0.6rem; background: var(--surface-soft); }
+  .leaders span { color: var(--muted); font-size: 0.92rem; }
+</style>

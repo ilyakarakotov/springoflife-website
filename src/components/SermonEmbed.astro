@@ -1,0 +1,57 @@
+---
+// The latest sermon, click to load. Subsplash's "Most Recent Media Item" player always shows the
+// newest sermon Nick uploads, but it brings Google Tag Manager, its own fonts and about 1 MB of
+// video on load (review P1-11). So the page shows a church photo and a play button; the player
+// (and every request to Subsplash) only loads after a click. Without JavaScript the play button is
+// replaced by a "Watch on Subsplash" link. Styling is minimal (Stage 2 designs it).
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import { site, img } from '../lib/content';
+
+interface Props {
+  eager?: boolean;  // above the fold (Watch page): load the poster photo right away
+  title?: string;   // the latest sermon's title, when the site knows it
+}
+const { eager = false, title } = Astro.props;
+const frameTitle = 'Latest sermon from Spring of Life Church';
+// No clipboard-read: the player doesn't need it (least privilege).
+const allow = 'fullscreen; autoplay; encrypted-media; picture-in-picture; clipboard-write';
+---
+<div class="embed facade" data-facade data-src={site.embeds.latest_sermon} data-title={frameTitle} data-allow={allow} data-fullscreen>
+  <Picture src={img('/src/assets/photos/sanctuary-back.jpg')} alt="" widths={[480, 800, 1200]} width={1200} sizes="(min-width: 960px) 60vw, 100vw"
+    formats={['avif', 'webp']} class="facade-poster" loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} />
+  <div class="facade-text">
+    <span class="facade-eyebrow">Latest sermon</span>
+    <span class="facade-title">{title ?? 'Watch the most recent message'}</span>
+  </div>
+  <button type="button" class="facade-play" data-facade-load>
+    <Icon name="play" /><span class="visually-hidden">Play the latest sermon{title ? `: ${title}` : ''} (loads the Subsplash player)</span>
+  </button>
+  <a class="facade-link" href={site.links.sermons} target="_blank" rel="noopener">
+    <Icon name="play" /><span>Watch on Subsplash</span>
+  </a>
+</div>
+
+<script>
+  import { initFacades } from '../scripts/facade';
+  initFacades();
+</script>
+
+<style>
+  .facade { color: #fff; }
+  .facade :global(.facade-poster), .facade :global(.facade-poster img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .facade::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0.15), rgb(0 0 0 / 0.7)); pointer-events: none; }
+  .facade.is-loaded::after { content: none; }
+  .facade-text { position: absolute; z-index: 1; left: clamp(16px, 3vw, 28px); right: clamp(16px, 3vw, 28px); bottom: clamp(16px, 3vw, 26px); display: grid; gap: 0.2rem; }
+  .facade-eyebrow { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.9; }
+  .facade-title { font-size: var(--step-1); font-weight: 800; line-height: 1.2; }
+  .facade-play, .facade-link { position: absolute; z-index: 2; }
+  .facade-play { inset: 0; margin: auto; width: 76px; height: 76px; display: grid; place-items: center; border: 0; border-radius: 999px; background: #fff; color: #111316; cursor: pointer; box-shadow: 0 10px 30px rgb(0 0 0 / 0.3); }
+  .facade-play :global(.icon) { width: 30px; height: 30px; margin-left: 4px; }
+  .facade-play:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+  @media (prefers-reduced-motion: no-preference) { .facade-play { transition: transform 0.15s; } .facade-play:hover { transform: scale(1.06); } }
+  .facade-link { right: clamp(12px, 2vw, 20px); top: clamp(12px, 2vw, 20px); display: inline-flex; align-items: center; gap: 0.4em; min-height: 44px; padding: 0.5rem 1rem; border-radius: 999px; background: rgb(0 0 0 / 0.55); color: #fff; font-weight: 700; font-size: 0.9rem; text-decoration: none; }
+  .facade-link:hover { background: rgb(0 0 0 / 0.75); }
+  /* Without JavaScript the play button can't load the player: the link is the way in, centered. */
+  @media (scripting: none) { .facade-play { display: none; } .facade-link { inset: 0; margin: auto; width: max-content; height: max-content; } }
+</style>

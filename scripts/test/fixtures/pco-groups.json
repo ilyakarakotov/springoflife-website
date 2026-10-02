@@ -1,0 +1,52 @@
+{
+  "_note": "SYNTHETIC test fixture in the shape of GET /groups/v2/groups (X-PCO-API-Version 2023-07-10) per PCO's published docs. Not real people or addresses. Used to prove the privacy rules: no street address ever leaves the sync, and unlisted groups are dropped.",
+  "data": [
+    {
+      "type": "Group", "id": "9000001",
+      "attributes": {
+        "name": "Test Group Tuesday", "description": "<div>Tuesdays 7 pm</div><div>A test group. Call 425-555-0199 or email leader@example.com.</div>",
+        "schedule": "Tuesdays at 7:00 pm", "listed": true, "archived_at": null, "location_type_preference": "physical",
+        "header_image": { "medium": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/9000001/medium_test.jpg" },
+        "public_church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/test-group-tuesday",
+        "updated_at": "2026-09-01T00:00:00Z"
+      },
+      "relationships": {
+        "group_type": { "data": { "type": "GroupType", "id": "222818" } },
+        "location": { "data": { "type": "Location", "id": "L1" } },
+        "enrollment": { "data": { "type": "Enrollment", "id": "E1" } }
+      }
+    },
+    {
+      "type": "Group", "id": "9000002",
+      "attributes": {
+        "name": "Test Group Friday", "description": "<p>Fridays</p>", "schedule": null, "listed": true, "archived_at": null,
+        "location_type_preference": "physical", "header_image": { "medium": null },
+        "public_church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/test-group-friday",
+        "updated_at": "2026-09-02T00:00:00Z"
+      },
+      "relationships": {
+        "group_type": { "data": { "type": "GroupType", "id": "222818" } },
+        "location": { "data": { "type": "Location", "id": "L2" } },
+        "enrollment": { "data": { "type": "Enrollment", "id": "E2" } }
+      }
+    },
+    {
+      "type": "Group", "id": "9000003",
+      "attributes": {
+        "name": "Unlisted Test Group", "description": null, "schedule": null, "listed": false, "archived_at": null,
+        "location_type_preference": "physical", "header_image": {},
+        "public_church_center_web_url": "https://springoflifechurch.churchcenter.com/groups/english-life-groups/unlisted",
+        "updated_at": "2026-09-03T00:00:00Z"
+      },
+      "relationships": { "group_type": { "data": { "type": "GroupType", "id": "222818" } }, "location": { "data": null }, "enrollment": { "data": null } }
+    }
+  ],
+  "included": [
+    { "type": "Location", "id": "L1", "attributes": { "name": "Church fellowship hall", "full_formatted_address": "4711 116th St SW Mukilteo, WA 98275", "display_preference": "exact", "strategy": "exact" } },
+    { "type": "Location", "id": "L2", "attributes": { "name": "Test family home", "full_formatted_address": "123 Example Ln Everett, WA 98201", "display_preference": "approximate", "strategy": "exact" } },
+    { "type": "Enrollment", "id": "E1", "attributes": { "status": "open", "strategy": "request_to_join" } },
+    { "type": "Enrollment", "id": "E2", "attributes": { "status": "full", "strategy": "request_to_join" } }
+  ],
+  "links": {},
+  "meta": { "total_count": 3, "count": 3 }
+}

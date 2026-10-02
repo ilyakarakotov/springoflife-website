@@ -1,0 +1,213 @@
+# Pages CMS (https://pagescms.org) configuration: lets staff edit page text, ministry links and
+# next steps in a web form, without GitHub accounts (editors are invited by email).
+# Events and Life Groups are NOT here: they come from Planning Center automatically.
+# Not yet tested against app.pagescms.org; check each form once after connecting the repo.
+media:
+  input: src/assets
+  output: /src/assets
+
+content:
+  - name: site
+    label: Site settings
+    type: file
+    path: src/content/site.yaml
+    fields:
+      - { name: name, label: Church name, type: string, description: 'Always "Spring of Life Church".' }
+      - { name: tagline, label: Tagline, type: string }
+      - { name: mission, label: Mission statement, type: text }
+      - { name: description, label: Search engine description, type: text }
+      - name: service
+        label: Sunday service
+        type: object
+        fields:
+          - { name: day, type: string }
+          - { name: time, type: string }
+          - { name: start_24h, label: Start time (24h), type: string }
+          - { name: length, type: string }
+          - { name: russian, label: Russian service note, type: string }
+      - name: address
+        label: Address
+        type: object
+        fields:
+          - { name: street, type: string }
+          - { name: city, type: string }
+          - { name: region, label: State, type: string }
+          - { name: postal_code, label: ZIP, type: string }
+          - { name: country, type: string }
+          - { name: lat, label: Latitude, type: number }
+          - { name: lng, label: Longitude, type: number }
+          - { name: maps_url, label: Google Maps link, type: string }
+      - { name: phone, type: string }
+      - { name: email, type: string }
+      - name: links
+        label: Links
+        type: object
+        fields:
+          - { name: church_center, type: string }
+          - { name: signups, type: string }
+          - { name: groups, type: string }
+          - { name: youtube, type: string }
+          - { name: youtube_live, type: string }
+          - { name: instagram, type: string }
+          - { name: facebook, type: string }
+          - { name: russian_site, type: string }
+          - { name: sermons, type: string }
+          - { name: bulletin, type: string }
+          - { name: give, type: string }
+          - { name: app_ios, type: string }
+          - { name: app_android, type: string }
+          - { name: app_ios_id, type: string }
+      - name: embeds
+        label: Subsplash embeds
+        type: object
+        fields:
+          - { name: latest_sermon, type: string }
+          - { name: give, type: string }
+
+  - name: home
+    label: Home page
+    type: file
+    path: src/content/home.yaml
+    fields:
+      - name: hero
+        type: object
+        fields:
+          - { name: headline, type: string }
+          - { name: image, type: image, description: Real church photos only. }
+          - { name: image_alt, label: Image description, type: string }
+      - name: quick_links
+        label: Photo cards under the hero (exactly 4)
+        type: object
+        list: true
+        fields:
+          - { name: title, type: string }
+          - { name: url, type: string }
+          - { name: image, type: image }
+          - { name: image_alt, label: Image description, type: string }
+      - name: sunday
+        type: object
+        fields:
+          - { name: title, type: string }
+          - { name: image, type: image }
+          - { name: image_alt, label: Image description, type: string }
+          - { name: points, type: string, list: true }
+      - name: groups
+        type: object
+        fields:
+          - { name: eyebrow, type: string }
+          - { name: title, type: string }
+          - { name: text, type: text }
+      - name: give
+        type: object
+        fields:
+          - { name: title, type: string }
+          - { name: text, type: text }
+      - name: app
+        type: object
+        fields:
+          - { name: title, type: string }
+          - { name: text, type: text }
+
+  - name: ministries
+    label: Ministry links (update signup IDs yearly)
+    type: file
+    path: src/content/ministry-links.yaml
+    fields:
+      - name: ministries
+        label: Ministries
+        type: object
+        list: true
+        fields:
+          - { name: id, label: ID (no spaces), type: string }
+          - name: group
+            type: select
+            options: { values: [kids, adults, schools, serve] }
+          - { name: title, type: string }
+          - { name: summary, type: text }
+          - { name: details, type: string, list: true }
+          - { name: signup_id, label: Church Center signup number, type: string, description: 'The number in the signup address, e.g. …/registrations/events/3824843 → 3824843. Leave empty if you use Link.' }
+          - { name: link, label: Link (if no signup), type: string }
+          - { name: cta, label: Button text, type: string }
+          - { name: image, type: image }
+
+  - name: next-steps
+    label: Next steps
+    type: file
+    path: src/content/next-steps.yaml
+    fields:
+      - name: steps
+        type: object
+        list: true
+        fields:
+          - { name: id, type: string }
+          - { name: title, type: string }
+          - { name: text, type: text }
+          - { name: url, label: Link (Church Center form or signup), type: string }
+          - { name: cta, label: Button text, type: string }
+          - { name: secondary_url, type: string }
+          - { name: secondary_cta, type: string }
+          - { name: home, label: Show on home page, type: boolean }
+          - { name: image, type: image }
+
+  - name: leaders
+    label: Leadership
+    type: file
+    path: src/content/leaders.yaml
+    fields:
+      - name: leaders
+        type: object
+        list: true
+        fields:
+          - { name: name, type: string }
+          - { name: role, type: string }
+          - { name: photo, type: image }
+
+  - name: beliefs
+    label: What we believe
+    type: file
+    path: src/content/beliefs.yaml
+    fields:
+      - { name: intro, type: text }
+      - name: beliefs
+        type: object
+        list: true
+        fields:
+          - { name: title, type: string }
+          - { name: text, type: text }
+      - { name: show_affiliations, label: Show statement link and affiliations, type: boolean }
+      - name: statement
+        type: object
+        fields:
+          - { name: label, type: string }
+          - { name: url, type: string }
+          - { name: text, type: string }
+      - name: affiliations
+        type: object
+        list: true
+        fields:
+          - { name: name, type: string }
+          - { name: url, type: string }
+
+  - name: group-overrides
+    label: Life Group exceptions
+    type: file
+    path: src/content/group-overrides.yaml
+    fields:
+      - name: groups
+        type: object
+        list: true
+        fields:
+          - { name: id, label: Group number, type: string, description: 'The number in the Planning Center Groups address, e.g. groups.planningcenteronline.com/groups/1570021 → 1570021.' }
+          - { name: image, type: string, description: '"none" hides the group photo; or a path like /src/assets/photos/x.jpg (real church photos only).' }
+          - { name: note, label: Why (not shown on the site), type: string }
+
+  - name: pages
+    label: Pages (Visit, About, Give)
+    type: collection
+    path: src/content/pages
+    format: yaml-frontmatter
+    fields:
+      - { name: title, type: string }
+      - { name: description, label: Search engine description, type: text }
+      - { name: intro, type: text }
+      - { name: body, type: rich-text }

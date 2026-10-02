@@ -1,0 +1,18 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../lib/content';
+---
+<div class="empty card">
+  <Icon name="calendar" />
+  <div>
+    <h3>No public events right now — see all signups on Church Center</h3>
+    <p class="muted">New events appear here automatically as soon as they're published in Planning Center.</p>
+    <a class="btn btn--primary btn--sm" href={site.links.signups} target="_blank" rel="noopener">All signups on Church Center <Icon name="external" /></a>
+  </div>
+</div>
+<style>
+  .empty { display: flex; gap: 1.25rem; align-items: flex-start; padding: clamp(22px, 3vw, 36px); }
+  .empty > :global(.icon) { width: 40px; height: 40px; color: var(--accent-text); flex: none; }
+  .empty h3 { font-size: var(--step-1); margin-bottom: 0.4rem; }
+  .empty p { margin-bottom: 1rem; }
+</style>

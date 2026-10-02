@@ -1,0 +1,210 @@
+{
+ "_note": "Test fixture: official API GET /registrations/v2/signups (X-PCO-API-Version 2025-05-01) for the website category, captured 2026-10-01.",
+ "links": {
+  "self": "https://api.planningcenteronline.com/registrations/v2/signups?filter=unarchived&include=categories%2Csignup_location%2Csignup_times%2Cnext_signup_time%2Cselection_types&where[categories]=111199"
+ },
+ "data": [
+  {
+   "type": "Signup",
+   "id": "3894463",
+   "attributes": {
+    "archived": false,
+    "close_at": null,
+    "closed": false,
+    "created_at": "2026-09-16T02:07:33Z",
+    "description": "<div><p><strong>Parenting is a gift, and it was never meant to be done alone.</strong></p><p>As a church, we believe the family is one of God’s most foundational institutions, created for His glory and designed to reflect His truth. Yet, we know the world is pressing hard against God’s design for the family. As parents, you are on the front lines, but you are not fighting alone. Our Family Ministries team desires to stand alongside you, build a supportive community, and strengthen our church, one family at a time.</p><p>Join us for an evening of biblical wisdom, honest conversation, and practical encouragement as we seek God’s direction for raising children with purpose, grace, and conviction.</p><p><strong>Evening Schedule &amp; Program</strong></p><ul><li><strong>Session 1: Biblical Teaching &amp; Encouragement<br></strong>We will open with a scripture-based message on what it means to raise children intentionally in a godly home. Grounded in biblical truth and shaped by grace, this session will offer encouragement and practical insights for navigating the daily joys and challenges of family life.</li><li><strong>Session 2: Live Q&amp;A Session<br></strong>Following the teaching, we will host a live Q&amp;A session addressing the real issues, questions, and concerns facing families today.</li></ul><p><strong>We Want to Hear From You: Poll &amp; Q&amp;A Submission</strong></p><p>To help us address the real joys, stresses, and needs of our congregation, please take a moment to complete our quick pulse poll and submit your questions ahead of time.</p><ul><li><strong>Take the Pulse Poll &amp; Submit Your Questions Here: </strong><a href=\"https://app.sli.do/event/tz2WwnXw4yCrHThnFst2tT\">https://app.sli.do/event/tz2WwnXw4yCrHThnFst2tT</a></li></ul><p><em>(Your responses are completely anonymous and will directly shape our live Q&amp;A session!)</em></p><p><strong>Registration &amp; Childcare Information</strong></p><ul><li><strong>Event Registration:</strong> Please register today to let us know you are coming!&nbsp;</li><li><strong>Childcare: </strong>Childcare is provided so you can fully focus on and enjoy the evening. To help our team prepare, please register your children in advance.&nbsp;</li></ul><p>Come be equipped, encouraged, and reminded that God’s Word speaks boldly and faithfully to every season of parenting. We look forward to gathering together for His glory!</p><div></div></div>",
+    "logo_url": "https://registrations.planningcenteronline.com/signups/3894463/logo",
+    "maximum_capacity": null,
+    "name": "Intentional Parenting",
+    "new_registration_url": "https://springoflifechurch.churchcenter.com/registrations/events/3894463/reservations/new",
+    "open": true,
+    "open_at": "2026-09-15T07:00:00Z",
+    "updated_at": "2026-09-20T17:22:01Z"
+   },
+   "links": {
+    "self": "https://api.planningcenteronline.com/registrations/v2/signups/3894463",
+    "html": "https://registrations.planningcenteronline.com/signups/3894463"
+   },
+   "relationships": {
+    "categories": {
+     "links": {
+      "related": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/categories"
+     },
+     "data": [
+      {
+       "type": "Category",
+       "id": "111199"
+      }
+     ]
+    },
+    "signup_location": {
+     "links": {
+      "related": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/signup_location"
+     },
+     "data": {
+      "type": "SignupLocation",
+      "id": "2627940"
+     }
+    },
+    "signup_times": {
+     "links": {
+      "related": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/signup_times"
+     },
+     "data": [
+      {
+       "type": "SignupTime",
+       "id": "6558749"
+      }
+     ]
+    },
+    "next_signup_time": {
+     "links": {
+      "related": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/next_signup_time"
+     },
+     "data": {
+      "type": "SignupTime",
+      "id": "6558749"
+     }
+    },
+    "selection_types": {
+     "links": {
+      "related": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/selection_types"
+     },
+     "data": [
+      {
+       "type": "SelectionType",
+       "id": "8901273"
+      },
+      {
+       "type": "SelectionType",
+       "id": "8901285"
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "included": [
+  {
+   "type": "Category",
+   "id": "111199",
+   "attributes": {
+    "created_at": "2026-10-02T02:04:52Z",
+    "name": "Website Category ",
+    "updated_at": "2026-10-02T02:04:52Z"
+   },
+   "links": {
+    "self": "https://api.planningcenteronline.com/registrations/v2/categories/111199"
+   }
+  },
+  {
+   "type": "SignupLocation",
+   "id": "2627940",
+   "attributes": {
+    "created_at": "2026-09-16T02:07:33Z",
+    "formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "full_formatted_address": "4711 116th St SW\n Mukilteo, WA 98275",
+    "latitude": "47.8940668",
+    "location_type": "address",
+    "longitude": "-122.2972691",
+    "name": "Spring Of Life Church",
+    "subpremise": null,
+    "updated_at": "2026-09-16T02:07:33Z",
+    "url": null
+   },
+   "links": {
+    "self": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/signup_location/2627940"
+   }
+  },
+  {
+   "type": "SignupTime",
+   "id": "6558749",
+   "attributes": {
+    "all_day": false,
+    "created_at": "2026-09-16T02:07:33Z",
+    "ends_at": "2026-10-04T04:00:00Z",
+    "starts_at": "2026-10-04T01:00:00Z",
+    "updated_at": "2026-09-16T02:22:08Z"
+   },
+   "links": {
+    "self": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/next_signup_time/6558749"
+   }
+  },
+  {
+   "type": "SignupTime",
+   "id": "6558749",
+   "attributes": {
+    "all_day": false,
+    "created_at": "2026-09-16T02:07:33Z",
+    "ends_at": "2026-10-04T04:00:00Z",
+    "starts_at": "2026-10-04T01:00:00Z",
+    "updated_at": "2026-09-16T02:22:08Z"
+   },
+   "links": {
+    "self": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/next_signup_time/6558749"
+   }
+  },
+  {
+   "type": "SelectionType",
+   "id": "8901273",
+   "attributes": {
+    "created_at": "2026-09-16T02:07:33Z",
+    "maximum_capacity": null,
+    "name": "Attendee",
+    "price_cents": 0,
+    "publicly_available": true,
+    "updated_at": "2026-09-16T02:12:25Z",
+    "waitlist": false
+   },
+   "links": {
+    "self": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/selection_types/8901273"
+   }
+  },
+  {
+   "type": "SelectionType",
+   "id": "8901285",
+   "attributes": {
+    "created_at": "2026-09-16T02:14:42Z",
+    "maximum_capacity": null,
+    "name": "Childcare",
+    "price_cents": 0,
+    "publicly_available": true,
+    "updated_at": "2026-09-20T04:00:34Z",
+    "waitlist": false
+   },
+   "links": {
+    "self": "https://api.planningcenteronline.com/registrations/v2/signups/3894463/selection_types/8901285"
+   }
+  }
+ ],
+ "meta": {
+  "total_count": 1,
+  "count": 1,
+  "can_order_by": [
+   "created_at",
+   "updated_at"
+  ],
+  "can_query_by": [
+   "campuses",
+   "categories",
+   "id",
+   "name"
+  ],
+  "can_include": [
+   "campuses",
+   "categories",
+   "next_signup_time",
+   "selection_types",
+   "signup_location",
+   "signup_times"
+  ],
+  "can_filter": [
+   "archived",
+   "unarchived"
+  ],
+  "parent": {
+   "id": "367520",
+   "type": "Organization"
+  }
+ }
+}

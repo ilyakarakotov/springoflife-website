@@ -1,0 +1,40 @@
+# Home page text and the four photo cards under the hero. Photos must be real church photos.
+hero:
+  headline: Following Jesus together.
+  image: /src/assets/photos/worship.jpg
+  image_alt: People worshipping during a Sunday service at Spring of Life Church
+quick_links:
+  - title: New here? Plan your visit
+    url: /visit
+    image: /src/assets/photos/building.jpg
+    image_alt: The Spring of Life Church building in Mukilteo
+  - title: Watch this week's sermon
+    url: /watch
+    image: /src/assets/photos/sanctuary-back.jpg
+    image_alt: The sanctuary during a Sunday sermon, with the livestream camera
+  - title: Kids & students
+    url: /ministries#kids
+    image: /src/assets/photos/sanctuary.jpg
+    image_alt: The congregation gathered in the Spring of Life sanctuary
+  - title: Music & serving
+    url: /ministries#serve
+    image: /src/assets/photos/worship.jpg
+    image_alt: The worship team leading songs on a Sunday
+sunday:
+  title: Join us on Sunday.
+  image: /src/assets/photos/sanctuary.jpg
+  image_alt: The congregation listening to a sermon in the Spring of Life sanctuary
+  points:
+    - About 90 minutes, with traditional and contemporary worship
+    - Childcare and activities for all ages
+    - Stay after the service for fellowship
+groups:
+  eyebrow: Life Groups
+  title: Study the Bible, pray and build friendships in a smaller group.
+  text: English Life Groups meet on weeknights in Mukilteo, Everett and nearby cities. Find one that fits your week.
+give:
+  title: Give
+  text: God is generous, and so he calls us to be as well. Everything we have has been given to us by God, and he calls us to steward it well.
+app:
+  title: Get the Spring of Life app
+  text: Sermons and church updates on your phone.

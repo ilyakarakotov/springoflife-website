@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import MinistryCard from '../components/MinistryCard.astro';
+import { ministries } from '../lib/content';
+
+const sections = [
+  { id: 'kids', title: 'Kids & students', lead: 'Programs for kids and teens through the week and on Sunday.' },
+  { id: 'adults', title: 'Groups & adults', lead: 'Grow in faith and friendship with others at church.' },
+  { id: 'schools', title: 'Schools', lead: 'Investing in the next generation.' },
+  { id: 'serve', title: 'Serve', lead: 'Use your gifts to serve the church and the city.' },
+] as const;
+---
+<Base title="Ministries" description="Ministries at Spring of Life Church: AWANA, kids choir, youth, Life Groups, SOL Music Academy, SOL Russian School and more.">
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Ministries</span>
+      <h1>Find your place</h1>
+      <p class="lead">Weekly programs for every age. Registration for each program runs through Church Center, and the buttons below always point to this year's signup.</p>
+      <nav class="jump" aria-label="Ministry sections">
+        {sections.map((s) => <a class="chip" href={`#${s.id}`}>{s.title}</a>)}
+      </nav>
+    </div>
+  </section>
+
+  {sections.map((s, i) => (
+    <section class:list={['section', 'section--tight', { 'section--soft': i % 2 === 1 }]} id={s.id} aria-labelledby={`${s.id}-title`}>
+      <div class="wrap">
+        <div class="section-head"><div><h2 id={`${s.id}-title`}>{s.title}</h2><p class="muted">{s.lead}</p></div></div>
+        <div class="grid grid--3">
+          {ministries.filter((m) => m.group === s.id).map((m) => <MinistryCard item={m} />)}
+        </div>
+      </div>
+    </section>
+  ))}
+</Base>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .jump .chip { padding: 0.5rem 0.95rem; font-size: 0.92rem; text-decoration: none; }
+  .jump .chip:hover { border-color: var(--text); }
+  section[id] { scroll-margin-top: 72px; }
+  .section-head p { margin: 0.4rem 0 0; }
+</style>

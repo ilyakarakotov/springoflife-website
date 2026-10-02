@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { img, external } from '../lib/content';
+import { href } from '../lib/url';
+import type { ministries } from '../lib/content';
+interface Props { item: (typeof ministries)[number]; compact?: boolean }
+const { item: m, compact = false } = Astro.props;
+const isPlaceholder = (s: string) => s.startsWith('[');
+---
+<article class:list={['ministry card', { 'ministry--compact': compact }]} id={m.id}>
+  {!compact && m.image && (
+    <Image src={img(m.image)} alt="" widths={[400, 720]} width={720} sizes="(min-width: 960px) 30vw, (min-width: 640px) 45vw, 100vw" class="media-16x9" />
+  )}
+  <div class="ministry-body">
+    <h3>{m.title}</h3>
+    <p class:list={{ 'placeholder-note': isPlaceholder(m.summary) }}>{m.summary}</p>
+    {!compact && m.details && (
+      <ul class="checklist">
+        {m.details.map((d) => <li class:list={{ 'placeholder-note': isPlaceholder(d) }}><Icon name="check" /><span>{d}</span></li>)}
+      </ul>
+    )}
+    {m.href && m.cta && (
+      <a class="text-link" href={href(m.href)} {...external(m.href)}>{m.cta}<Icon name={m.href.startsWith('/') ? 'arrow' : 'external'} /></a>
+    )}
+  </div>
+</article>
+<style>
+  .ministry { overflow: hidden; display: flex; flex-direction: column; scroll-margin-top: 96px; }
+  .ministry-body { display: flex; flex-direction: column; gap: 0.75rem; padding: clamp(18px, 2.4vw, 28px); flex: 1; }
+  .ministry-body h3 { font-size: var(--step-1); margin: 0; }
+  .ministry-body p { margin: 0; color: var(--text-2); }
+  .ministry-body .text-link { margin-top: auto; padding-top: 0.25rem; }
+  .ministry .checklist { font-size: 0.95rem; }
+</style>

@@ -1,0 +1,16 @@
+# Keeps the SHA-pinned GitHub Actions current (a PR per update, with the new SHA and version
+# comment) and opens PRs for npm packages only when there is a security advisory.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0   # 0 = security updates only (they ignore this limit)

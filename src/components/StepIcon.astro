@@ -1,0 +1,7 @@
+---
+import Icon from './Icon.astro';
+const map = { baptism: 'waves', membership: 'house', 'life-group': 'users', serve: 'heart', prayer: 'chat', connect: 'card', 'baby-dedication': 'baby', engagement: 'ring' } as const;
+interface Props { id: string }
+const name = map[Astro.props.id as keyof typeof map] ?? 'arrow';
+---
+<Icon name={name} class="step-icon" />
