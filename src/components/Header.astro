@@ -7,34 +7,39 @@ import { href, pagePath } from '../lib/url';
 interface Props { overlay?: boolean }
 const { overlay = false } = Astro.props;
 const path = pagePath(Astro.url.pathname);
+// "Plan a visit" is the call to action (header button, and the first item of the phone menu), so
+// Visit isn't repeated as a plain link. Life Groups shows under Ministries in the phone menu.
 const nav = [
-  { href: '/visit', label: 'Visit' },
   { href: '/about', label: 'About' },
-  { href: '/ministries', label: 'Ministries', also: ['/life-groups'] },
+  { href: '/ministries', label: 'Ministries', also: ['/life-groups'], sub: { href: '/life-groups', label: 'Life Groups' } },
   { href: '/watch', label: 'Watch' },
   { href: '/events', label: 'Events' },
   { href: '/next-steps', label: 'Next Steps' },
   { href: '/give', label: 'Give' },
 ];
-const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.also ?? []).includes(path);
+const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.also ?? []).includes(path) || path.startsWith(`${item.href}/`);
 ---
-<header class:list={['site-header', { 'site-header--overlay': overlay }]} data-header>
+<header class:list={['site-header', { 'site-header--overlay on-photo': overlay }]} data-header>
   <div class="wrap header-row">
     <a class="brand" href={href('/')}>
       <BrandMark define />
       <span class="brand-text"><b>Spring of Life</b> <span>Church</span></span>
     </a>
     <nav class="nav" id="site-nav" aria-label="Main">
+      <a class="btn btn--primary nav-cta" href={href('/visit')} aria-current={path === '/visit' ? 'page' : undefined}>Plan a visit</a>
       <ul>
         {nav.map((item) => (
-          <li><a href={href(item.href)} aria-current={isCurrent(item) ? 'page' : undefined}>{item.label}</a></li>
+          <li>
+            <a href={href(item.href)} aria-current={path === item.href ? 'page' : isCurrent(item) ? 'true' : undefined}>{item.label}</a>
+            {item.sub && <a class="nav-sub" href={href(item.sub.href)} aria-current={path === item.sub.href ? 'page' : undefined}>{item.sub.label}</a>}
+          </li>
         ))}
       </ul>
-      <a class="btn btn--primary nav-cta" href={href('/visit')}>Plan a visit</a>
+      <p class="nav-service">{site.service.day}s {site.service.time} · {site.address.street}, {site.address.city}</p>
     </nav>
     <div class="header-actions">
       <a class="lang" href={site.links.russian_site} hreflang="ru" lang="ru" title="Русский сайт церкви">
-        <Icon name="globe" /><span class="lang-full">Русский</span><span class="lang-short">RU</span>
+        <Icon name="globe" /><span class="lang-full">Русский</span><span class="lang-short">Рус</span>
       </a>
       <a class:list={['btn btn--sm header-cta', overlay ? 'btn--ghost-light' : 'btn--strong']} href={href('/visit')}>Plan a visit</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-btn>
@@ -72,7 +77,7 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
     });
     // A link to a section of the current page (e.g. /ministries/#kids) must close the menu.
     nav.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) set(false); });
-    matchMedia('(min-width: 1080px)').addEventListener('change', (e) => { if (e.matches) set(false); });
+    matchMedia('(min-width: 1024px)').addEventListener('change', (e) => { if (e.matches) set(false); });
   }
 </script>
 
@@ -82,54 +87,70 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
   /* A backdrop-filter makes the header the containing block for position:fixed children, which
      squeezed the open phone menu into the 72px header on every inner page. No filter while open. */
   .site-header[data-open] { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--bg); }
-  .header-row { display: flex; align-items: center; gap: 1rem; min-height: 72px; }
+  .header-row { display: flex; align-items: center; gap: 0.75rem; min-height: 72px; }
   .site-header--overlay .header-row { min-height: 88px; }
 
-  .brand { display: inline-flex; align-items: center; gap: 0.65rem; text-decoration: none; color: inherit; margin-right: auto; }
+  .brand { display: inline-flex; align-items: center; gap: 0.65rem; text-decoration: none; color: inherit; margin-right: auto; border-radius: 8px; }
   .brand :global(.brand-mark) { width: 38px; height: 38px; flex: none; }
   .brand-text { display: flex; flex-direction: column; line-height: 1; text-transform: uppercase; }
-  .brand-text b { font-size: 1.12rem; font-weight: 800; letter-spacing: 0.01em; }
+  .brand-text b { font-size: 1.12rem; font-weight: 800; letter-spacing: 0.01em; white-space: nowrap; }
   .brand-text span { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.32em; margin-top: 4px; opacity: 0.9; }
 
   .header-actions { display: flex; align-items: center; gap: 0.5rem; }
-  .lang { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; padding: 0 0.6rem; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 0.92rem; color: inherit; }
+  .lang { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; min-height: 40px; min-width: 44px; padding: 0 0.75rem; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 0.92rem; color: inherit;
+    border: 1px solid color-mix(in srgb, currentColor 22%, transparent); }
   .lang:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+  .lang :global(.icon) { width: 1em; height: 1em; }
   .lang-short { display: none; }
   .menu-btn { display: none; width: 48px; height: 48px; border-radius: 999px; border: 0; background: transparent; color: inherit; cursor: pointer; align-items: center; justify-content: center; }
   .menu-btn :global(.icon) { width: 26px; height: 26px; }
   .menu-btn :global(.i-close), [data-open] .menu-btn :global(.i-open) { display: none; }
   [data-open] .menu-btn :global(.i-close) { display: block; }
 
-  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.25rem; }
-  .nav a:not(.btn) { display: block; padding: 0.55rem 0.8rem; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.97rem; color: inherit; opacity: 0.92; }
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.1rem; }
+  .nav a:not(.btn) { display: block; padding: 0.55rem 0.7rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.97rem; color: inherit; opacity: 0.9; }
   .nav a:not(.btn):hover { opacity: 1; background: color-mix(in srgb, currentColor 9%, transparent); }
-  .nav a[aria-current='page'] { opacity: 1; background: color-mix(in srgb, currentColor 10%, transparent); }
-  .nav-cta { display: none; }
+  /* Current section: an underline in the accent (white on the home photo). */
+  .nav a[aria-current]:not(.btn) { opacity: 1; box-shadow: inset 0 -2px 0 var(--accent-text); border-radius: 0; }
+  .site-header--overlay .nav a[aria-current]:not(.btn) { box-shadow: inset 0 -2px 0 #fff; }
+  .nav-cta, .nav a.nav-sub, .nav-service { display: none; }
 
-  @media (max-width: 1079.98px) {
+  @media (max-width: 1023.98px) {
     .menu-btn { display: inline-flex; }
-    .header-cta, .lang-full { display: none; }
+    .lang-full { display: none; }
     .lang-short { display: inline; }
-    .lang :global(.icon) { display: none; }
-    .lang { width: 44px; justify-content: center; padding: 0; background: color-mix(in srgb, currentColor 14%, transparent); }
+    .header-cta { display: none; }
     .nav { display: none; }
     [data-open] .nav {
-      display: flex; flex-direction: column; gap: 1.25rem; position: fixed; inset: 72px 0 0; z-index: 49; padding: 1.25rem var(--gutter) 2rem;
+      display: flex; flex-direction: column; gap: 1rem; position: fixed; inset: 72px 0 0; z-index: 49; padding: 1.25rem var(--gutter) 2rem;
       background: var(--bg); color: var(--text); overflow-y: auto; border-top: 1px solid var(--border);
     }
     .site-header--overlay[data-open] { background: var(--bg); color: var(--text); }
     .site-header--overlay[data-open] .header-row { min-height: 72px; }
-    [data-open] .nav ul { flex-direction: column; gap: 0; }
-    [data-open] .nav a:not(.btn) { font-size: 1.5rem; font-weight: 800; padding: 0.7rem 0; border-radius: 0; border-bottom: 1px solid var(--border); }
-    [data-open] .nav a[aria-current='page'] { background: none; color: var(--accent-text); }
-    [data-open] .nav-cta { display: inline-flex; }
+    [data-open] .nav ul { flex-direction: column; gap: 0; order: 2; }
+    [data-open] .nav a:not(.btn) { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.01em; padding: 0.75rem 0; border-radius: 0; border-bottom: 1px solid var(--border); opacity: 1; }
+    [data-open] .nav a[aria-current]:not(.btn) { box-shadow: none; color: var(--accent-text); }
+    [data-open] .nav a.nav-sub { display: block; font-size: 1.0625rem; font-weight: 600; padding: 0.6rem 0 0.6rem 1.25rem; color: var(--text-2); }
+    [data-open] .nav-cta { display: inline-flex; order: 1; align-self: stretch; }
+    [data-open] .nav-service { display: block; order: 3; margin: 0.5rem 0 0; font-size: 0.9375rem; color: var(--muted); }
+    @media (prefers-reduced-motion: no-preference) {
+      [data-open] .nav { animation: menu-in 150ms var(--ease) both; }
+    }
   }
-  @media (max-width: 380px) { .brand-text b { font-size: 1rem; } :global(.brand-mark) { width: 34px; height: 34px; } }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  /* "Plan a visit" stays visible next to the menu from 480 px; below that it's the menu's first item. */
+  @media (min-width: 480px) and (max-width: 1023.98px) { .header-cta { display: inline-flex; } [data-open] .header-cta { display: none; } }
+  @media (min-width: 1024px) and (max-width: 1159.98px) {
+    .nav a:not(.btn) { padding-inline: 0.55rem; font-size: 0.94rem; }
+    .lang :global(.icon) { display: none; }
+  }
+  @media (max-width: 359.98px) { .lang :global(.icon) { display: none; } .lang { padding: 0 0.6rem; } }
+  @media (max-width: 380px) { .brand-text b { font-size: 1rem; } .brand :global(.brand-mark) { width: 34px; height: 34px; } .header-row { gap: 0.5rem; } }
   /* No JavaScript: no toggle; the links wrap under the logo instead. */
-  @media (scripting: none) and (max-width: 1079.98px) {
+  @media (scripting: none) and (max-width: 1023.98px) {
     .menu-btn { display: none; }
     .header-row { flex-wrap: wrap; padding-bottom: 0.5rem; }
     .nav { display: block; order: 3; flex-basis: 100%; }
-    .nav ul { flex-wrap: wrap; gap: 0 0.1rem; margin-left: -0.8rem; }
+    .nav ul { flex-wrap: wrap; gap: 0 0.1rem; margin-left: -0.7rem; }
   }
 </style>
