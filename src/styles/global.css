@@ -73,6 +73,7 @@
   --dur-1: 140ms;
   --dur-2: 240ms;
   --dur-arrive: 900ms;
+  --scroll-linear: linear; /* scroll-driven timing (see motion.css) */
 
   /* The wave from the logo mark: a small signature before page eyebrows. */
   --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 8'%3E%3Cpath d='M1 6C5 6 6.5 2 11 2s5.5 4 9.5 4S25 3.4 27 2.6' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");

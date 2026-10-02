@@ -8,4 +8,4 @@ interface Props { to: string; label: string; class?: string }
 const { to, label, class: cls } = Astro.props;
 const ext = isExternal(to);
 ---
-<a class:list={['more-link', cls]} href={href(to)} {...(ext ? { target: '_blank', rel: 'noopener' } : {})}><span>{label}</span><span class="arrow-circle arrow-circle--sm" aria-hidden="true"><Icon name={ext ? 'external' : 'arrow'} /></span></a>
+<a class:list={['more-link', cls]} data-reveal href={href(to)} {...(ext ? { target: '_blank', rel: 'noopener' } : {})}><span>{label}</span><span class="arrow-circle arrow-circle--sm" aria-hidden="true"><Icon name={ext ? 'external' : 'arrow'} /></span></a>

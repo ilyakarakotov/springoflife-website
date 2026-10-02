@@ -10,7 +10,9 @@
      page dusking into it) uses CSS scroll-driven animations, which run on the compositor. Browsers
      without them get a still page.
    - prefers-reduced-motion: reduce turns all of it off (global.css stops every animation and
-     transition; the script holds nothing back). Print shows everything. */
+     transition; the script holds nothing back). Print shows everything.
+   - Scroll-driven rules write their timing as var(--scroll-linear): the CSS minifier otherwise
+     folds animation-timeline into the animation shorthand, which browsers reject. */
 
 /* ---- Arrivals (one-shot) ---- */
 [data-reveal] { transition: opacity var(--dur-arrive) var(--ease) var(--d, 0ms), translate var(--dur-arrive) var(--ease) var(--d, 0ms); }
@@ -45,21 +47,21 @@
 @supports (animation-timeline: view()) {
   .hero { view-timeline: --hero block; }
   .hero-photo {
-    animation: settle-photo 1.8s var(--ease) both, hero-lag linear both;
+    animation: settle-photo 1.8s var(--ease) both, hero-lag var(--scroll-linear) both;
     animation-timeline: auto, --hero;
     animation-range: normal, exit 0% exit 100%;
   }
   .hero-photo::after {
     content: ''; position: absolute; inset: 0; z-index: 1; background: #05080f; opacity: 0; pointer-events: none;
-    animation: hero-dim linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%;
+    animation: hero-dim var(--scroll-linear) both; animation-timeline: --hero; animation-range: exit 0% exit 100%;
   }
   .invite { view-timeline: --invite block; }
-  .invite-photo { animation: pull-back linear both; animation-timeline: --invite; animation-range: cover 0% cover 60%; }
+  .invite-photo { animation: pull-back var(--scroll-linear) both; animation-timeline: --invite; animation-range: cover 0% cover 60%; }
   /* The page dusks a little as the closing photo rises: a soft shade on the section above it. */
   .invite::before {
     content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: min(42vh, 380px); pointer-events: none;
     background: linear-gradient(to bottom, rgb(20 26 38 / 0), rgb(20 26 38 / 0.02) 50%, rgb(20 26 38 / 0.075));
-    opacity: 0; animation: dusk linear both; animation-timeline: --invite; animation-range: entry 0% entry 100%;
+    opacity: 0; animation: dusk var(--scroll-linear) both; animation-timeline: --invite; animation-range: entry 0% entry 100%;
   }
 }
 

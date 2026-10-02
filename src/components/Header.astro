@@ -99,7 +99,7 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
     :global(body:has(main > .page-hero:first-child)) .site-header:not(.site-header--overlay) { margin-bottom: calc(-1 * var(--header-h)); }
   }
   @supports (animation-timeline: scroll()) {
-    .site-header:not(.site-header--overlay):not([data-open])::before { animation: glass-in linear both; animation-timeline: scroll(root); animation-range: 0px 32px; }
+    .site-header:not(.site-header--overlay):not([data-open])::before { animation: glass-in var(--scroll-linear) both; animation-timeline: scroll(root); animation-range: 0px 32px; }
   }
   @keyframes glass-in { from { opacity: 0; } to { opacity: 1; } }
   .site-header--overlay { position: absolute; inset: 0 0 auto; color: #fff; }

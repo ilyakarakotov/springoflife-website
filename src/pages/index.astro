@@ -47,7 +47,7 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
     </div>
     <div class="hero-scrim" aria-hidden="true"></div>
     <div class="wrap hero-content">
-      <p class="hero-eyebrow eyebrow--wave">{site.name} · {site.address.city}</p>
+      <p class="hero-eyebrow eyebrow--wave" data-hero-text>{site.name} · {site.address.city}</p>
       <h1 id="hero-title" class="settle">{home.hero.headline}</h1>
       <p class="hero-when"><span>English service</span> · {site.service.day}s at {site.service.time}</p>
       <p class="hero-where">

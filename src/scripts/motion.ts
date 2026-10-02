@@ -1,7 +1,8 @@
 // The site's one motion script (rules and the CSS side: src/styles/motion.css).
 //
-// Header (Home): [data-solid] once the photo hero is behind it. Inner pages need no script (the
-// bar's glass fades in with a scroll-driven animation, Header.astro).
+// Header (Home): [data-solid] once the photo hero is behind it, or just before the hero's words
+// would slide under the clear bar, whichever comes first. Inner pages need no script (the bar's
+// glass fades in with a scroll-driven animation, Header.astro).
 //
 // Arrivals: things marked [data-reveal] that start below the first screen are held back
 // ([data-pending]) and let go once, as they scroll into view: in reading order, 80 ms apart, like
@@ -23,8 +24,12 @@ if (header && hero) {
     queued = false;
     header.toggleAttribute('data-solid', scrollY > solidAt);
   };
+  const words = hero.querySelector<HTMLElement>('[data-hero-text]');
   const measure = () => {
-    solidAt = Math.max(8, hero.offsetTop + hero.offsetHeight - header.offsetHeight);
+    const bar = header.offsetHeight;
+    const end = hero.offsetTop + hero.offsetHeight - bar;
+    const text = words ? words.getBoundingClientRect().top + scrollY - bar - 16 : end;
+    solidAt = Math.max(8, Math.min(end, text));
     update();
   };
   addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
