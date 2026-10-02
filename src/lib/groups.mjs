@@ -15,6 +15,6 @@ export const groupTagline = (audience) => (audience ? `A ${audience} group for B
  * @param {{ status: string | null, strategy: string | null }} enrollment
  */
 export function joinLabel(enrollment) {
-  if (enrollment.status !== 'open') return 'Learn more';
+  if (enrollment.status !== 'open') return 'See group on Church Center';
   return enrollment.strategy === 'open_signup' ? 'Join this group' : 'Request to join';
 }

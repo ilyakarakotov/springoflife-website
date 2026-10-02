@@ -12,7 +12,7 @@ const ongoing = ministries.filter((m) => m.signup_id);
   <section class="page-hero">
     <div class="wrap">
       <span class="eyebrow">Events</span>
-      <h1>What's happening</h1>
+      <h1>Coming up at Spring of Life</h1>
       <p class="lead">Upcoming events at Spring of Life Church. Registration and payment happen on Church Center, our Planning Center site.</p>
       <div class="btn-row">
         <a class="btn btn--outline btn--sm" href={href('/events.ics')}><Icon name="calendar" />Add to your calendar</a>
@@ -24,7 +24,6 @@ const ongoing = ministries.filter((m) => m.signup_id);
   <section class="section section--tight">
     <div class="wrap events-list" data-events-count={events.length}>
       {events.length === 0 ? <EventsEmpty /> : events.map((e, i) => <EventCard event={e} layout="wide" headingLevel="h2" eager={i === 0} />)}
-      <p class="notice"><Icon name="refresh" />This list updates automatically from Planning Center.</p>
     </div>
   </section>
 

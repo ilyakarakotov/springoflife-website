@@ -24,7 +24,7 @@ content:
           - { name: time, type: string }
           - { name: start_24h, label: Start time (24h), type: string }
           - { name: length, type: string }
-          - { name: russian, label: Russian service note, type: string }
+          - { name: russian_time, label: Russian service time (Sundays), type: string }
       - name: address
         label: Address
         type: object

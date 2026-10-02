@@ -51,7 +51,7 @@ export const site = load('site.yaml', siteRaw, z.object({
   tagline: z.string(),
   mission: z.string(),
   description: z.string(),
-  service: z.object({ day: z.string(), time: z.string(), start_24h: z.string(), length: z.string(), russian: z.string() }),
+  service: z.object({ day: z.string(), time: z.string(), start_24h: z.string(), length: z.string(), russian_time: z.string() }),
   address: z.object({
     street: z.string(), city: z.string(), region: z.string(), postal_code: z.string(), country: z.string(),
     lat: z.number(), lng: z.number(), maps_url: url,

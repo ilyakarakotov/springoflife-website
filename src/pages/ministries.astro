@@ -4,20 +4,20 @@ import MinistryCard from '../components/MinistryCard.astro';
 import { ministries } from '../lib/content';
 
 const sections = [
-  { id: 'kids', title: 'Kids & students', lead: 'Programs for kids and teens through the week and on Sunday.' },
-  { id: 'adults', title: 'Groups & adults', lead: 'Grow in faith and friendship with others at church.' },
+  { id: 'kids', title: 'Kids and teens', lead: 'Sunday school, AWANA, the kids choir and teens.' },
+  { id: 'adults', title: 'Groups and adults', lead: 'Life Groups, young adults and missions.' },
   { id: 'schools', title: 'Schools', lead: 'Investing in the next generation.' },
-  { id: 'serve', title: 'Serve', lead: 'Use your gifts to serve the church and the city.' },
+  { id: 'serve', title: 'Serve', lead: 'Use your gifts to serve the church.' },
 ] as const;
 // A section shows only when it has a card (cards whose text is still a placeholder are left out).
 const visible = sections.map((s) => ({ ...s, items: ministries.filter((m) => m.group === s.id) })).filter((s) => s.items.length > 0);
 ---
-<Base title="Ministries" description="Ministries at Spring of Life Church: AWANA, kids choir, youth, Life Groups, SOL Music Academy, SOL Russian School and more.">
+<Base title="Ministries" description="Ministries at Spring of Life Church: AWANA, kids choir, teens, Life Groups, young adults, SOL Music Academy, SOL Russian School and more.">
   <section class="page-hero">
     <div class="wrap">
       <span class="eyebrow">Ministries</span>
-      <h1>Find your place</h1>
-      <p class="lead">Weekly programs for every age. Registration for each program runs through Church Center, and the buttons below always point to this year's signup.</p>
+      <h1>Grow with us</h1>
+      <p class="lead">From AWANA on Wednesday nights to Life Groups during the week, here's what happens at Spring of Life beyond Sunday. Registration for each program is on Church Center, and every button below points to this year's signup.</p>
       <nav class="jump" aria-label="Ministry sections">
         {visible.map((s) => <a class="chip" href={`#${s.id}`}>{s.title}</a>)}
       </nav>

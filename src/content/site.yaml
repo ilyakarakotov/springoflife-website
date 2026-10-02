@@ -4,13 +4,13 @@
 name: Spring of Life Church
 tagline: Following Jesus together.
 mission: We exist for the glory of God. We glorify God by making disciples through the Word of God in worship and fellowship.
-description: Spring of Life Church in Mukilteo, Washington. Join us for our English service every Sunday at 12:00 pm.
+description: Spring of Life Church in Mukilteo, Washington. Join us for our English service every Sunday at 12:00 pm. Everyone is welcome.
 service:
   day: Sunday
   time: "12:00 pm"
   start_24h: "12:00"
   length: About 90 minutes
-  russian: The Russian-language service meets Sundays at 10:00 am.
+  russian_time: "10:00 am"   # the Russian-language service, also on Sundays
 address:
   street: 4711 116th St SW
   city: Mukilteo

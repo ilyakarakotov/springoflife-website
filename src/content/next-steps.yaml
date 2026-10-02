@@ -4,7 +4,7 @@
 steps:
   - id: baptism
     title: Get baptized
-    text: Ready to proclaim your faith? Sign up for the next baptism.
+    text: Ready to proclaim your faith? Sign up to get baptized.
     url: https://springoflifechurch.churchcenter.com/registrations/events/915918
     cta: Sign up
     home: true
@@ -12,7 +12,7 @@ steps:
 
   - id: membership
     title: Become a member
-    text: Start with SOL 101, our membership class. It's your next step toward membership at Spring of Life Church.
+    text: Interested in becoming a member? Start with SOL 101, our membership class.
     url: https://springoflifechurch.churchcenter.com/registrations/events/2346933
     cta: Sign up for SOL 101
     secondary_url: https://springoflifechurch.churchcenter.com/people/forms/534076
@@ -28,32 +28,32 @@ steps:
 
   - id: serve
     title: Serve with us
-    text: There's a place for you on a team. Tell us where you'd like to help.
+    text: Join a ministry and serve the church. Tell us where you'd like to help.
     url: https://springoflifechurch.churchcenter.com/people/forms/213642
     cta: Join a team
     home: true
 
   - id: prayer
     title: Ask for prayer
-    text: Our prayer team prays for every request.
+    text: Tell us how we can pray for you.
     url: https://springoflifechurch.churchcenter.com/people/forms/234113
     cta: Send a prayer request
     home: true
 
   - id: connect
     title: Fill out a connect card
-    text: New here or have a question? Let us know and someone will reach out.
+    text: New here, or have a question? Tell us a little about yourself.
     url: https://springoflifechurch.churchcenter.com/people/forms/165415
     cta: Connect card
 
   - id: baby-dedication
     title: Dedicate your child
-    text: Celebrate a new child with the church family. Request a baby dedication.
+    text: Celebrate your new child with the church family. Dedications are on the second Sunday of each month.
     url: https://springoflifechurch.churchcenter.com/people/forms/348125
     cta: Request a dedication
 
   - id: engagement
     title: Share your engagement
-    text: Engaged? Let the church celebrate and pray with you.
+    text: Engaged? We'd love to celebrate and pray with you. Engagements are announced on the third Sunday of each month.
     url: https://springoflifechurch.churchcenter.com/people/forms/347950
-    cta: Tell us
+    cta: Share your news

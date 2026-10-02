@@ -32,8 +32,7 @@ import { site } from '../lib/content';
             <li><a href={site.links.sermons} target="_blank" rel="noopener"><span><b>All sermons</b><small>Series, speakers and past messages</small></span><Icon name="external" /></a></li>
             <li><a href={site.links.youtube} target="_blank" rel="noopener"><span><b>YouTube channel</b><small>Spring of Life Church | English</small></span><Icon name="external" /></a></li>
             <li><a href={site.links.bulletin} target="_blank" rel="noopener"><span><b>Weekly bulletin</b><small>Announcements and sermon notes</small></span><Icon name="external" /></a></li>
-            <li><a href={site.links.app_ios} target="_blank" rel="noopener"><span><b>Spring of Life app</b><small>iPhone and iPad</small></span><Icon name="external" /></a></li>
-            <li><a href={site.links.app_android} target="_blank" rel="noopener"><span><b>Spring of Life app</b><small>Android</small></span><Icon name="external" /></a></li>
+            <li class="app-row"><span><b>Spring of Life app</b><small>Sermons on your phone</small></span><span class="app-links"><a href={site.links.app_ios} target="_blank" rel="noopener">iPhone</a><span aria-hidden="true">·</span><a href={site.links.app_android} target="_blank" rel="noopener">Android</a></span></li>
           </ul>
         </div>
       </aside>
@@ -55,4 +54,7 @@ import { site } from '../lib/content';
   .links a:hover b { text-decoration: underline; text-underline-offset: 3px; }
   .links span { display: grid; }
   .links small { color: var(--muted); font-size: 0.88rem; }
+  .app-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; }
+  .app-links { display: inline-flex; gap: 0.5rem; font-weight: 700; }
+  .links .app-links a { display: inline; padding: 0; color: var(--accent-text); text-underline-offset: 3px; }
 </style>

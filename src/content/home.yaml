@@ -8,33 +8,34 @@ quick_links:
     url: /visit
     image: /src/assets/photos/building.jpg
     image_alt: The Spring of Life Church building in Mukilteo
-  - title: Watch this week's sermon
+  - title: Watch the latest sermon
     url: /watch
     image: /src/assets/photos/sanctuary-back.jpg
     image_alt: The sanctuary during a Sunday sermon, with the livestream camera
-  - title: Kids & students
+  - title: Kids and teens
     url: /ministries#kids
     image: /src/assets/photos/sanctuary.jpg
     image_alt: The congregation gathered in the Spring of Life sanctuary
-  - title: Music & serving
+  - title: Serve with us
     url: /ministries#serve
     image: /src/assets/photos/worship.jpg
     image_alt: The worship team leading songs on a Sunday
 sunday:
-  title: Join us on Sunday.
+  title: Join us on Sunday
   image: /src/assets/photos/sanctuary.jpg
   image_alt: The congregation listening to a sermon in the Spring of Life sanctuary
   points:
     - About 90 minutes, with traditional and contemporary worship
     - Childcare and activities for all ages
+    - Come 30 minutes early and grab a coffee
     - Stay after the service for fellowship
 groups:
   eyebrow: Life Groups
   title: Study the Bible, pray and build friendships in a smaller group.
-  text: English Life Groups meet on weeknights in Mukilteo, Everett and nearby cities. Find one that fits your week.
+  text: Fellowship is essential to your walk with Jesus. In Life Groups we build deep friendships and do life together. Find one that fits your week.
 give:
-  title: Give
+  title: Why we give
   text: God is generous, and so he calls us to be as well. Everything we have has been given to us by God, and he calls us to steward it well.
 app:
   title: Get the Spring of Life app
-  text: Sermons and church updates on your phone.
+  text: Stay connected and catch up on sermons from your phone.

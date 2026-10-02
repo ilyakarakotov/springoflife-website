@@ -129,5 +129,5 @@ test('validation rejects a group that carries anything but card fields', () => {
 test('button text follows the Church Center enrollment setting', () => {
   assert.equal(joinLabel({ status: 'open', strategy: 'request_to_join' }), 'Request to join');
   assert.equal(joinLabel({ status: 'open', strategy: 'open_signup' }), 'Join this group');
-  assert.equal(joinLabel({ status: 'full', strategy: 'request_to_join' }), 'Learn more');
+  assert.equal(joinLabel({ status: 'full', strategy: 'request_to_join' }), 'See group on Church Center');
 });
