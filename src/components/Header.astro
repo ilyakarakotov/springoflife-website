@@ -36,7 +36,7 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
       <a class="lang" href={site.links.russian_site} hreflang="ru" lang="ru" title="Русский сайт церкви">
         <Icon name="globe" /><span class="lang-full">Русский</span><span class="lang-short">RU</span>
       </a>
-      <a class:list={['btn btn--sm header-cta', overlay ? 'btn--light' : 'btn--dark']} href={href('/visit')}>Plan a visit</a>
+      <a class:list={['btn btn--sm header-cta', overlay ? 'btn--ghost-light' : 'btn--strong']} href={href('/visit')}>Plan a visit</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-btn>
         <Icon name="menu" class="i-open" /><Icon name="close" class="i-close" />
         <span class="visually-hidden">Menu</span>
