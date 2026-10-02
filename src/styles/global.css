@@ -9,7 +9,9 @@
 :root {
   color-scheme: light dark;
   --font: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-serif: 'Newsreader', 'Newsreader Fallback', Georgia, 'Times New Roman', serif;
+  /* Newsreader joins when a serif line nears the screen (html.fonts-late, src/scripts/site.ts):
+     the lines are all below the first screen, and fetching it early competed with the hero photo. */
+  --font-serif: 'Newsreader Fallback', Georgia, 'Times New Roman', serif;
 
   /* Colour */
   --bg: #ffffff;
@@ -112,6 +114,7 @@
 
 /* Newsreader Italic falls back to Georgia Italic scaled to the same width and line metrics
    (measured in Chrome), so when the web font arrives nothing moves. */
+:root.fonts-late { --font-serif: 'Newsreader', 'Newsreader Fallback', Georgia, 'Times New Roman', serif; }
 @font-face {
   font-family: 'Newsreader Fallback';
   font-style: italic;
