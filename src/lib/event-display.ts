@@ -6,6 +6,7 @@ import { dateBadge, formatDateLabel, formatTimeLabel, formatRange, localDate } f
 import { registrationStatus, registrationLabel, eventPath } from './events.mjs';
 import { syncedImage } from './media';
 import { href } from './url';
+import { keepTimes } from './text.mjs';
 
 const title = (s: string) => s.charAt(0) + s.slice(1).toLowerCase();
 
@@ -23,8 +24,8 @@ export function eventDisplay(e: SyncedEvent) {
     badge: badge ? { month: title(badge.month), day: badge.day } : null,
     isoDate: e.starts_at ? localDate(e.starts_at) : null,
     dateLabel,
-    when: when || 'Date to be announced',
-    fullWhen: formatRange(e),                           // "Sat, Oct 3 · 6:00–9:00 pm"
+    when: keepTimes(when) || 'Date to be announced',
+    fullWhen: keepTimes(formatRange(e)),                // "Sat, Oct 3 · 6:00–9:00 pm"
     place,
     price: e.price?.label ?? null,
     state: registrationStatus(e, buildTime),

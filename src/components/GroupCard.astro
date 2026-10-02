@@ -9,6 +9,7 @@ import { img } from '../lib/content';
 import { groupLine, joinLabel, groupDisplayTitle, groupMonogram, scheduleDays, areaPlaces } from '../lib/groups.mjs';
 import { syncedImage, CARD_WIDTHS } from '../lib/media';
 import { lqip, syncedPreview } from '../lib/lqip';
+import { keepTimes } from '../lib/text.mjs';
 
 interface Props { group: PublicGroup; eager?: boolean }
 const { group: g, eager = false } = Astro.props;
@@ -36,7 +37,7 @@ const places = areaPlaces(g.area).map((p) => p.toLowerCase()).join('|');
     <div class="group-body">
       <p class="group-chips">
         {g.schedule
-          ? <span class="chip chip--accent"><Icon name="clock" />{g.schedule}</span>
+          ? <span class="chip chip--accent"><Icon name="clock" />{keepTimes(g.schedule)}</span>
           : <span class="chip"><Icon name="clock" />Day and time on Church Center</span>}
         {g.area && <span class="chip"><Icon name="pin" />{g.area}</span>}
         {g.virtual && <span class="chip"><Icon name="globe" />Meets online</span>}

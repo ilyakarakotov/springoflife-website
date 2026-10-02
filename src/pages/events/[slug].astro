@@ -8,6 +8,7 @@ import Icon from '../../components/Icon.astro';
 import { events, site, buildTime, type SyncedEvent } from '../../lib/content';
 import { eventSlug, eventPath, registrationStatus, registrationLabel } from '../../lib/events.mjs';
 import { formatDateLabel, formatTimeLabel, formatRange } from '../../lib/time.mjs';
+import { keepTimes } from '../../lib/text.mjs';
 import { eventJsonLd } from '../../lib/jsonld';
 import { syncedImage, CARD_WIDTHS } from '../../lib/media';
 import { syncedPreview } from '../../lib/lqip';
@@ -27,7 +28,7 @@ const jsonImage = image ? await getImage({ src: image, width: image.width, heigh
 const state = registrationStatus(e, buildTime);
 const status = registrationLabel(e, buildTime);
 const dateLabel = formatDateLabel(e);
-const timeLabel = formatTimeLabel(e);
+const timeLabel = keepTimes(formatTimeLabel(e));
 const isChurch = Boolean(e.location?.address && e.location.address.includes(site.address.street));
 const placeName = e.location?.name || (isChurch ? site.name : null);
 const address = e.location?.type === 'online' ? null : e.location?.address ?? null;
@@ -85,7 +86,7 @@ const ext = { target: '_blank', rel: 'noopener' };
           <div class="card side">
             <h2 class="h3">All dates</h2>
             <ul class="dates">
-              {[e, ...e.more_times].map((t) => <li>{formatRange(t)}</li>)}
+              {[e, ...e.more_times].map((t) => <li>{keepTimes(formatRange(t))}</li>)}
             </ul>
           </div>
         )}

@@ -17,6 +17,7 @@ import groupsData from '../data/groups.json';
 import { isLive } from './events.mjs';
 import { AUDIENCES } from './groups.mjs';
 import { hidePlaceholders, showPlaceholders } from './placeholders.mjs';
+import { keepTimesDeep } from './text.mjs';
 
 /** SHOW_PLACEHOLDERS=true: a draft build that keeps [placeholder] text, marked "Needs text". */
 export const SHOW_PLACEHOLDERS = showPlaceholders();
@@ -31,9 +32,10 @@ export function img(path: string): ImageMetadata {
   return mod.default;
 }
 
-/** Parse and validate a YAML file. [Placeholder] text is removed first (src/lib/placeholders.mjs). */
+/** Parse and validate a YAML file. [Placeholder] text is removed first (src/lib/placeholders.mjs), and a
+ *  time never breaks before its am/pm (keepTimes, src/lib/text.mjs). */
 function load<T extends z.ZodType>(name: string, raw: string, schema: T): z.infer<T> {
-  const data = parse(raw);
+  const data = keepTimesDeep(parse(raw));
   const result = schema.safeParse(SHOW_PLACEHOLDERS ? data : hidePlaceholders(data));
   if (!result.success) {
     throw new Error(`src/content/${name} is invalid:\n${z.prettifyError(result.error)}\n`
