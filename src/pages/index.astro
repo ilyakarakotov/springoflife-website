@@ -28,6 +28,8 @@ const HERO_SIZES = '(min-width: 960px) 135vw, 100vw';
 const heroAvif = await getImage({ src: heroImage, widths: HERO_WIDTHS, width: 2000, format: 'avif' });
 const heroPreview = await lqip(home.hero.image);
 const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image)));
+// The quick-card photos load at low priority: they already show a preview, and when Chrome boosted
+// the ones peeking into a phone's first screen they competed with the hero photo (LCP).
 ---
 <Base overlayHeader jsonLd={churchJsonLd()}>
   <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={heroAvif.srcSet.attribute} imagesizes={HERO_SIZES} fetchpriority="high" />
@@ -58,7 +60,7 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
         <li>
           <a class="quick-card on-photo" href={href(q.url)}>
             <img class="lqip" {...quickPreviews[i]} alt="" aria-hidden="true" />
-            <Image src={img(q.image)} alt="" widths={[360, 600]} width={600} sizes="(min-width: 960px) 25vw, (min-width: 640px) 44vw, 72vw" class={`focus-${q.image_focus}`} />
+            <Image src={img(q.image)} alt="" widths={[360, 600]} width={600} sizes="(min-width: 960px) 25vw, (min-width: 640px) 44vw, 72vw" fetchpriority="low" class={`focus-${q.image_focus}`} />
             <span class="quick-text">
               {q.kicker && <span class="quick-kicker">{q.kicker}</span>}
               <span class="quick-label">{q.title}</span>
