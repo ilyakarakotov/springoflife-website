@@ -27,3 +27,5 @@ if (header && btn && nav) {
   nav.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) set(false); });
   matchMedia('(min-width: 1024px)').addEventListener('change', (e) => { if (e.matches) set(false); });
 }
+
+export {}; // a module, not a global script (its names stay its own)

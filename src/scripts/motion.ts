@@ -101,3 +101,5 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObse
     }
   }
 }
+
+export {}; // a module, not a global script (its names stay its own)
