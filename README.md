@@ -357,6 +357,7 @@ Text in `[square brackets]` is a placeholder waiting for real wording. The site 
 bracketed phrase is cut from its sentence, a paragraph or list item that starts with one isn't
 shown, and a ministry card or next step whose text is only a placeholder is hidden (with its
 section, if nothing else is in it). To see every gap, build with `SHOW_PLACEHOLDERS=true`.
+Open questions for the pastors are in `docs/QUESTIONS-FOR-PASTORS.md`.
 
 **Photos:** real church photos only, no stock and no AI-generated images. New photos go in
 `src/assets/` (JPG, PNG or WebP; no HEIC) and are resized automatically. `src/assets/sync/`
@@ -387,6 +388,9 @@ one `<path>`).
   "Spring of Life Baptist Church" in PCO text. The doctrinal-statement link and association list
   from the old What We Believe page stay in `beliefs.yaml`, hidden (`show_affiliations: false`)
   until the pastors decide.
+- **Fonts:** Manrope (variable). The Latin file is preloaded; the Cyrillic subset (about 14 KB)
+  loads only when a page has Cyrillic text (the "Русский" link, a Russian event title), so Russian
+  text renders in Manrope too, with the system font as the fallback.
 - **Church Center modal** (`js.churchcenter.com/modal/v1`) is not used. Event and group buttons
   open Church Center in a new tab.
 - **Old URLs** (`src/lib/redirects.mjs`): `/i-m-new`, `/giving`, `/watch-live`, `/leadership`,

@@ -19,14 +19,16 @@ are in the README.
 >
 > Your personal bio stays on your Church Center page only. The website never shows it.
 
-## Content (placeholders marked `[...]` on the site)
-- [ ] About: "Our story".
-- [ ] Visit: kids check-in details, "When you arrive" (parking, entrance).
-- [ ] Ministries: Kids Choir rehearsal time, Youth description and time, Young Adults, Missions, Sunday kids details.
-- [ ] SOL Christian Academy grades (K–5, K–6 or K–8?).
-- [ ] Give: can checks be mailed to 4711 116th St SW?
-- [ ] Pastors: show the doctrinal statement link and affiliations on About? (`show_affiliations` in `beliefs.yaml`)
-- [ ] A few more recent photos (services, kids without identifiable faces, groups) and an official logo file without "Baptist".
+## Content
+Every page has real, sourced text now; nothing in `[brackets]` is published (builds leave
+placeholders out, and `check:dist` fails if one shows). What's still unconfirmed uses neutral
+wording until someone answers.
+- [ ] Go through `docs/QUESTIONS-FOR-PASTORS.md` with Pastor Igor, the Academy, Nick and Alex
+  (leader titles, kids on Sunday, parking, teens and young adults times, missions wording, Academy
+  grades, checks by mail, photo permissions).
+- [ ] Get permission for the Sunday-arrival photo (AM4A0032) used on Visit and Home, or replace it.
+- [ ] A few more recent photos (greeters, families arriving, kids without identifiable faces, a Life
+  Group) and the official vector logo without "Baptist".
 
 ## GitHub and hosting (preview first)
 - [ ] **Before the repository is made public:** rewrite the git history (squash). Early commits contained the Life Group leaders' real bios in `src/data/groups.json` and the test fixtures; the current files don't.
