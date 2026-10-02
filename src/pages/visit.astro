@@ -21,7 +21,7 @@ const tel = site.phone.replace(/[^\d+]/g, '');
         <h1>{visit.heading}</h1>
         <p class="lead">{visit.intro}</p>
         <ul class="visit-facts">
-          <li><Icon name="clock" /><span><b>{site.service.day}s at {site.service.time}</b><span class="meta">English service · {site.service.length.toLowerCase()}</span></span></li>
+          <li><Icon name="clock" /><span><b>{site.service.day}s at <span class="nowrap">{site.service.time}</span></b><span class="meta">English service · {site.service.length.toLowerCase()}</span></span></li>
           <li><Icon name="pin" /><span><b>{site.address.street}</b><span class="meta">{site.address.city}, {site.address.region} {site.address.postal_code}</span></span></li>
         </ul>
         <div class="btn-row">
@@ -116,6 +116,7 @@ const tel = site.phone.replace(/[^\d+]/g, '');
   .visit-facts li { display: flex; gap: 0.75rem; align-items: flex-start; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); }
   .visit-facts :global(.icon) { width: 22px; height: 22px; margin-top: 2px; color: var(--accent-text); }
   .visit-facts li > span { display: grid; }
+  .visit-facts .nowrap { white-space: nowrap; } /* "12:00 pm" broke before "pm" in the narrow cards at 1024 px */
   .visit-hero .btn-row { margin-top: 0; }
   .visit-photo { position: relative; margin: 0; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius); background: var(--surface-soft); }
   @media (min-width: 960px) { .visit-photo { aspect-ratio: 4 / 3; } }
