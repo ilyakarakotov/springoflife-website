@@ -276,8 +276,9 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
     .sunday { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
     .sunday-side { border-top: 0; border-left: 1px solid var(--border); }
   }
-  .times { display: grid; gap: 1.5rem; }
-  @media (min-width: 560px) { .times { grid-template-columns: auto auto; justify-content: start; column-gap: clamp(32px, 5vw, 64px); align-items: end; } }
+  /* Side by side when both fit, otherwise the Russian time wraps under the English one. A fixed
+     two-column grid pushed "10:00 am" into the "What to expect" column from 900 px up. */
+  .times { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.5rem clamp(32px, 5vw, 64px); }
   .time { display: grid; gap: 0.3rem; align-content: start; }
   .time-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
   .time-value { white-space: nowrap; font-size: clamp(3rem, 2.2rem + 3vw, 4.5rem); font-weight: 800; letter-spacing: -0.045em; line-height: 0.95; }
