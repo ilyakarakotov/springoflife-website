@@ -76,7 +76,7 @@ const ogAlt = image ? imageAlt : home.hero.image_alt;
       <slot />
     </main>
     <Footer />
-    <script>import '../scripts/motion';</script>
+    <script>import '../scripts/site';</script>
     {/* Structured data goes last: it carries Planning Center text, and the CSP <meta> that Astro
         adds to <head> only protects markup that comes after it. serializeJsonLd escapes < > &. */}
     {jsonLd.map((data) => <script type="application/ld+json" set:html={serializeJsonLd(data)} />)}
