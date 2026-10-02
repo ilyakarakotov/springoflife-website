@@ -5,6 +5,8 @@
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import LinkText from '../components/LinkText.astro';
+import ClosingInvite from '../components/ClosingInvite.astro';
 import { site, img, visit, forms } from '../lib/content';
 import { href } from '../lib/url';
 import { lqip } from '../lib/lqip';
@@ -18,7 +20,7 @@ const tel = site.phone.replace(/[^\d+]/g, '');
     <div class="wrap visit-hero-grid">
       <div class="visit-hero-text">
         <span class="eyebrow eyebrow--accent eyebrow--wave">Plan a visit</span>
-        <h1>{visit.heading}</h1>
+        <h1 class="settle">{visit.heading}</h1>
         <p class="lead">{visit.intro}</p>
         <ul class="visit-facts">
           <li><Icon name="clock" /><span><b>{site.service.day}s at {site.service.time}</b><span class="meta">English service · {site.service.length.toLowerCase()}</span></span></li>
@@ -26,12 +28,12 @@ const tel = site.phone.replace(/[^\d+]/g, '');
         </ul>
         <div class="btn-row">
           <a class="btn btn--primary" href={site.address.maps_url} target="_blank" rel="noopener"><Icon name="pin" />Get directions</a>
-          <a class="text-link" href={forms.connect} target="_blank" rel="noopener">Fill out a connect card<Icon name="external" /></a>
+          <a class="text-link" href={forms.connect} target="_blank" rel="noopener"><LinkText text="Fill out a connect card" icon="external" /></a>
         </div>
       </div>
       <figure class="visit-photo">
         <img class="lqip" {...preview} alt="" aria-hidden="true" />
-        <Picture src={photo} alt={visit.image_alt} widths={[560, 800, 1120, 1600]} sizes="(min-width: 1240px) 560px, (min-width: 960px) 44vw, 100vw"
+        <Picture src={photo} alt={visit.image_alt} widths={[560, 800, 1120, 1600]} sizes="(min-width: 1400px) 600px, (min-width: 960px) 44vw, 100vw"
           formats={['avif', 'webp']} loading="eager" fetchpriority="high" class="visit-img" />
       </figure>
     </div>
@@ -39,11 +41,11 @@ const tel = site.phone.replace(/[^\d+]/g, '');
 
   <section class="section" aria-labelledby="expect-title">
     <div class="wrap">
-      <div class="section-head"><h2 id="expect-title">What to expect</h2></div>
+      <div class="section-head"><h2 id="expect-title" data-reveal="lines">What to expect</h2></div>
       <ul class="expect-grid">
         {visit.expect.map((x) => (
-          <li class="expect-card">
-            <span class="expect-icon"><Icon name={x.icon} /></span>
+          <li class="expect-item" data-reveal>
+            <span class="icon-tile"><Icon name={x.icon} /></span>
             <h3 class="card-title">{x.title}</h3>
             <p>{x.text}</p>
           </li>
@@ -54,37 +56,37 @@ const tel = site.phone.replace(/[^\d+]/g, '');
 
   <section class="section section--soft" aria-label="Kids and arriving on Sunday">
     <div class="wrap duo">
-      <article class="duo-card" id="kids">
-        <span class="duo-icon"><Icon name="kids" /></span>
+      <article class="duo-item" id="kids" data-reveal>
+        <span class="icon-tile"><Icon name="kids" /></span>
         <h2>Kids</h2>
         <p>{visit.kids}</p>
-        <a class="text-link" href={href('/ministries#kids')}>Kids and teens ministries<Icon name="arrow" /></a>
+        <a class="text-link" href={href('/ministries#kids')}><LinkText text="Kids and teens ministries" icon="arrow" /></a>
       </article>
-      <article class="duo-card" id="arrive">
-        <span class="duo-icon"><Icon name="coffee" /></span>
+      <article class="duo-item" id="arrive" data-reveal>
+        <span class="icon-tile"><Icon name="coffee" /></span>
         <h2>When you arrive</h2>
         <p>{visit.arrival}</p>
-        <a class="text-link" href={site.address.maps_url} target="_blank" rel="noopener">Directions to {site.address.street}<Icon name="external" /></a>
+        <a class="text-link" href={site.address.maps_url} target="_blank" rel="noopener"><LinkText text={`Directions to ${site.address.street}`} icon="external" /></a>
       </article>
     </div>
   </section>
 
   <section class="section" aria-labelledby="here-title">
     <div class="wrap">
-      <div class="section-head"><h2 id="here-title">Getting here</h2></div>
+      <div class="section-head"><h2 id="here-title" data-reveal="lines">Getting here</h2></div>
       <div class="here">
-        <div class="here-card here-card--address">
+        <div class="here-item" data-reveal>
           <span class="eyebrow">Address</span>
           <p class="address">{site.name}<br />{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postal_code}</p>
           <a class="btn btn--outline" href={site.address.maps_url} target="_blank" rel="noopener">Open in Google Maps<Icon name="external" /></a>
         </div>
-        <div class="here-card">
+        <div class="here-item" data-reveal>
           <span class="eyebrow">Russian service</span>
           <p class="here-big tabular">{site.service.day}s at {site.service.russian_time}</p>
           <p>Spring of Life also worships in Russian every {site.service.day} morning, before the English service.</p>
-          <a class="text-link" href={site.links.russian_site} target="_blank" rel="noopener" hreflang="ru"><span lang="ru">Русский сайт</span><Icon name="external" /></a>
+          <a class="text-link" href={site.links.russian_site} target="_blank" rel="noopener" hreflang="ru"><LinkText text="Русский сайт" icon="external" lang="ru" /></a>
         </div>
-        <div class="here-card" id="contact">
+        <div class="here-item" id="contact" data-reveal>
           <span class="eyebrow">Contact us</span>
           <ul class="contact">
             <li><Icon name="phone" /><a href={`tel:${tel}`}>{site.phone}</a></li>
@@ -96,63 +98,56 @@ const tel = site.phone.replace(/[^\d+]/g, '');
     </div>
   </section>
 
-  <section class="section section--tight cta-band" aria-labelledby="cta-title">
-    <div class="wrap cta">
-      <div>
-        <h2 id="cta-title">New here, or have a question?</h2>
-        <p>Tell us a little about yourself on a connect card.</p>
-      </div>
-      <a class="btn btn--primary" href={forms.connect} target="_blank" rel="noopener">Fill out a connect card<Icon name="external" /></a>
-    </div>
-  </section>
+  {/* The closing band asks the page's one question (the hero photo is the entrance, so this one is the sanctuary). */}
+  <ClosingInvite title="New here, or have a question?" text="Tell us a little about yourself on a connect card." cta="Fill out a connect card" url={forms.connect} />
 </Base>
 
 <style>
-  .visit-hero-grid { display: grid; gap: clamp(28px, 4vw, 56px); align-items: center; }
+  .visit-hero-grid { display: grid; gap: clamp(32px, 4.5vw, 72px); align-items: center; }
   @media (min-width: 960px) { .visit-hero-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); } }
-  .visit-hero h1 { max-width: 12ch; }
-  .visit-facts { list-style: none; margin: 1.75rem 0; padding: 0; display: grid; gap: 12px; }
-  @media (min-width: 560px) { .visit-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .visit-facts li { display: flex; gap: 0.75rem; align-items: flex-start; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .visit-hero h1 { max-width: 11ch; margin-bottom: 0.4em; }
+  /* When and where: two facts on a hairline, no boxes. */
+  .visit-facts { list-style: none; margin: 2rem 0; padding: 0; display: grid; border-top: 1px solid var(--rule); }
+  @media (min-width: 560px) { .visit-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; } }
+  .visit-facts li { display: flex; gap: 0.75rem; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--rule); }
   .visit-facts :global(.icon) { width: 22px; height: 22px; margin-top: 2px; color: var(--accent-text); }
   .visit-facts li > span { display: grid; }
   .visit-hero .btn-row { margin-top: 0; }
-  .visit-photo { position: relative; margin: 0; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius); background: var(--surface-soft); }
-  @media (min-width: 960px) { .visit-photo { aspect-ratio: 4 / 3; } }
+  .visit-photo { position: relative; margin: 0; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius); background: var(--surface-soft); box-shadow: var(--shadow-2); }
+  @media (min-width: 960px) { .visit-photo { aspect-ratio: 4 / 4.2; } }
   .visit-photo > .lqip, .visit-photo :global(picture), .visit-photo :global(.visit-img) { position: absolute; inset: 0; width: 100%; height: 100%; }
   /* The file is cropped below the old sign line; the top edge stays put (object-position 50% 0). */
   .visit-photo > .lqip, .visit-photo :global(.visit-img) { object-fit: cover; object-position: 50% 0; }
 
-  .expect-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(14px, 2vw, 22px); }
+  /* What to expect: four columns on hairlines. */
+  .expect-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(28px, 3vw, 40px) clamp(24px, 3vw, 40px); }
   @media (min-width: 640px) { .expect-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1024px) { .expect-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .expect-card { display: grid; gap: 0.6rem; align-content: start; padding: clamp(20px, 2.4vw, 28px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
-  .expect-card p { margin: 0; color: var(--text-2); font-size: 0.97rem; }
-  .expect-icon, .duo-icon { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 0.4rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent-text); }
-  .expect-icon :global(.icon), .duo-icon :global(.icon) { width: 22px; height: 22px; }
+  .expect-item { display: grid; gap: 0.7rem; align-content: start; padding-top: clamp(22px, 2.4vw, 30px); border-top: 1px solid var(--rule); }
+  .expect-item .icon-tile { margin-bottom: 0.35rem; }
+  .expect-item .card-title { font-size: var(--step-2); letter-spacing: -0.02em; }
+  .expect-item p { margin: 0; color: var(--text-2); }
 
-  .duo { display: grid; gap: clamp(14px, 2vw, 22px); }
+  .duo { display: grid; gap: clamp(48px, 6vw, 96px); }
   @media (min-width: 900px) { .duo { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .duo-card { display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: clamp(24px, 3.5vw, 44px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); scroll-margin-top: 96px; }
-  .duo-card h2 { font-size: var(--step-3); margin: 0; }
-  .duo-card p { color: var(--text-2); font-size: var(--step-1); line-height: 1.55; max-width: 34rem; margin: 0.25rem 0 0.75rem; }
-  .duo-card .text-link { margin-top: auto; }
+  .duo-item { display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; scroll-margin-top: 96px; }
+  .duo-item .icon-tile { margin-bottom: 0.5rem; }
+  .duo-item h2 { margin: 0; }
+  .duo-item p { color: var(--text-2); font-size: var(--step-1); line-height: 1.6; max-width: 34rem; margin: 0.4rem 0 0.9rem; }
+  .duo-item .text-link { margin-top: auto; }
 
-  .here { display: grid; gap: clamp(14px, 2vw, 22px); }
+  /* Getting here: three columns on hairlines. */
+  .here { display: grid; gap: clamp(36px, 4vw, 48px) clamp(24px, 3vw, 48px); }
   @media (min-width: 900px) { .here { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  .here-card { display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: clamp(22px, 3vw, 32px); border: 1px solid var(--border); border-radius: var(--radius); scroll-margin-top: 96px; }
-  .here-card p { margin: 0; color: var(--text-2); }
-  .here-card .eyebrow { margin-bottom: 0.25rem; }
-  .address { font-size: var(--step-1); line-height: 1.5; color: var(--text) !important; font-weight: 600; margin-bottom: 0.75rem !important; }
-  .here-big { font-size: var(--step-2); font-weight: 700; color: var(--text) !important; }
-  .here-card .text-link, .here-card .btn { margin-top: auto; }
-  .contact { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.85rem; }
-  .contact li { display: flex; gap: 0.6rem; align-items: center; }
+  .here-item { display: flex; flex-direction: column; align-items: flex-start; gap: 0.55rem; padding-top: clamp(22px, 2.4vw, 30px); border-top: 1px solid var(--rule); scroll-margin-top: 96px; }
+  .here-item p { margin: 0; color: var(--text-2); }
+  .here-item .eyebrow { margin-bottom: 0.4rem; }
+  .address { font-size: var(--step-1); line-height: 1.5; color: var(--text) !important; font-weight: 600; margin-bottom: 0.9rem !important; }
+  .here-big { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.02em; color: var(--text) !important; }
+  .here-item .text-link, .here-item .btn { margin-top: auto; }
+  .here-item .text-link { padding-top: 0.5rem; }
+  .contact { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.9rem; }
+  .contact li { display: flex; gap: 0.65rem; align-items: center; }
   .contact :global(.icon) { color: var(--accent-text); }
   .contact a { color: var(--text); font-weight: 600; text-underline-offset: 3px; overflow-wrap: anywhere; }
-
-  .cta-band { background: var(--bg-tint); }
-  .cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2rem; }
-  .cta h2 { margin: 0 0 0.3rem; }
-  .cta p { margin: 0; color: var(--text-2); }
 </style>

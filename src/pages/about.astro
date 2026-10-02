@@ -2,6 +2,8 @@
 import { getEntry, render } from 'astro:content';
 import { Image, Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ClosingInvite from '../components/ClosingInvite.astro';
 import { site, img, leaders, beliefs } from '../lib/content';
 import { lqip } from '../lib/lqip';
 
@@ -18,33 +20,28 @@ const elders = leaders.filter((l) => isElder(l.role));
 const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
 ---
 <Base title={page.data.title} description={page.data.description}>
-  <section class="page-hero">
-    <div class="wrap">
-      <span class="eyebrow eyebrow--accent eyebrow--wave">About us</span>
-      <h1>{missionLead}</h1>
-      {missionRest.length > 0 && <p class="lead">{missionRest.join(' ')}</p>}
-    </div>
-  </section>
+  <PageHero eyebrow="About us" title={missionLead} lead={missionRest.length > 0 ? missionRest.join(' ') : undefined} class="about-hero" />
 
   <div class="wrap about-photo-wrap">
     <figure class="about-photo">
       <img class="lqip" {...preview} alt="" aria-hidden="true" />
       <Picture src={img(PHOTO)} alt="The congregation listening to a Sunday sermon in the Spring of Life sanctuary" widths={[640, 960, 1440, 2000]}
-        sizes="(min-width: 1240px) 1160px, 100vw" formats={['avif', 'webp']} loading="eager" fetchpriority="high" class="about-img" />
+        sizes="(min-width: 1400px) 1256px, 100vw" formats={['avif', 'webp']} loading="eager" fetchpriority="high" class="about-img" />
     </figure>
   </div>
 
-  <section class="section section--tight story-section">
-    <div class="wrap"><div class="prose story"><Content /></div></div>
+  {/* The story ends with a line of Scripture: the page's one serif moment (src/content/pages/about.md). */}
+  <section class="section story-section">
+    <div class="wrap"><div class="prose story" data-reveal><Content /></div></div>
   </section>
 
   <section class="section section--soft" id="beliefs" aria-labelledby="beliefs-title">
     <div class="wrap">
       <div class="section-head">
-        <div><span class="eyebrow">Statement of faith</span><h2 id="beliefs-title">What we believe</h2><p class="lead">{beliefs.intro}</p></div>
+        <div><span class="eyebrow">Statement of faith</span><h2 id="beliefs-title" data-reveal="lines">What we believe</h2><p class="lead" data-reveal>{beliefs.intro}</p></div>
       </div>
       <dl class="beliefs">
-        {beliefs.beliefs.map((b) => <div class="belief"><dt>{b.title}</dt><dd>{b.text}</dd></div>)}
+        {beliefs.beliefs.map((b) => <div class="belief" data-reveal><dt>{b.title}</dt><dd>{b.text}</dd></div>)}
       </dl>
       {beliefs.show_affiliations && (
         <div class="affiliations">
@@ -58,13 +55,13 @@ const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
   <section class="section" id="leadership" aria-labelledby="leaders-title">
     <div class="wrap">
       <div class="section-head">
-        <div><span class="eyebrow">Leadership</span><h2 id="leaders-title">Our pastors and leaders</h2>
-          <p class="lead">Our team is ready to serve and to answer any questions you may have.</p></div>
+        <div><span class="eyebrow">Leadership</span><h2 id="leaders-title" data-reveal="lines">Our pastors and leaders</h2>
+          <p class="lead" data-reveal>Our team is ready to serve and to answer any questions you may have.</p></div>
       </div>
       <ul class="leaders">
         {pastors.map((l) => (
-          <li>
-            <Image src={img(l.photo)} alt={`${l.name}, ${l.role}`} widths={[320, 480]} width={480} sizes="(min-width: 1100px) 230px, (min-width: 720px) 30vw, 45vw" class="leader-img" />
+          <li data-reveal>
+            <Image src={img(l.photo)} alt={`${l.name}, ${l.role}`} widths={[320, 480]} width={480} sizes="(min-width: 1100px) 300px, (min-width: 720px) 30vw, 45vw" class="leader-img" />
             <b>{l.name}</b><span>{l.role}</span>
           </li>
         ))}
@@ -74,8 +71,8 @@ const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
           <h3 class="elders-title">Elders</h3>
           <ul class="leaders">
             {elders.map((l) => (
-              <li>
-                <Image src={img(l.photo)} alt={`${l.name}, ${l.role}`} widths={[320, 480]} width={480} sizes="(min-width: 1100px) 230px, (min-width: 720px) 30vw, 45vw" class="leader-img" />
+              <li data-reveal>
+                <Image src={img(l.photo)} alt={`${l.name}, ${l.role}`} widths={[320, 480]} width={480} sizes="(min-width: 1100px) 300px, (min-width: 720px) 30vw, 45vw" class="leader-img" />
                 <b>{l.name}</b><span>{l.role}</span>
               </li>
             ))}
@@ -84,34 +81,45 @@ const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
       )}
     </div>
   </section>
+
+  <ClosingInvite />
 </Base>
 
 <style>
-  .page-hero h1 { max-width: 14ch; }
-  .page-hero { padding-bottom: clamp(96px, 12vw, 160px); }
-  .about-photo-wrap { margin-top: clamp(-120px, -9vw, -64px); }
-  .about-photo { position: relative; margin: 0; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius); background: var(--surface-soft); }
+  /* PageHero renders the band, so its class is matched globally. */
+  :global(.about-hero) { padding-bottom: clamp(120px, 14vw, 200px); }
+  :global(.about-hero h1) { max-width: 13ch; }
+  .about-photo-wrap { margin-top: clamp(-150px, -11vw, -80px); }
+  .about-photo { position: relative; margin: 0; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius); background: var(--surface-soft); box-shadow: var(--shadow-2); }
   @media (min-width: 960px) { .about-photo { aspect-ratio: 21 / 9; } }
   .about-photo > .lqip, .about-photo :global(picture), .about-photo :global(.about-img) { position: absolute; inset: 0; width: 100%; height: 100%; }
   .about-photo > .lqip, .about-photo :global(.about-img) { object-fit: cover; object-position: 50% 45%; }
-  .story { font-size: var(--step-1); line-height: 1.6; }
-  .story :global(h2) { font-size: var(--step-3); margin-top: 0; }
-  .story :global(p:last-child) { font-style: italic; color: var(--text); }
 
-  .beliefs { margin: 0; display: grid; column-gap: clamp(32px, 5vw, 72px); }
+  /* Our story: the heading on the left, the story on the right (wide screens); it ends in Scripture. */
+  .story { max-width: none; font-size: var(--step-1); line-height: 1.7; }
+  .story :global(h2) { font-size: var(--step-3); margin: 0 0 0.6em; }
+  .story :global(p) { max-width: 40rem; }
+  @media (min-width: 1024px) {
+    .story { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(40px, 6vw, 112px); }
+    .story > :global(*) { grid-column: 2; }
+    .story > :global(h2) { grid-column: 1; grid-row: 1 / span 6; align-self: start; }
+  }
+  .story :global(p:last-child) { margin-top: 1.6em; padding-top: 1.1em; border-top: 1px solid var(--rule); font-family: var(--font-serif); font-style: italic; font-size: clamp(1.625rem, 1.2rem + 1.4vw, 2.375rem); line-height: 1.22; letter-spacing: -0.012em; color: var(--text); text-wrap: balance; }
+
+  .beliefs { margin: 0; display: grid; column-gap: clamp(40px, 6vw, 96px); }
   @media (min-width: 860px) { .beliefs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .belief { padding: 1.25rem 0; border-top: 1px solid var(--border-strong); }
-  .belief dt { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.015em; margin-bottom: 0.4rem; }
-  .belief dd { margin: 0; color: var(--text-2); }
+  .belief { padding: 1.5rem 0 1.6rem; border-top: 1px solid var(--rule); }
+  .belief dt { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.5rem; }
+  .belief dd { margin: 0; color: var(--text-2); max-width: 38rem; }
   .affiliations { margin-top: 2rem; color: var(--text-2); }
   .affiliations a { color: var(--accent-text); }
 
-  .leaders { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  @media (min-width: 720px) { .leaders { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (min-width: 1100px) { .leaders { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 24px; } }
-  .leaders li { display: grid; gap: 0.15rem; }
-  .leaders :global(.leader-img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 22%; border-radius: var(--radius-media); margin-bottom: 0.75rem; background: var(--surface-soft); }
-  .leaders b { font-size: 1.0625rem; }
+  .leaders { list-style: none; margin: 0; padding: 0; display: grid; gap: 36px 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 720px) { .leaders { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 24px; } }
+  @media (min-width: 1100px) { .leaders { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 28px; } }
+  .leaders li { display: grid; gap: 0.2rem; }
+  .leaders :global(.leader-img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 22%; border-radius: var(--radius-media); margin-bottom: 0.9rem; background: var(--surface-soft); }
+  .leaders b { font-size: 1.125rem; letter-spacing: -0.01em; }
   .leaders span { color: var(--muted); font-size: 0.9375rem; }
-  .elders-title { font-size: 1.25rem; margin: clamp(40px, 5vw, 64px) 0 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .elders-title { font-size: var(--step-2); margin: clamp(48px, 6vw, 80px) 0 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
 </style>
