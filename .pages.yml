@@ -80,17 +80,19 @@ content:
         type: object
         list: true
         fields:
+          - { name: kicker, label: Small line above the title, type: string }
           - { name: title, type: string }
           - { name: url, type: string }
-          - { name: image, type: image }
-          - { name: image_alt, label: Image description, type: string }
+          - { name: image, type: image, description: Real church photos only. }
+          - name: image_focus
+            label: Part of the photo to show
+            type: select
+            options: { values: [center, left, right] }
       - name: sunday
         type: object
         fields:
           - { name: title, type: string }
-          - { name: image, type: image }
-          - { name: image_alt, label: Image description, type: string }
-          - { name: points, type: string, list: true }
+          - { name: points, label: What to expect, type: string, list: true }
       - name: groups
         type: object
         fields:

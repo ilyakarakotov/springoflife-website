@@ -1,29 +1,30 @@
-# Home page text and the four photo cards under the hero. Photos must be real church photos.
+# Home page text and the four photo cards under the hero. Photos must be real church photos
+# (no stock, no AI, no identifiable children without written consent).
 hero:
   headline: Following Jesus together.
   image: /src/assets/photos/worship.jpg
   image_alt: People worshipping during a Sunday service at Spring of Life Church
 quick_links:
-  - title: New here? Plan your visit
+  - kicker: New here?
+    title: Plan a visit
     url: /visit
-    image: /src/assets/photos/building.jpg
-    image_alt: The Spring of Life Church building in Mukilteo
-  - title: Watch the latest sermon
+    image: /src/assets/photos/arrival.jpg
+  - kicker: Missed Sunday?
+    title: Watch the latest sermon
     url: /watch
     image: /src/assets/photos/sanctuary-back.jpg
-    image_alt: The sanctuary during a Sunday sermon, with the livestream camera
-  - title: Kids and teens
+  - kicker: Families
+    title: Kids and teens
     url: /ministries#kids
     image: /src/assets/photos/sanctuary.jpg
-    image_alt: The congregation gathered in the Spring of Life sanctuary
-  - title: Serve with us
+    image_focus: right
+  - kicker: Get involved
+    title: Serve with us
     url: /ministries#serve
     image: /src/assets/photos/worship.jpg
-    image_alt: The worship team leading songs on a Sunday
+    image_focus: right
 sunday:
   title: Join us on Sunday
-  image: /src/assets/photos/sanctuary.jpg
-  image_alt: The congregation listening to a sermon in the Spring of Life sanctuary
   points:
     - About 90 minutes, with traditional and contemporary worship
     - Childcare and activities for all ages

@@ -1,48 +1,55 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import EventCard from '../components/EventCard.astro';
-import EventsEmpty from '../components/EventsEmpty.astro';
-import { site, events, ministries } from '../lib/content';
+import EventRow from '../components/EventRow.astro';
+import EveryWeek from '../components/EveryWeek.astro';
+import { site, events } from '../lib/content';
+import { byMonth } from '../lib/event-display';
 import { href } from '../lib/url';
 
-const ongoing = ministries.filter((m) => m.signup_id);
+const months = byMonth(events);
 ---
 <Base title="Events" description="Upcoming events at Spring of Life Church in Mukilteo, WA. Register on Church Center.">
   <section class="page-hero">
     <div class="wrap">
-      <span class="eyebrow">Events</span>
+      <span class="eyebrow eyebrow--accent eyebrow--wave">Events</span>
       <h1>Coming up at Spring of Life</h1>
       <p class="lead">Upcoming events at Spring of Life Church. Registration and payment happen on Church Center, our Planning Center site.</p>
       <div class="btn-row">
-        <a class="btn btn--outline btn--sm" href={href('/events.ics')}><Icon name="calendar" />Add to your calendar</a>
-        <a class="btn btn--outline btn--sm" href={site.links.signups} target="_blank" rel="noopener">All signups on Church Center <Icon name="external" /></a>
+        <a class="text-link" href={href('/events.ics')}><Icon name="calendar" />Add to your calendar</a>
+        <a class="text-link" href={site.links.signups} target="_blank" rel="noopener">All signups on Church Center<Icon name="external" /></a>
       </div>
     </div>
   </section>
 
   <section class="section section--tight">
-    <div class="wrap events-list" data-events-count={events.length}>
-      {events.length === 0 ? <EventsEmpty /> : events.map((e, i) => <EventCard event={e} layout="wide" headingLevel="h2" eager={i === 0} />)}
-    </div>
-  </section>
-
-  <section class="section section--soft section--tight">
-    <div class="wrap">
-      <h2 class="h3">Looking for a weekly program?</h2>
-      <p class="muted">Ongoing ministries have their own pages, with a link to this year's registration.</p>
-      <ul class="ongoing">
-        {ongoing.map((m) => <li><a class="chip" href={href(`/ministries#${m.id}`)}>{m.title}</a></li>)}
-        <li><a class="chip" href={href('/life-groups')}>Life Groups</a></li>
-      </ul>
+    <div class="wrap events-layout">
+      <div class="events-list" data-events-count={events.length}>
+        {events.length === 0 ? (
+          <div class="events-empty">
+            <h2>Nothing on the calendar right now</h2>
+            <p>Check back soon, or see every open signup on Church Center.</p>
+            <a class="text-link" href={site.links.signups} target="_blank" rel="noopener">All signups on Church Center<Icon name="external" /></a>
+          </div>
+        ) : months.map((m, i) => (
+          <section class="month" aria-labelledby={`month-${i}`}>
+            <h2 class="month-title" id={`month-${i}`}>{m.label}</h2>
+            <ul class="event-rows">{m.events.map((e, j) => <EventRow event={e} headingLevel="h3" thumb="lg" eager={i === 0 && j === 0} />)}</ul>
+          </section>
+        ))}
+      </div>
+      <EveryWeek headingLevel="h2" />
     </div>
   </section>
 </Base>
 
 <style>
-  .events-list { display: grid; gap: 20px; }
-  .h3 { font-size: var(--step-2); }
-  .ongoing { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .ongoing .chip { padding: 0.5rem 0.9rem; font-size: 0.92rem; text-decoration: none; }
-  .ongoing .chip:hover { border-color: var(--text); }
+  .events-layout { display: grid; gap: clamp(32px, 5vw, 56px); }
+  @media (min-width: 1024px) { .events-layout { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: start; } }
+  .month + .month { margin-top: clamp(28px, 4vw, 44px); }
+  .month-title { font-size: 1.25rem; letter-spacing: -0.01em; margin: 0 0 0.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-strong); }
+  .event-rows { list-style: none; margin: 0; padding: 0; }
+  .events-empty { padding: clamp(24px, 4vw, 40px) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .events-empty h2 { font-size: var(--step-2); margin-bottom: 0.4rem; }
+  .events-empty p { color: var(--text-2); }
 </style>

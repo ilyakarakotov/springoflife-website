@@ -1,6 +1,7 @@
 # Next Steps page and the Home "Find your next step" grid.
 # Each link opens an existing Planning Center form or signup. To change a link, paste the new
-# Church Center address in `url`. `home: true` shows the step on the home page (keep it to 5).
+# Church Center address in `url`. `home: true` shows the step on the home page (the first 4).
+# Life Groups have their own band on the home page, so that step isn't one of the 4.
 steps:
   - id: baptism
     title: Get baptized
@@ -8,7 +9,6 @@ steps:
     url: https://springoflifechurch.churchcenter.com/registrations/events/915918
     cta: Sign up
     home: true
-    image: /src/assets/photos/baptism.jpg
 
   - id: membership
     title: Become a member
@@ -24,7 +24,6 @@ steps:
     text: Study the Bible, pray and build friendships in a smaller group during the week.
     url: /life-groups
     cta: Find a group
-    home: true
 
   - id: serve
     title: Serve with us

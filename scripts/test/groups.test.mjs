@@ -131,3 +131,24 @@ test('button text follows the Church Center enrollment setting', () => {
   assert.equal(joinLabel({ status: 'open', strategy: 'open_signup' }), 'Join this group');
   assert.equal(joinLabel({ status: 'full', strategy: 'request_to_join' }), 'See group on Church Center');
 });
+
+import { scheduleDays, areaPlaces, groupSummary, sortGroups, groupMonogram, groupDisplayTitle, joinList, groupLine } from '../../src/lib/groups.mjs';
+
+test('site helpers: days, places, order and monograms from the card fields only', () => {
+  assert.deepEqual(scheduleDays('Tuesdays, 7:00 pm'), [1]);
+  assert.deepEqual(scheduleDays('Tuesdays and Thursdays'), [1, 3]);
+  assert.deepEqual(scheduleDays('Fri'), [4]);
+  assert.deepEqual(scheduleDays(null), []);
+  assert.deepEqual(areaPlaces('Mukilteo (location varies)'), ['Mukilteo']);
+  assert.deepEqual(areaPlaces('Everett and Mukilteo'), ['Everett', 'Mukilteo']);
+  const groups = currentGroups();
+  assert.deepEqual(groupSummary(groups), { count: 7, days: ['Tuesdays', 'Fridays'], places: ['Everett', 'Kirkland', 'Monroe', 'Mukilteo'] });
+  assert.deepEqual(sortGroups(groups).map((g) => scheduleDays(g.schedule)[0]), [1, 1, 1, 1, 1, 4, 4]);
+  assert.equal(groupMonogram('Ivan and Sveta Ryakhovskiy'), 'IR');
+  assert.equal(groupMonogram('Michael Verlan'), 'MV');
+  assert.equal(groupDisplayTitle('Mark and Louisa Nosov'), 'Mark & Louisa Nosov');
+  assert.equal(joinList(['Tuesdays', 'Fridays']), 'Tuesdays and Fridays');
+  assert.equal(joinList(['A', 'B', 'C']), 'A, B and C');
+  assert.equal(groupLine(null), 'Bible study, prayer and fellowship.');
+  assert.equal(groupLine('young family'), 'A young family group for Bible study, prayer and fellowship.');
+});

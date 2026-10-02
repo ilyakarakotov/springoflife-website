@@ -1,0 +1,50 @@
+---
+// Home "Coming up": designed for 0, 1 and many events.
+//   0 events  one quiet line and a link to every signup on Church Center
+//   1 event   the event shown large (EventFeature)
+//   2+ events list rows; more than `limit` adds "See all n events"
+// The "Every week" panel always sits beside it.
+import Icon from './Icon.astro';
+import EventRow from './EventRow.astro';
+import EventFeature from './EventFeature.astro';
+import EveryWeek from './EveryWeek.astro';
+import { site, type SyncedEvent } from '../lib/content';
+import { href } from '../lib/url';
+
+interface Props { events: SyncedEvent[]; limit?: number }
+const { events, limit = 3 } = Astro.props;
+const shown = events.slice(0, limit);
+---
+<section class="section section--soft" aria-labelledby="coming-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="coming-title">Coming up</h2>
+      {events.length > 0 && <a class="text-link" href={href('/events')}>See all events<Icon name="arrow" /></a>}
+    </div>
+    <div class="happening" data-events-count={events.length}>
+      <div class="coming">
+        {events.length === 0 && (
+          <p class="coming-empty">
+            No special events on the calendar right now.
+            <a class="text-link" href={site.links.signups} target="_blank" rel="noopener">See all signups on Church Center<Icon name="external" /></a>
+          </p>
+        )}
+        {events.length === 1 && <EventFeature event={events[0]} />}
+        {events.length > 1 && <ul class="event-rows">{shown.map((e) => <EventRow event={e} thumb={false} />)}</ul>}
+        {events.length > limit && <p class="coming-more"><a class="text-link" href={href('/events')}>See all {events.length} events<Icon name="arrow" /></a></p>}
+      </div>
+      <EveryWeek />
+    </div>
+    {events.length > 0 && events.length <= limit && <p class="section-foot"><a class="text-link" href={href('/events')}>See all events<Icon name="arrow" /></a></p>}
+  </div>
+</section>
+
+<style>
+  .happening { display: grid; gap: clamp(28px, 4vw, 48px); }
+  @media (min-width: 960px) { .happening { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; } }
+  .event-rows { list-style: none; margin: -18px 0 0; padding: 0; }
+  .coming-empty { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: baseline; margin: 0; padding: clamp(20px, 3vw, 28px) 0; font-size: var(--step-1); color: var(--text-2);
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .coming-empty .text-link { font-size: var(--step-0); }
+  .coming-more { margin: 1rem 0 0; }
+</style>

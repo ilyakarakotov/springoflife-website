@@ -1,0 +1,45 @@
+---
+// "Every week": the regular rhythm of church life, always shown next to the events list, so the
+// section is never empty. Only confirmed times: the Sunday services (site.yaml), ministries with a
+// `weekly` line (ministry-links.yaml), and the Life Groups' days from Planning Center.
+import Icon from './Icon.astro';
+import { site, ministries, groups } from '../lib/content';
+import { groupSummary, joinList } from '../lib/groups.mjs';
+import { href } from '../lib/url';
+
+interface Props { headingLevel?: 'h2' | 'h3' }
+const { headingLevel: H = 'h3' } = Astro.props;
+const lg = groupSummary(groups);
+const rows = [
+  { name: `${site.service.day} services`, when: `English ${site.service.time} · Russian ${site.service.russian_time}`, url: '/visit' },
+  ...(groups.length ? [{ name: 'Life Groups', when: lg.days.length ? joinList(lg.days) : 'During the week', url: '/life-groups' }] : []),
+  ...ministries.filter((m) => m.weekly).map((m) => ({ name: m.title, when: m.weekly as string, url: `/ministries#${m.id}` })),
+];
+---
+<aside class="week" aria-labelledby="every-week-title">
+  <H id="every-week-title" class="week-title">Every week</H>
+  <ul class="week-list">
+    {rows.map((r) => (
+      <li>
+        <a href={href(r.url)}>
+          <span class="week-text"><span class="week-name">{r.name}</span><span class="week-when tabular">{r.when}</span></span>
+          <Icon name="arrow" />
+        </a>
+      </li>
+    ))}
+  </ul>
+</aside>
+
+<style>
+  .week { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(20px, 2.6vw, 30px); align-self: start; }
+  .week-title { font-size: 1.25rem; margin: 0 0 0.5rem; }
+  .week-list { list-style: none; margin: 0; padding: 0; }
+  .week-list li + li { border-top: 1px solid var(--border); }
+  .week-list a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.9rem 0; text-decoration: none; }
+  .week-text { display: grid; gap: 0.1rem; }
+  .week-name { font-weight: 700; }
+  .week-when { color: var(--muted); font-size: 0.9375rem; }
+  .week-list :global(.icon) { color: var(--text-2); transition: transform var(--dur-2) var(--ease), color var(--dur-1); }
+  .week-list a:hover .week-name { text-decoration: underline; text-underline-offset: 3px; }
+  .week-list a:hover :global(.icon) { transform: translateX(3px); color: var(--accent-text); }
+</style>

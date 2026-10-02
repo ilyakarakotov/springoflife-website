@@ -1,0 +1,86 @@
+---
+// One event as a list row (Home "Coming up" with 2+ events, the Events page). Works the same with
+// 2 or 20 events and without an image: the date block always anchors the row. The whole row links
+// to the event's page; "Register" (Church Center) sits above that link.
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { SyncedEvent } from '../lib/content';
+import { eventDisplay } from '../lib/event-display';
+
+interface Props {
+  event: SyncedEvent;
+  headingLevel?: 'h2' | 'h3' | 'h4';
+  thumb?: 'sm' | 'lg' | false; // flyer thumbnail on wider screens
+  eager?: boolean;
+}
+const { event: e, headingLevel: H = 'h3', thumb = 'sm', eager = false } = Astro.props;
+const d = eventDisplay(e);
+const showThumb = Boolean(thumb && d.image);
+const meta = [d.when, d.place, d.price].filter(Boolean).join(' · ');
+---
+<li class:list={['event-row', { [`event-row--thumb-${thumb}`]: showThumb }]}>
+  {d.badge
+    ? <div class="date-block" aria-hidden="true"><span>{d.badge.month}</span><b class="tabular">{d.badge.day}</b></div>
+    : <div class="date-block date-block--tba" aria-hidden="true"><Icon name="calendar" /></div>}
+  <div class="row-body">
+    <H class="row-title"><a class="row-link" href={d.page}>{e.title}</a></H>
+    <p class="row-meta">{d.badge && !d.dateLabel.includes('–') && <span class="visually-hidden">{d.badge.month} {d.badge.day}, </span>}{meta}</p>
+    {(d.status || d.moreDates > 0) && (
+      <p class="row-chips">
+        {d.status && <span class="chip">{d.status}</span>}
+        {d.moreDates > 0 && <span class="chip chip--soft">+{d.moreDates} more {d.moreDates === 1 ? 'date' : 'dates'}</span>}
+      </p>
+    )}
+  </div>
+  {showThumb && d.image && (
+    <Picture src={d.image} alt="" widths={thumb === 'lg' ? [180, 360] : [128, 256]} sizes={thumb === 'lg' ? '168px' : '112px'}
+      formats={['avif', 'webp']} class="row-thumb" pictureAttributes={{ class: 'row-thumb-pic' }} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} />
+  )}
+  <div class="row-action">
+    {d.state === 'open' && e.register_url && (
+      <a class="btn btn--sm btn--outline row-register" href={e.register_url} target="_blank" rel="noopener">
+        Register<span class="visually-hidden"> for {e.title} on Church Center</span>
+      </a>
+    )}
+    <span class="row-arrow" aria-hidden="true"><Icon name="arrow" /></span>
+  </div>
+</li>
+
+<style>
+  .event-row { position: relative; display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 4px 16px; align-items: center;
+    padding: 18px 14px; margin-inline: -14px; border-radius: var(--radius-sm); list-style: none; transition: background-color var(--dur-1) var(--ease); }
+  .event-row + :global(.event-row)::before { content: ''; position: absolute; left: 14px; right: 14px; top: 0; border-top: 1px solid var(--border); }
+  .event-row:hover { background: var(--surface); }
+  .date-block { display: grid; justify-items: center; align-content: center; height: 56px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--border); line-height: 1; }
+  .event-row:hover .date-block { border-color: var(--border-strong); }
+  .date-block span { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-text); }
+  .date-block b { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-top: 4px; color: var(--text); }
+  .date-block--tba { color: var(--muted); }
+  .row-body { min-width: 0; }
+  .row-title { font-size: 1.125rem; line-height: 1.3; letter-spacing: -0.01em; margin: 0; }
+  .row-link { text-decoration: none; }
+  .row-link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-sm); }
+  .row-link:focus-visible { outline: none; box-shadow: none; }
+  .row-link:focus-visible::after { outline: 2px solid var(--focus); outline-offset: 2px; box-shadow: 0 0 0 4px var(--bg); }
+  .event-row:hover .row-title { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+  .row-meta { margin: 0.2rem 0 0; font-size: 0.9375rem; color: var(--muted); }
+  .row-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 0; }
+  .row-action { display: flex; align-items: center; gap: 12px; }
+  .row-register { position: relative; z-index: 1; display: none; }
+  .row-arrow { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; color: var(--text-2); transition: transform var(--dur-2) var(--ease), color var(--dur-1); }
+  .event-row:hover .row-arrow { transform: translateX(3px); color: var(--accent-text); }
+  .event-row :global(.row-thumb-pic) { display: none; }
+  @media (min-width: 640px) {
+    .event-row { grid-template-columns: 60px minmax(0, 1fr) auto; gap: 4px 20px; padding: 20px 14px; }
+    .date-block { height: 64px; }
+    .date-block b { font-size: 1.75rem; }
+    .row-register { display: inline-flex; }
+    .row-register ~ .row-arrow { display: none; }
+  }
+  @media (min-width: 768px) {
+    .event-row--thumb-sm, .event-row--thumb-lg { grid-template-columns: 60px minmax(0, 1fr) auto auto; }
+    .event-row :global(.row-thumb-pic) { display: block; }
+    .event-row :global(.row-thumb) { width: 112px; aspect-ratio: 16 / 9; height: auto; object-fit: cover; border-radius: 8px; }
+    .event-row--thumb-lg :global(.row-thumb) { width: 168px; }
+  }
+</style>

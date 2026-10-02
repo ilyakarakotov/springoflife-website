@@ -1,0 +1,64 @@
+---
+// The one upcoming event, shown large (Home "Coming up" when exactly one event is listed). Without a
+// flyer the left side is a large date tile, so the card still looks finished.
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { SyncedEvent } from '../lib/content';
+import { eventDisplay } from '../lib/event-display';
+import { CARD_WIDTHS } from '../lib/media';
+
+interface Props { event: SyncedEvent; headingLevel?: 'h2' | 'h3' }
+const { event: e, headingLevel: H = 'h3' } = Astro.props;
+const d = eventDisplay(e);
+const meta = [d.place, d.price].filter(Boolean).join(' · ');
+---
+<article class:list={['feature card', { 'feature--noimg': !d.image }]}>
+  <div class="feature-media">
+    {d.image
+      ? <Picture src={d.image} alt="" widths={CARD_WIDTHS} sizes="(min-width: 1240px) 320px, (min-width: 960px) 26vw, (min-width: 640px) 45vw, 100vw" formats={['avif', 'webp']} class="feature-img" />
+      : d.badge && (
+          <div class="feature-date" aria-hidden="true">
+            <span>{d.badge.month}</span><b class="tabular">{d.badge.day}</b><span>{d.when.split(' · ')[0]}</span>
+          </div>
+        )}
+  </div>
+  <div class="feature-body">
+    <p class="feature-when">{d.fullWhen}</p>
+    <H class="feature-title"><a href={d.page}>{e.title}</a></H>
+    {meta && <p class="feature-meta">{meta}</p>}
+    {d.status && <p class="feature-chips"><span class="chip">{d.status}</span></p>}
+    {e.summary && <p class="feature-summary">{e.summary}</p>}
+    <div class="btn-row feature-actions">
+      {d.state === 'open' && e.register_url && (
+        <a class="btn btn--primary btn--sm" href={e.register_url} target="_blank" rel="noopener">Register<span class="visually-hidden"> for {e.title} on Church Center</span></a>
+      )}
+      <a class="text-link" href={d.page}>Event details<span class="visually-hidden">: {e.title}</span><Icon name="arrow" /></a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .feature { display: grid; overflow: hidden; }
+  /* A flyer keeps its whole 16:9 frame (they often have text to the edges): inset, never cropped. */
+  .feature-media { padding: 12px 12px 0; }
+  .feature-media :global(.feature-img) { width: 100%; aspect-ratio: 16 / 9; height: auto; object-fit: cover; border-radius: var(--radius-sm); }
+  .feature--noimg .feature-media { padding: 0; }
+  .feature-date { display: grid; justify-items: start; align-content: end; gap: 2px; height: 100%; min-height: 168px; padding: clamp(20px, 3vw, 32px);
+    background: var(--accent-soft); color: var(--accent-text); line-height: 1; }
+  .feature-date span { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .feature-date b { font-size: clamp(3.5rem, 2.5rem + 3vw, 5rem); font-weight: 800; letter-spacing: -0.04em; color: var(--text); margin: 4px 0 6px; }
+  .feature-body { display: flex; flex-direction: column; gap: 0.4rem; padding: clamp(20px, 3vw, 32px); min-width: 0; }
+  .feature-when { margin: 0; font-weight: 700; font-size: 0.9375rem; color: var(--accent-text); }
+  .feature-title { font-size: var(--step-2); margin: 0; }
+  .feature-title a { text-decoration: none; }
+  .feature-title a:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
+  .feature-meta { margin: 0; color: var(--muted); font-size: 0.9375rem; }
+  .feature-chips { margin: 0.25rem 0 0; }
+  .feature-summary { margin: 0.4rem 0 0; color: var(--text-2); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .feature-actions { margin-top: auto; padding-top: 1rem; gap: 0.75rem 1.5rem; }
+  @media (min-width: 640px) {
+    .feature { grid-template-columns: minmax(0, 46fr) minmax(0, 54fr); align-items: center; }
+    .feature-media { padding: 14px 0 14px 14px; }
+    .feature--noimg { grid-template-columns: minmax(0, 32fr) minmax(0, 68fr); align-items: stretch; }
+  }
+</style>

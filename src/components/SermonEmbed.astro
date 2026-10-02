@@ -46,7 +46,8 @@ const allow = 'fullscreen; autoplay; encrypted-media; picture-in-picture; clipbo
   .facade-eyebrow { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.9; }
   .facade-title { font-size: var(--step-1); font-weight: 800; line-height: 1.2; }
   .facade-play, .facade-link { position: absolute; z-index: 2; }
-  .facade-play { inset: 0; margin: auto; width: 76px; height: 76px; display: grid; place-items: center; border: 0; border-radius: 999px; background: #fff; color: #111316; cursor: pointer; box-shadow: 0 10px 30px rgb(0 0 0 / 0.3); }
+  .facade-play { inset: 0; margin: auto; width: 76px; height: 76px; display: grid; place-items: center; border: 0; border-radius: 999px; background: var(--accent); color: #fff; cursor: pointer; box-shadow: 0 10px 30px rgb(0 0 0 / 0.35); }
+  .facade-play:hover { background: var(--accent-hover); }
   .facade-play :global(.icon) { width: 30px; height: 30px; margin-left: 4px; }
   .facade-play:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
   @media (prefers-reduced-motion: no-preference) { .facade-play { transition: transform 0.15s; } .facade-play:hover { transform: scale(1.06); } }

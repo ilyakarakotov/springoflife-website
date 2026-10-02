@@ -70,8 +70,12 @@ export const site = load('site.yaml', siteRaw, z.object({
 
 export const home = load('home.yaml', homeRaw, z.object({
   hero: z.object({ headline: z.string(), image: imagePath, image_alt: z.string() }),
-  quick_links: z.array(z.object({ title: z.string(), url, image: imagePath, image_alt: z.string() })).length(4),
-  sunday: z.object({ title: z.string(), image: imagePath, image_alt: z.string(), points: z.array(z.string()) }),
+  // The quick-link photos are decorative; image_focus picks which part of the photo the card shows.
+  quick_links: z.array(z.object({
+    kicker: opt(z.string()), title: z.string(), url, image: imagePath,
+    image_focus: z.preprocess((v) => (v === '' || v === null ? undefined : v), z.enum(['center', 'left', 'right']).default('center')),
+  })).length(4),
+  sunday: z.object({ title: z.string(), points: z.array(z.string()) }),
   groups: z.object({ eyebrow: z.string(), title: z.string(), text: z.string() }),
   give: z.object({ title: z.string(), text: z.string() }),
   app: z.object({ title: z.string(), text: z.string() }),
