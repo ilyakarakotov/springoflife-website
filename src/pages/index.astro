@@ -257,7 +257,8 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
       linear-gradient(180deg, rgb(5 8 15 / 0.55) 0, rgb(5 8 15 / 0) 160px),
       linear-gradient(0deg, rgb(5 8 15 / 0.62) 0, rgb(5 8 15 / 0) 40%); }
   }
-  @media (prefers-color-scheme: dark) { .hero { box-shadow: 0 1px 0 rgb(255 255 255 / 0.06); } }
+  @media (prefers-color-scheme: dark) { :global(:root:not([data-theme="light"])) .hero { box-shadow: 0 1px 0 rgb(255 255 255 / 0.06); } }
+  :global(:root[data-theme="dark"]) .hero { box-shadow: 0 1px 0 rgb(255 255 255 / 0.06); }
   .hero-content { position: relative; z-index: 2; padding-top: 136px; padding-bottom: clamp(140px, 17vw, 210px); }
   .hero-eyebrow { margin: 0 0 1.1rem; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(255 255 255 / 0.88); }
   .hero h1 { font-size: var(--step-5); line-height: 0.98; letter-spacing: -0.05em; max-width: 11ch; margin: 0 0 0.32em; text-shadow: 0 2px 28px rgb(0 0 0 / 0.25); }

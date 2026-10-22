@@ -81,8 +81,11 @@
   --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 8'%3E%3Cpath d='M1 6C5 6 6.5 2 11 2s5.5 4 9.5 4S25 3.4 27 2.6' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
+/* Dark theme: the visitor's device setting, unless they chose Light or Dark with the footer switch
+   (html[data-theme], set before first paint in Base.astro). The two blocks hold the same values. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --bg: #0e1013;
     --bg-soft: #15181d;
     --bg-tint: #151d33;
@@ -111,6 +114,36 @@
     --shadow-accent: 0 1px 0 rgb(255 255 255 / 0.14) inset, 0 8px 22px -10px rgb(42 91 215 / 0.65);
   }
 }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e1013;
+  --bg-soft: #15181d;
+  --bg-tint: #151d33;
+  --surface: #1b1f25;
+  --surface-2: #232830;
+  --surface-soft: #1f232a;
+  --text: #f1f2f4;
+  --text-2: #c9cdd4;
+  --muted: #9aa0aa;
+  --border: #2d323a;
+  --border-strong: #464c56;
+  --rule: #363b44;
+  --accent: #2a5bd7;
+  --accent-hover: #3466df;
+  --accent-text: #8eadff;
+  --accent-soft: #1b2744;
+  --btn-strong-bg: #e9ebef;
+  --btn-strong-ink: #0e1013;
+  --btn-strong-hover: #ffffff;
+  --footer-bg: #0a0b0d;
+  --focus: #8eadff;
+  --photo-filter: brightness(0.9) saturate(0.95);
+  --header-glass: rgb(14 16 19 / 0.8);
+  --shadow-1: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 12px 30px -14px rgb(0 0 0 / 0.6);
+  --shadow-2: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 26px 56px -22px rgb(0 0 0 / 0.75);
+  --shadow-accent: 0 1px 0 rgb(255 255 255 / 0.14) inset, 0 8px 22px -10px rgb(42 91 215 / 0.65);
+}
+:root[data-theme="light"] { color-scheme: light; }
 
 /* Newsreader Italic falls back to Georgia Italic scaled to the same width and line metrics
    (measured in Chrome), so when the web font arrives nothing moves. */
@@ -271,7 +304,8 @@ a:hover .arrow-circle .i-external, a:hover > .i-external, a:hover .nw > .i-exter
 /* ---- Surfaces ---- */
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
 .panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-1); }
-@media (prefers-color-scheme: dark) { .panel { border: 1px solid var(--border); } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .panel { border: 1px solid var(--border); } }
+:root[data-theme="dark"] .panel { border: 1px solid var(--border); }
 /* Editorial column: content on a hairline instead of in a box. */
 .ruled { border-top: 1px solid var(--rule); padding-top: clamp(20px, 2.2vw, 28px); }
 .grid { display: grid; gap: clamp(16px, 2vw, 28px); }

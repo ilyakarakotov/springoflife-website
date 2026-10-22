@@ -59,6 +59,12 @@ const social = [
     <div class="footer-bottom">
       <span>© {year} {site.name} · {site.address.city}, {site.address.region}</span>
       <p class="apps">The Spring of Life app: <a href={site.links.app_ios} target="_blank" rel="noopener">iPhone</a> · <a href={site.links.app_android} target="_blank" rel="noopener">Android</a></p>
+      {/* Shown by src/scripts/theme.ts: without JavaScript it couldn't do anything. */}
+      <div class="theme" role="group" aria-label="Color theme" data-theme-switch hidden>
+        <button type="button" data-theme-value="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-theme-value="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-value="dark" aria-pressed="false">Dark</button>
+      </div>
       <a class="f-ru" href={site.links.russian_site} hreflang="ru" lang="ru">Русский сайт</a>
     </div>
   </div>
@@ -71,7 +77,9 @@ const social = [
     background: radial-gradient(60% 85% at 90% 100%, rgb(42 91 215 / 0.14), rgb(42 91 215 / 0) 70%), var(--footer-bg); }
   /* In dark mode a hairline separates the footer from the page, except under the closing photo,
      which already ends in the footer's colour. */
-  @media (prefers-color-scheme: dark) { .site-footer { box-shadow: 0 -1px 0 rgb(255 255 255 / 0.07); } :global(main:has(> .invite:last-child)) + .site-footer { box-shadow: none; } }
+  @media (prefers-color-scheme: dark) { :global(:root:not([data-theme="light"])) .site-footer { box-shadow: 0 -1px 0 rgb(255 255 255 / 0.07); } }
+  :global(:root[data-theme="dark"]) .site-footer { box-shadow: 0 -1px 0 rgb(255 255 255 / 0.07); }
+  :global(main:has(> .invite:last-child)) + .site-footer { box-shadow: none !important; }
   .site-footer > .wrap { padding-top: clamp(48px, 6vw, 80px); }
   .footer-top { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; padding-bottom: clamp(28px, 3.5vw, 44px); border-bottom: 1px solid rgb(255 255 255 / 0.1); }
   .f-brand { display: inline-flex; align-items: center; gap: 0.75rem; color: var(--on-dark); text-decoration: none; border-radius: 8px; }
@@ -108,6 +116,13 @@ const social = [
   .apps a, .f-ru { color: var(--on-dark); font-weight: 700; }
   .apps a { text-decoration: underline; text-decoration-color: rgb(255 255 255 / 0.35); }
   @media (max-width: 719.98px) { .apps { flex-basis: 100%; order: -1; } }
+  /* Theme switch: Auto (the device setting), Light, Dark. */
+  .theme { display: inline-flex; padding: 3px; gap: 2px; border: 1px solid rgb(255 255 255 / 0.2); border-radius: 999px; }
+  .theme[hidden] { display: none; }
+  .theme button { font: inherit; font-size: 0.8125rem; font-weight: 700; min-height: 36px; min-width: 44px; padding: 0 0.85rem; border: 0; border-radius: 999px; background: transparent; color: var(--on-dark-2); cursor: pointer;
+    transition: background-color var(--dur-2) var(--ease), color var(--dur-2) var(--ease); }
+  .theme button:hover { color: var(--on-dark); }
+  .theme button[aria-pressed="true"] { background: rgb(255 255 255 / 0.14); color: var(--on-dark); }
   /* Focus rings on the dark footer: light ring, dark gap. */
   .site-footer :focus-visible { outline-color: #fff; box-shadow: 0 0 0 4px var(--footer-bg); }
 </style>

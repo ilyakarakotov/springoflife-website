@@ -51,6 +51,9 @@ const ogAlt = image ? imageAlt : home.hero.image_alt;
     <link rel="alternate" type="text/calendar" title="Spring of Life Church events" href={href('/events.ics')} />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0d0f12" media="(prefers-color-scheme: dark)" />
+    {/* A theme chosen with the footer switch (src/scripts/theme.ts) applies before first paint, so the
+        page never flashes the other theme. Without JavaScript or storage the device setting stays. */}
+    <script is:inline>try{var t=localStorage.getItem('sol-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.setAttribute('content',t==='dark'?'#0d0f12':'#ffffff')})}}catch(e){}</script>
     <meta name="apple-itunes-app" content={`app-id=${site.links.app_ios_id}`} />
     <slot name="head" />
 
