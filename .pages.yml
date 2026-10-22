@@ -195,6 +195,7 @@ content:
         fields:
           - { name: name, type: string }
           - { name: url, type: string }
+          - { name: logo, type: image, description: "The association's own logo (PNG, WebP or JPG), shown in black and white above the name." }
 
   - name: group-overrides
     label: Life Group exceptions

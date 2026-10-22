@@ -4,7 +4,6 @@ import { Image, Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import ClosingInvite from '../components/ClosingInvite.astro';
-import Icon from '../components/Icon.astro';
 import LinkText from '../components/LinkText.astro';
 import { site, img, leaders, beliefs } from '../lib/content';
 import { lqip } from '../lib/lqip';
@@ -45,8 +44,9 @@ const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
       <dl class="beliefs">
         {beliefs.beliefs.map((b) => <div class="belief" data-reveal><dt>{b.title}</dt><dd>{b.text}</dd></div>)}
       </dl>
-      {/* The statement of faith and the associations, at the same size as the beliefs above. The
-          names wrap; nothing scrolls sideways on a phone. */}
+      {/* The statement of faith and the associations, at the same size as the beliefs above. Each
+          association shows its logo (in black and white, so the three sit together and follow the
+          theme) above its name; on phones they stack as rows. */}
       {beliefs.show_affiliations && (
         <div class="affiliations" id="affiliations">
           <div class="aff-col" data-reveal>
@@ -58,7 +58,12 @@ const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
             <h3 class="aff-title">Associations</h3>
             <ul class="aff-list">
               {beliefs.affiliations.map((a) => (
-                <li><a href={a.url} target="_blank" rel="noopener"><span>{a.name}</span><Icon name="external" /></a></li>
+                <li>
+                  <a href={a.url} target="_blank" rel="noopener">
+                    {a.logo && <span class="aff-logo"><Image src={img(a.logo)} alt="" height={128} widths={[160, 320]} sizes="160px" class="aff-img" /></span>}
+                    <span class="aff-name"><LinkText text={a.name} icon="external" /></span>
+                  </a>
+                </li>
               ))}
             </ul>
           </div>
@@ -127,15 +132,28 @@ const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
   .belief dt { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.5rem; }
   .belief dd { margin: 0; color: var(--text-2); max-width: 38rem; }
   .affiliations { display: grid; gap: clamp(32px, 4vw, 48px) clamp(40px, 6vw, 96px); margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(28px, 3vw, 40px); border-top: 1px solid var(--rule); scroll-margin-top: 96px; }
-  @media (min-width: 860px) { .affiliations { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 960px) { .affiliations { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
   .aff-col { display: grid; gap: 0.75rem; align-content: start; }
   .aff-title { font-size: var(--step-2); margin: 0; }
   .aff-col p { margin: 0; color: var(--text-2); max-width: 38rem; }
-  .aff-list { list-style: none; margin: 0; padding: 0; }
-  .aff-list li + li { border-top: 1px solid var(--border); }
-  .aff-list a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 48px; padding: 0.7rem 0; font-weight: 700; color: var(--text); text-decoration: none; overflow-wrap: anywhere; }
-  .aff-list a:hover span { text-decoration: underline; text-underline-offset: 3px; }
-  .aff-list :global(.icon) { flex: none; color: var(--accent-text); }
+  /* Phones: logo left, name right, on hairlines. From 560 px: three across, logo above name. */
+  .aff-list { list-style: none; margin: 0.25rem 0 0; padding: 0; display: grid; }
+  .aff-list a { display: grid; grid-template-columns: 7rem minmax(0, 1fr); align-items: center; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--rule); font-weight: 700; color: var(--text); text-decoration: none; }
+  .aff-list li:last-child a { border-bottom: 1px solid var(--rule); }
+  @media (min-width: 560px) {
+    .aff-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(20px, 2.5vw, 32px); }
+    .aff-list a { grid-template-columns: minmax(0, 1fr); align-items: start; align-content: start; height: 100%; padding: 1.25rem 0 0; }
+    .aff-list li:last-child a { border-bottom: 0; }
+  }
+  /* .aff-img outranks the photo dimming in global.css (main img), which logos don't need. */
+  .aff-logo { display: flex; align-items: center; height: 64px; }
+  .aff-logo :global(.aff-img) { display: block; width: auto; height: auto; max-width: 100%; max-height: 64px; filter: grayscale(1); opacity: 0.88; transition: opacity var(--dur-2) var(--ease); }
+  @media (prefers-color-scheme: dark) { :global(:root:not([data-theme="light"])) .aff-logo :global(.aff-img) { filter: grayscale(1) invert(1); } }
+  :global(:root[data-theme="dark"]) .aff-logo :global(.aff-img) { filter: grayscale(1) invert(1); }
+  .aff-list a:hover .aff-logo :global(.aff-img) { opacity: 1; }
+  .aff-name { line-height: 1.35; overflow-wrap: anywhere; }
+  .aff-list a:hover .aff-name { text-decoration: underline; text-underline-offset: 3px; }
+  .aff-name :global(.icon) { width: 0.95em; height: 0.95em; margin-left: 0.35em; vertical-align: -0.1em; color: var(--accent-text); }
 
   .leaders { list-style: none; margin: 0; padding: 0; display: grid; gap: 36px 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 720px) { .leaders { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 24px; } }

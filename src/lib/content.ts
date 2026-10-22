@@ -135,7 +135,8 @@ export const beliefs = load('beliefs.yaml', beliefsRaw, z.object({
   beliefs: z.array(z.object({ title: z.string(), text: z.string() })),
   show_affiliations: z.boolean(),
   statement: z.object({ label: z.string(), url, text: z.string() }),
-  affiliations: z.array(z.object({ name: z.string(), url })),
+  // logo: the association's own logo (the church is a member); shown above the name on About.
+  affiliations: z.array(z.object({ name: z.string(), url, logo: opt(imagePath) })),
 }));
 
 // ---- Synced feeds (written by scripts/sync.mjs) ----

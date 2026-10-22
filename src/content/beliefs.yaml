@@ -19,7 +19,8 @@ beliefs:
     text: We believe that the Church is the body of Christ commissioned to proclaim the gospel to the world.
   - title: Eternity
     text: We believe that people exist forever. We will either exist eternally separated from God by sin or eternally with God by grace and forgiveness.
-# Doctrinal statement link and affiliations, copied from the current page. Shown under "What we
+# Doctrinal statement link and affiliations, copied from the current page. Logos come from each
+# association's website (the church is a member). Shown under "What we
 # believe": the church's name is "Spring of Life Church", and it stays Baptist in what it believes
 # and whom it partners with (the pastors' decision, October 2026). false hides the block.
 show_affiliations: true
@@ -30,7 +31,10 @@ statement:
 affiliations:
   - name: Pacific Coast Slavic Baptist Association (PCSBA)
     url: https://pcsba.org/index.php/en/
+    logo: /src/assets/brand/associations/pcsba.webp
   - name: Southern Baptist Convention (SBC)
     url: https://www.sbc.net
+    logo: /src/assets/brand/associations/sbc.png
   - name: Northwest Association of Slavic Baptist Churches (NWASBC)
     url: https://baptistnw.org
+    logo: /src/assets/brand/associations/nwasbc.png
