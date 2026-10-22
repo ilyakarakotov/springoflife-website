@@ -4,7 +4,7 @@
 // Anything in the slot (e.g. visually hidden text) goes right after the last word.
 import Icon from './Icon.astro';
 
-interface Props { text: string; icon: 'arrow' | 'external' | 'calendar'; lang?: string }
+interface Props { text: string; icon: 'arrow' | 'external' | 'calendar' | 'chevron'; lang?: string }
 const { text, icon, lang } = Astro.props;
 const words = text.trim();
 const cut = words.lastIndexOf(' ') + 1;

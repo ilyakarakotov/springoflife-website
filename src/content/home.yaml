@@ -15,18 +15,18 @@ quick_links:
     image: /src/assets/photos/sanctuary-back.jpg
   - kicker: Families
     title: Kids and teens
-    url: /ministries#kids
+    url: /ministries
     image: /src/assets/photos/sanctuary.jpg
     image_focus: right
-  - kicker: Get involved
-    title: Serve with us
-    url: /ministries#serve
+  - kicker: Coming up
+    title: What's going on
+    url: /events
     image: /src/assets/photos/worship.jpg
     image_focus: right
 sunday:
   title: Join us on Sunday
   points:
-    - About 90 minutes, with traditional and contemporary worship
+    - About 90 minutes of worship
     - Childcare and activities for all ages
     - Come 30 minutes early and grab a coffee
     - Stay after the service for fellowship

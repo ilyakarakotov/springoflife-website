@@ -19,3 +19,14 @@ if (serif.length && 'IntersectionObserver' in window) {
   }, { rootMargin: '0px 0px 80% 0px' });
   serif.forEach((el) => io.observe(el));
 } else if (serif.length) late();
+
+// "Get directions" menus (Directions.astro): close on Escape or a click outside. Escape returns
+// focus to the control that opened the menu.
+const openMenus = () => document.querySelectorAll<HTMLDetailsElement>('details.dir[open]');
+document.addEventListener('click', (e) => {
+  openMenus().forEach((d) => { if (!d.contains(e.target as Node)) d.open = false; });
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  openMenus().forEach((d) => { d.open = false; d.querySelector('summary')?.focus(); });
+});

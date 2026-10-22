@@ -1,0 +1,54 @@
+---
+// "Get directions" asks which maps app to open, Apple Maps or Google Maps, instead of choosing for
+// the visitor. It's a <details> menu, so it works without JavaScript. From 640 px the list floats
+// under the link and moves nothing; on phones it opens in place (a shift the visitor asked for, so
+// not layout shift), which also keeps it inside a 320 px screen. site.ts closes it on Escape or a
+// click elsewhere. The links come from src/lib/maps.ts.
+import Icon from './Icon.astro';
+import LinkText from './LinkText.astro';
+import { mapLinks } from '../lib/maps';
+
+interface Props {
+  label?: string;
+  /** Another address (an event elsewhere). Leave out for the church. */
+  address?: string;
+  /** Classes for the visible control, e.g. "btn btn--primary". Default: a text link. */
+  summaryClass?: string;
+  /** A pin before the label (buttons). */
+  pin?: boolean;
+  class?: string;
+}
+const { label = 'Get directions', address, summaryClass = 'text-link', pin = false, class: cls } = Astro.props;
+const { full, apple, google } = mapLinks(address);
+const isText = summaryClass.split(/\s+/).includes('text-link');
+---
+<details class:list={['dir', cls]}>
+  <summary class={summaryClass}>
+    {isText
+      ? <LinkText text={label} icon="chevron" />
+      : <>{pin && <Icon name="pin" />}{label}<Icon name="chevron" /></>}
+  </summary>
+  <ul class="dir-menu" aria-label={`Open directions to ${full} in`}>
+    <li><a href={apple} target="_blank" rel="noopener">Apple Maps<Icon name="external" /></a></li>
+    <li><a href={google} target="_blank" rel="noopener">Google Maps<Icon name="external" /></a></li>
+  </ul>
+</details>
+
+<style>
+  .dir { position: relative; display: inline-block; vertical-align: baseline; }
+  .dir > summary { list-style: none; cursor: pointer; }
+  .dir > summary::-webkit-details-marker { display: none; }
+  .dir > summary :global(.i-chevron) { transition: rotate var(--dur-2) var(--ease); }
+  .dir[open] > summary :global(.i-chevron) { rotate: 180deg; }
+  .dir > summary.text-link:hover { text-decoration-line: underline; }
+  .dir-menu { margin: 10px 0 0; padding: 6px; list-style: none; min-width: 13rem; max-width: 100%; text-align: left;
+    background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-2);
+    font-size: 1rem; font-weight: 700; letter-spacing: normal; text-transform: none; line-height: 1.3; }
+  @media (min-width: 640px) {
+    .dir-menu { position: absolute; z-index: 30; top: 100%; left: 0; margin-top: 10px; }
+  }
+  .dir-menu a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; padding: 0.55rem 0.8rem;
+    border-radius: var(--radius-xs); color: var(--text); text-decoration: none; white-space: nowrap; }
+  .dir-menu a:hover { background: var(--surface-2); }
+  .dir-menu a :global(.icon) { width: 1em; height: 1em; color: var(--text-2); }
+</style>

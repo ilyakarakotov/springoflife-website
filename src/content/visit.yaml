@@ -12,10 +12,7 @@ image_alt: People arriving for Sunday service at Spring of Life Church in Mukilt
 expect:
   - icon: clock
     title: About 90 minutes
-    text: A typical service lasts about 90 minutes.
-  - icon: music
-    title: Traditional and contemporary worship
-    text: We sing a mix of traditional and contemporary worship songs led by our worship team.
+    text: A typical service is about 90 minutes of worship.
   - icon: kids
     title: Childcare for all ages
     text: Childcare and activities are available for all age groups.

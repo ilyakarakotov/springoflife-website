@@ -6,6 +6,7 @@ import { Picture, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import LinkText from '../../components/LinkText.astro';
+import Directions from '../../components/Directions.astro';
 import ClosingInvite from '../../components/ClosingInvite.astro';
 import { events, site, buildTime, type SyncedEvent } from '../../lib/content';
 import { eventSlug, eventPath, registrationStatus, registrationLabel } from '../../lib/events.mjs';
@@ -34,7 +35,6 @@ const timeLabel = keepTimes(formatTimeLabel(e));
 const isChurch = Boolean(e.location?.address && e.location.address.includes(site.address.street));
 const placeName = e.location?.name || (isChurch ? site.name : null);
 const address = e.location?.type === 'online' ? null : e.location?.address ?? null;
-const mapUrl = isChurch ? site.address.maps_url : address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : null;
 const online = e.location?.type === 'online';
 
 // Search snippet: when, where, then the organizer's own first sentence; at most ~160 characters.
@@ -97,7 +97,7 @@ const ext = { target: '_blank', rel: 'noopener' };
             <h2 class="h3">Where</h2>
             {placeName && <p class="place">{placeName}</p>}
             {address && <p class="muted">{address}</p>}
-            {mapUrl && <a class="text-link" href={mapUrl} {...ext}><LinkText text="Get directions" icon="external" /></a>}
+            {(isChurch || address) && <Directions address={isChurch ? undefined : address ?? undefined} />}
           </div>
         )}
         <div class="side" data-reveal>

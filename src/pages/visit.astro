@@ -7,13 +7,16 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import LinkText from '../components/LinkText.astro';
 import ClosingInvite from '../components/ClosingInvite.astro';
+import Directions from '../components/Directions.astro';
 import { site, img, visit, forms } from '../lib/content';
 import { href } from '../lib/url';
 import { lqip } from '../lib/lqip';
+import { mapLinks } from '../lib/maps';
 
 const photo = img(visit.image);
 const preview = await lqip(visit.image);
 const tel = site.phone.replace(/[^\d+]/g, '');
+const maps = mapLinks();
 ---
 <Base title={visit.title} description={visit.description} image={photo} imageAlt={visit.image_alt}>
   <section class="page-hero visit-hero">
@@ -27,7 +30,7 @@ const tel = site.phone.replace(/[^\d+]/g, '');
           <li><Icon name="pin" /><span><b>{site.address.street}</b><span class="meta">{site.address.city}, {site.address.region} {site.address.postal_code}</span></span></li>
         </ul>
         <div class="btn-row">
-          <a class="btn btn--primary" href={site.address.maps_url} target="_blank" rel="noopener"><Icon name="pin" />Get directions</a>
+          <Directions summaryClass="btn btn--primary" pin />
           <a class="text-link" href={forms.connect} target="_blank" rel="noopener"><LinkText text="Fill out a connect card" icon="external" /></a>
         </div>
       </div>
@@ -42,7 +45,7 @@ const tel = site.phone.replace(/[^\d+]/g, '');
   <section class="section" aria-labelledby="expect-title">
     <div class="wrap">
       <div class="section-head"><h2 id="expect-title" data-reveal="lines">What to expect</h2></div>
-      <ul class="expect-grid">
+      <ul class="expect-grid" data-count={visit.expect.length}>
         {visit.expect.map((x) => (
           <li class="expect-item" data-reveal>
             <span class="icon-tile"><Icon name={x.icon} /></span>
@@ -60,13 +63,13 @@ const tel = site.phone.replace(/[^\d+]/g, '');
         <span class="icon-tile"><Icon name="kids" /></span>
         <h2>Kids</h2>
         <p>{visit.kids}</p>
-        <a class="text-link" href={href('/ministries#kids')}><LinkText text="Kids and teens ministries" icon="arrow" /></a>
+        <a class="text-link" href={href('/ministries#kids')}><LinkText text="Kids ministries" icon="arrow" /></a>
       </article>
       <article class="duo-item" id="arrive" data-reveal>
         <span class="icon-tile"><Icon name="coffee" /></span>
         <h2>When you arrive</h2>
         <p>{visit.arrival}</p>
-        <a class="text-link" href={site.address.maps_url} target="_blank" rel="noopener"><LinkText text={`Directions to ${site.address.street}`} icon="external" /></a>
+        <Directions label={`Directions to ${site.address.street}`} />
       </article>
     </div>
   </section>
@@ -78,7 +81,10 @@ const tel = site.phone.replace(/[^\d+]/g, '');
         <div class="here-item" data-reveal>
           <span class="eyebrow">Address</span>
           <p class="address">{site.name}<br />{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postal_code}</p>
-          <a class="btn btn--outline" href={site.address.maps_url} target="_blank" rel="noopener">Open in Google Maps<Icon name="external" /></a>
+          <div class="btn-row maps-row">
+            <a class="btn btn--outline" href={maps.apple} target="_blank" rel="noopener">Apple Maps<Icon name="external" /></a>
+            <a class="btn btn--outline" href={maps.google} target="_blank" rel="noopener">Google Maps<Icon name="external" /></a>
+          </div>
         </div>
         <div class="here-item" data-reveal>
           <span class="eyebrow">Russian service</span>
@@ -123,6 +129,8 @@ const tel = site.phone.replace(/[^\d+]/g, '');
   .expect-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(28px, 3vw, 40px) clamp(24px, 3vw, 40px); }
   @media (min-width: 640px) { .expect-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1024px) { .expect-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  /* Three cards go three across instead of leaving one alone on a row (or a gap at the end). */
+  @media (min-width: 760px) { .expect-grid[data-count="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .expect-item { display: grid; gap: 0.7rem; align-content: start; padding-top: clamp(22px, 2.4vw, 30px); border-top: 1px solid var(--rule); }
   .expect-item .icon-tile { margin-bottom: 0.35rem; }
   .expect-item .card-title { font-size: var(--step-2); letter-spacing: -0.02em; }
@@ -144,7 +152,8 @@ const tel = site.phone.replace(/[^\d+]/g, '');
   .here-item .eyebrow { margin-bottom: 0.4rem; }
   .address { font-size: var(--step-1); line-height: 1.5; color: var(--text) !important; font-weight: 600; margin-bottom: 0.9rem !important; }
   .here-big { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.02em; color: var(--text) !important; }
-  .here-item .text-link, .here-item .btn { margin-top: auto; }
+  .here-item .text-link, .here-item > .btn, .here-item .maps-row { margin-top: auto; }
+  .here-item .maps-row { align-self: stretch; gap: 0.75rem; }
   .here-item .text-link { padding-top: 0.5rem; }
   .contact { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.9rem; }
   .contact li { display: flex; gap: 0.65rem; align-items: center; }
