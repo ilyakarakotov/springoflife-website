@@ -6,7 +6,7 @@
 #        https://springoflifechurch.churchcenter.com/registrations/events/3824843   ->  3824843
 #   2. Replace `signup_id` below (and the year in `cta`). Save. Every button on the site updates.
 #
-# Fields: id, group (kids | adults | schools | serve), title, summary, details (list),
+# Fields: id, group (kids | groups | missions | schools | serve), title, summary, details (list),
 #         signup_id (Church Center signup number) OR link (any URL), cta (button text), image,
 #         image_fit (photo | logo: a logo is shown whole on a light tile instead of cropped),
 #         weekly (short schedule for the home page "Every week" panel; only for confirmed times).
@@ -33,6 +33,7 @@ ministries:
       - Fridays, 5:30–7:00 pm
       - Ages 7 and up
       - Free
+    weekly: Fridays, 5:30–7:00 pm
     signup_id: "3822440"
     cta: Sign up for 2026–27
 
@@ -43,31 +44,34 @@ ministries:
     link: /visit#kids
     cta: Plan a visit
 
-  # id stays "youth" so existing links keep working. The church says "youth" for young adults;
-  # this card is the teens ministry (подростковое служение).
-  - id: youth
-    group: kids
-    title: Teens
-    summary: Teens meet for Bible study in small groups and time together as a whole group, led by Sergiy Titarchuk, our Next Generation Pastor.
-    details:
-      - Thursdays, 7:00 pm
 
   - id: life-groups
-    group: adults
+    group: groups
     title: Life Groups
     summary: Small groups that meet during the week to study the Bible, pray together and build deep friendships.
     link: /life-groups
     cta: Find a Life Group
 
   - id: young-adults
-    group: adults
+    group: groups
     title: Young Adults
     summary: Young adults meet every Monday night to grow in faith and friendship, and head to camp together at the end of summer.
     details:
       - Mondays, 7:00 pm
+    weekly: Mondays, 7:00 pm
+
+  # id stays "youth" so existing links keep working. The church says "youth" for young adults;
+  # this card is the teens ministry (подростковое служение). "Teens", not "Students".
+  - id: youth
+    group: groups
+    title: Teens
+    summary: Teens meet for Bible study in small groups and time together as a whole group, led by Sergiy Titarchuk, our Next Generation Pastor.
+    details:
+      - Thursdays, 7:00 pm
+    weekly: Thursdays, 7:00 pm
 
   - id: missions
-    group: adults
+    group: missions
     title: Missions
     summary: We support pastors and missionaries overseas, help refugees, and send mission teams to Mexico.
     link: https://springoflifechurch.churchcenter.com/people/forms/213642
@@ -103,6 +107,7 @@ ministries:
     details:
       - Mondays, 6:30 pm
       - $150 yearly fee per student, plus monthly tuition
+    weekly: Mondays, 6:30 pm
     signup_id: "3533274"
     cta: Register for 2026–27
 

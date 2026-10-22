@@ -1,20 +1,33 @@
 ---
 // "Every week": the regular rhythm of church life, always shown next to the events list, so the
 // section is never empty. Only confirmed times: the Sunday services (site.yaml), ministries with a
-// `weekly` line (ministry-links.yaml), and the Life Groups' days from Planning Center.
+// `weekly` line (ministry-links.yaml), and the Life Groups' days from Planning Center. Rows run in
+// week order, Sunday first, by the first day each one names.
 import Icon from './Icon.astro';
 import { site, ministries, groups } from '../lib/content';
-import { groupSummary, joinList } from '../lib/groups.mjs';
+import { groupSummary, joinList, scheduleDays } from '../lib/groups.mjs';
 import { href } from '../lib/url';
 
 interface Props { headingLevel?: 'h2' | 'h3' }
 const { headingLevel: H = 'h3' } = Astro.props;
 const lg = groupSummary(groups);
+// scheduleDays counts from Monday (0) to Sunday (6); Sunday moves to the front. No day: last.
+const firstDay = (when: string) => {
+  const [d] = scheduleDays(when);
+  return d === undefined ? 7 : (d + 1) % 7;
+};
+// Same day: earlier first ("6:30 pm" -> 1110 minutes). No time: after the timed rows.
+const startMinutes = (when: string) => {
+  const m = when.match(/(\d{1,2}):(\d{2})(?:\s*[–-]\s*\d{1,2}:\d{2})?\s*(am|pm)/i);
+  if (!m) return 24 * 60;
+  return ((Number(m[1]) % 12) + (m[3].toLowerCase() === 'pm' ? 12 : 0)) * 60 + Number(m[2]);
+};
 const rows = [
   { name: `${site.service.day} services`, when: `English ${site.service.time} · Russian ${site.service.russian_time}`, url: '/visit' },
   ...(groups.length ? [{ name: 'Life Groups', when: lg.days.length ? joinList(lg.days) : 'During the week', url: '/life-groups' }] : []),
   ...ministries.filter((m) => m.weekly).map((m) => ({ name: m.title, when: m.weekly as string, url: `/ministries#${m.id}` })),
-];
+].map((r, i) => ({ ...r, day: r.url === '/visit' ? 0 : firstDay(r.when), start: startMinutes(r.when), i }))
+  .sort((a, b) => a.day - b.day || a.start - b.start || a.i - b.i);
 ---
 <aside class="week panel" aria-labelledby="every-week-title" data-reveal>
   <H id="every-week-title" class="week-title">Every week</H>
@@ -28,6 +41,7 @@ const rows = [
       </li>
     ))}
   </ul>
+  <p class="week-note meta">Holidays and school breaks can change the schedule.</p>
 </aside>
 
 <style>
@@ -39,6 +53,7 @@ const rows = [
   .week-text { display: grid; gap: 0.1rem; }
   .week-name { font-weight: 700; }
   .week-when { color: var(--muted); font-size: 0.9375rem; }
+  .week-note { margin: 0.75rem 0 0; padding-top: 0.9rem; border-top: 1px solid var(--border); }
   .week-list :global(.icon) { color: var(--text-2); transition: transform var(--dur-2) var(--ease), color var(--dur-2) var(--ease); }
   .week-list a:hover .week-name { text-decoration: underline; text-underline-offset: 3px; }
   .week-list a:hover :global(.icon) { color: var(--accent-text); }

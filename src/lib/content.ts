@@ -86,7 +86,7 @@ export const home = load('home.yaml', homeRaw, z.object({
 
 const Ministry = z.object({
   id: z.string(),
-  group: z.enum(['kids', 'adults', 'schools', 'serve']),
+  group: z.enum(['kids', 'groups', 'missions', 'schools', 'serve']),
   title: z.string(),
   summary: z.string(),
   details: opt(z.array(z.string())),

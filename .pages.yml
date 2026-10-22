@@ -123,7 +123,7 @@ content:
           - { name: id, label: ID (no spaces), type: string }
           - name: group
             type: select
-            options: { values: [kids, adults, schools, serve] }
+            options: { values: [kids, groups, missions, schools, serve] }
           - { name: title, type: string }
           - { name: summary, type: text }
           - { name: details, type: string, list: true }

@@ -8,8 +8,9 @@ import { ministries, external } from '../lib/content';
 import { href } from '../lib/url';
 
 const sections = [
-  { id: 'kids', title: 'Kids and teens', lead: 'Sunday school, AWANA, the kids choir and teens.' },
-  { id: 'adults', title: 'Groups and adults', lead: 'Life Groups, young adults and missions.' },
+  { id: 'kids', title: 'Kids', lead: 'Childcare on Sundays, AWANA and the kids choir.' },
+  { id: 'groups', title: 'Groups', lead: 'Life Groups, young adults and teens.' },
+  { id: 'missions', title: 'Missions', lead: 'Near and far' },
   { id: 'schools', title: 'Schools', lead: 'Investing in the next generation.' },
   { id: 'serve', title: 'Serve', lead: 'Use your gifts to serve the church.' },
 ] as const;
@@ -18,7 +19,7 @@ const visible = sections.map((s) => ({ ...s, items: ministries.filter((m) => m.g
 // Four cards go 2 + 2 or 4 across instead of leaving one alone on a row.
 const gridFor = (n: number) => (n === 4 ? 'grid--4' : n === 2 ? 'grid--2' : 'grid--3');
 ---
-<Base title="Ministries" description="Ministries at Spring of Life Church: AWANA, kids choir, teens, Life Groups, young adults, SOL Music Academy, SOL Russian School and more.">
+<Base title="Ministries" description="Ministries at Spring of Life Church: AWANA, kids choir, Life Groups, young adults, teens, missions, SOL Music Academy, SOL Russian School and more.">
   <PageHero eyebrow="Ministries" title="Grow with us"
     lead="From AWANA on Wednesday nights to Life Groups during the week, here's what happens at Spring of Life beyond Sunday. Registration for each program is on Church Center, and every button below points to this year's signup.">
     <nav class="jump" aria-label="Ministry sections">
@@ -27,12 +28,13 @@ const gridFor = (n: number) => (n === 4 ? 'grid--4' : n === 2 ? 'grid--2' : 'gri
     </nav>
   </PageHero>
 
-  {visible.map((s, i) => s.id === 'serve' && s.items.length === 1 ? (
-    /* A single serving card reads better as a band with one action. */
+  {visible.map((s, i) => (s.id === 'serve' || s.id === 'missions') && s.items.length === 1 ? (
+    /* A single serving or missions card reads better as a band with one action. The card's id stays
+       an anchor unless the section already has it (#missions). */
     <section class="section section--tint serve-band" id={s.id} aria-labelledby={`${s.id}-title`}>
-      <div class="wrap serve" id={s.items[0].id}>
+      <div class="wrap serve" id={s.items[0].id === s.id ? undefined : s.items[0].id}>
         <div data-reveal>
-          <span class="eyebrow eyebrow--accent eyebrow--wave">{s.title}</span>
+          <span class="eyebrow eyebrow--accent eyebrow--wave">{s.title === s.items[0].title ? s.lead : s.title}</span>
           <h2 id={`${s.id}-title`}>{s.items[0].title}</h2>
           <p>{s.items[0].summary}</p>
         </div>
