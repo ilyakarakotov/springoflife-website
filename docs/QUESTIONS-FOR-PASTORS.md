@@ -34,6 +34,8 @@ the item (most are editable in Pages CMS).
 - [ ] Should it mention the **Sunday 6:00 pm** evening service and Bible study? Is it Russian only?
 
 ### Ministries (`src/content/ministry-links.yaml`)
+- [x] **Name:** "Teens", not "Students" (2026-10-21). Teens now sit under Groups with Life Groups
+  and Young Adults; Missions has its own section.
 - [ ] **Teens.** Published as "Teens meet for Bible study in small groups and time together as a
   whole group, led by Sergiy Titarchuk" with "Thursdays, 7:00 pm" (from the Russian site). Is
   Thursday 7:00 pm still teen night? In English, Russian or both, and for which grades?
@@ -54,9 +56,10 @@ the item (most are editable in Pages CMS).
   right as written? When did the English service start, and would you like a sentence about it?
 - [ ] **Mission wording:** "through the Word of God in worship and fellowship" (website, used now) or
   "through Word, Worship and Fellowship" (bulletin, Facebook)?
-- [ ] Should the site show the Statement of Faith link (Baptist Faith and Message 2000) and the
-  affiliations? They're hidden now because of the naming decision (`show_affiliations` in
-  `src/content/beliefs.yaml`).
+- [x] Should the site show the Statement of Faith link (Baptist Faith and Message 2000) and the
+  affiliations? **Yes (2026-10-21).** The name stays "Spring of Life Church", and the church stays
+  Baptist in what it believes. Shown under "What we believe" (`show_affiliations: true`). Open:
+  logos for the associations, if we have them.
 - [ ] **Checks.** The site says "Bring a check to any service, or drop it in the church mailbox at
   4711 116th St SW, Mukilteo." Can people also mail checks there, and who should they be made out to?
   May the Give page show the legal name, EIN and a tax-deductible line?

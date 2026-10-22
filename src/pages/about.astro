@@ -4,6 +4,8 @@ import { Image, Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import ClosingInvite from '../components/ClosingInvite.astro';
+import Icon from '../components/Icon.astro';
+import LinkText from '../components/LinkText.astro';
 import { site, img, leaders, beliefs } from '../lib/content';
 import { lqip } from '../lib/lqip';
 
@@ -43,10 +45,23 @@ const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
       <dl class="beliefs">
         {beliefs.beliefs.map((b) => <div class="belief" data-reveal><dt>{b.title}</dt><dd>{b.text}</dd></div>)}
       </dl>
+      {/* The statement of faith and the associations, at the same size as the beliefs above. The
+          names wrap; nothing scrolls sideways on a phone. */}
       {beliefs.show_affiliations && (
-        <div class="affiliations">
-          <p><a href={beliefs.statement.url} target="_blank" rel="noopener">{beliefs.statement.label}</a>: {beliefs.statement.text}</p>
-          <ul>{beliefs.affiliations.map((a) => <li><a href={a.url} target="_blank" rel="noopener">{a.name}</a></li>)}</ul>
+        <div class="affiliations" id="affiliations">
+          <div class="aff-col" data-reveal>
+            <h3 class="aff-title">In more detail</h3>
+            <p>{beliefs.statement.text}</p>
+            <a class="text-link" href={beliefs.statement.url} target="_blank" rel="noopener"><LinkText text={beliefs.statement.label} icon="external" /></a>
+          </div>
+          <div class="aff-col" data-reveal>
+            <h3 class="aff-title">Associations</h3>
+            <ul class="aff-list">
+              {beliefs.affiliations.map((a) => (
+                <li><a href={a.url} target="_blank" rel="noopener"><span>{a.name}</span><Icon name="external" /></a></li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </div>
@@ -111,8 +126,16 @@ const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
   .belief { padding: 1.5rem 0 1.6rem; border-top: 1px solid var(--rule); }
   .belief dt { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.5rem; }
   .belief dd { margin: 0; color: var(--text-2); max-width: 38rem; }
-  .affiliations { margin-top: 2rem; color: var(--text-2); }
-  .affiliations a { color: var(--accent-text); }
+  .affiliations { display: grid; gap: clamp(32px, 4vw, 48px) clamp(40px, 6vw, 96px); margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(28px, 3vw, 40px); border-top: 1px solid var(--rule); scroll-margin-top: 96px; }
+  @media (min-width: 860px) { .affiliations { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .aff-col { display: grid; gap: 0.75rem; align-content: start; }
+  .aff-title { font-size: var(--step-2); margin: 0; }
+  .aff-col p { margin: 0; color: var(--text-2); max-width: 38rem; }
+  .aff-list { list-style: none; margin: 0; padding: 0; }
+  .aff-list li + li { border-top: 1px solid var(--border); }
+  .aff-list a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 48px; padding: 0.7rem 0; font-weight: 700; color: var(--text); text-decoration: none; overflow-wrap: anywhere; }
+  .aff-list a:hover span { text-decoration: underline; text-underline-offset: 3px; }
+  .aff-list :global(.icon) { flex: none; color: var(--accent-text); }
 
   .leaders { list-style: none; margin: 0; padding: 0; display: grid; gap: 36px 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 720px) { .leaders { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 24px; } }
