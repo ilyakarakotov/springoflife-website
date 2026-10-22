@@ -55,7 +55,7 @@ export function areaPlaces(area) {
 }
 
 /**
- * The days and places across all groups, for "Every week" and the home Life Groups band.
+ * The days and places across all groups, for /llms.txt and the home Life Groups band.
  * @param {Array<{ schedule: string | null, area: string | null }>} groups
  */
 export function groupSummary(groups) {

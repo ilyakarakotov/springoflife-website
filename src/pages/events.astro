@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import LinkText from '../components/LinkText.astro';
 import EventRow from '../components/EventRow.astro';
-import EveryWeek from '../components/EveryWeek.astro';
+import WeekSchedule from '../components/WeekSchedule.astro';
 import PageHero from '../components/PageHero.astro';
 import ClosingInvite from '../components/ClosingInvite.astro';
 import { site, events } from '../lib/content';
@@ -37,7 +37,7 @@ const months = byMonth(events);
           </section>
         ))}
       </div>
-      <EveryWeek headingLevel="h2" />
+      <WeekSchedule headingLevel="h2" />
     </div>
   </section>
 
@@ -45,8 +45,9 @@ const months = byMonth(events);
 </Base>
 
 <style>
+  /* The events, then the weekly schedule across the full width (WeekSchedule.astro). */
   .events-layout { display: grid; gap: clamp(40px, 5vw, 72px); }
-  @media (min-width: 1024px) { .events-layout { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: start; } }
+  .events-list { max-width: 60rem; }
   .month + .month { margin-top: clamp(28px, 4vw, 44px); }
   .month-title { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0; padding-bottom: 0.9rem; border-bottom: 1px solid var(--text); }
   .event-rows { list-style: none; margin: 0; padding: 0; }

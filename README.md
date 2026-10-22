@@ -417,13 +417,16 @@ one `<path>`).
   from the content files, so it changes when they do.
 - **Get directions** (`src/components/Directions.astro`) asks Apple Maps or Google Maps. It's a
   `<details>` menu, so it works without JavaScript.
-- **Weekly schedule** (`src/lib/schedule.mjs`): the regular week, Monday to Sunday, built from the
-  Sunday services in `site.yaml`, every ministry's `weekly` line ("Tuesdays and Fridays, 4:30–8:40 pm
-  · September–May") and the Life Groups' days. A `weekly` line without a day and a time fails the
-  build. Two designs are on trial: option A, a list (`WeekList.astro`), and option C, a calendar
-  week like Google Calendar's (`WeekGrid.astro`). `src/scripts/week.ts` marks today in church time.
-  The preview site shows both at `/schedule-options` (`src/pages/[previewPage].astro`, built only in
-  PREVIEW builds). Once the pastors pick one, it replaces `EveryWeek.astro` on Home and Events.
+- **Weekly schedule** (`src/lib/schedule.mjs`, `src/components/WeekSchedule.astro`): the regular
+  week, Monday to Sunday, built from the Sunday services in `site.yaml`, every ministry's `weekly`
+  line ("Tuesdays and Fridays, 4:30–8:40 pm · September–May") and the Life Groups' days. A `weekly`
+  line without a day and a time fails the build. On Home (under "Coming up") and Events.
+  - From 700 px wide it's a calendar week like Google Calendar's: blocks sized by time, a line at
+    the current time.
+  - Narrower (phones), a Mon–Sun day picker with the picked day's schedule as cards. It opens on
+    today: the head script in `Base.astro` puts the weekday on `<html>` before first paint. The
+    picker is a native radio group, so it works without JavaScript.
+  - `src/scripts/week.ts` marks today and keeps it current.
 
 ## Project layout
 
@@ -440,8 +443,7 @@ src/assets/sync/                    synced images (written by the sync only)
 src/content/                        editable YAML + Markdown
 src/pages/                          Home, Visit, About, Ministries, Life Groups, Watch, Events,
                                     events/[slug] (one page per event), Next Steps, Give, 404,
-                                    feed/events.json, robots.txt, llms.txt, and the preview-only
-                                    [previewPage] (/schedule-options)
+                                    feed/events.json, robots.txt, llms.txt
 src/components/, src/layouts/       UI (SermonEmbed and GiveEmbed are the click-to-load facades)
 src/lib/                            content validation, time, events, groups, schedule, feed, JSON-LD, URLs, text
 src/styles/                         global.css (design tokens, type, buttons, arrows), motion.css

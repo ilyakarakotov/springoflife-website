@@ -1,5 +1,5 @@
-// The regular week, Monday to Sunday, for the weekly schedule (WeekList.astro, WeekGrid.astro) and
-// /llms.txt. Built only from what staff already edit, so no time is typed twice:
+// The regular week, Monday to Sunday, for the weekly schedule (WeekSchedule.astro) and /llms.txt.
+// Built only from what staff already edit, so no time is typed twice:
 //   the Sunday services   site.yaml (service.time and length, service.russian_time)
 //   weekly ministries     ministry-links.yaml, the `weekly` line: "Tuesdays and Fridays, 4:30–8:40 pm · September–May"
 //   Life Groups           their days (and time, when the leaders set one) from Planning Center

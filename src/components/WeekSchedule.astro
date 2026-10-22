@@ -1,0 +1,305 @@
+---
+// The weekly schedule, Monday to Sunday: on Home under "Coming up", and on Events. The week comes
+// from src/lib/schedule.mjs. One markup, two layouts, chosen by the width the schedule gets (a
+// container query):
+//   700 px and up  a calendar week like Google Calendar's: a column per day, each item a block
+//                  sized by its time. Items without an end time fade out. Overlapping items sit side
+//                  by side (from 1100 px) or step in. Items without a time (most Life Groups) go in
+//                  the all-day row. A line marks the current time.
+//   narrower       a day picker, Mon to Sun, with the picked day's schedule under it as cards
+// Today is picked before the first paint: the head script in Base.astro puts the weekday (church
+// time) on <html>, and the CSS below shows that day. src/scripts/week.ts then checks today's radio,
+// marks today and moves the time line. The picker is a native radio group, so it works without
+// JavaScript; with no script at all, the phone layout lists every day until one is picked.
+// The CSP blocks inline styles, so a block's place is set by classes: at-*/aq-* for its start and
+// len-*/lq-* for its length, in hours and quarter hours.
+import Icon from './Icon.astro';
+import { week } from '../lib/content';
+import { clock, timeSpan, gridHours, gridPlaces, hourLabel } from '../lib/schedule.mjs';
+import { href } from '../lib/url';
+
+interface Props { headingLevel?: 'h2' | 'h3' }
+const { headingLevel: H = 'h3' } = Astro.props;
+const id = 'week';
+const { from, to } = gridHours(week);
+const hours = Array.from({ length: to - from }, (_, i) => from + i);
+const KINDS = { service: 'Sunday services', kids: 'Kids', groups: 'Groups', schools: 'Schools', missions: 'Missions', serve: 'Serving' } as const;
+const kinds = (Object.keys(KINDS) as (keyof typeof KINDS)[]).filter((k) => week.some((d) => d.items.some((i) => i.kind === k)));
+// 26 quarter hours -> ["at-6", "aq-2"]
+const quarters = (n: number, hour: string, part: string) => [`${hour}-${Math.floor(n / 4)}`, n % 4 ? `${part}-${n % 4}` : null];
+const days = week.map((d, i) => ({
+  ...d,
+  timed: gridPlaces(d.items, from),
+  untimed: d.items.filter((it) => it.start === null),
+  // An empty day offers the next day that has something.
+  next: [1, 2, 3, 4, 5, 6].map((k) => week[(i + k) % 7]).find((n) => n.items.length)?.name ?? null,
+}));
+const ext = (external: boolean) => (external ? { target: '_blank', rel: 'noopener' } : {});
+---
+<section class="ws panel" aria-labelledby={`${id}-title`} data-week data-week-grid data-from={from * 60} data-to={to * 60} data-reveal>
+  <div class="ws-head">
+    <H id={`${id}-title`} class="ws-title">Every week</H>
+    <ul class="ws-key" aria-hidden="true">{kinds.map((k) => <li class={`k-${k}`}>{KINDS[k]}</li>)}</ul>
+  </div>
+  <div class="ws-picker" role="radiogroup" aria-label="Day of the week">
+    {days.map((d) => (
+      <label class="ws-chip" data-day={d.name}>
+        <input class="ws-pick" type="radio" name={`${id}-day`} value={d.name} />
+        <span class="ws-chip-day" aria-hidden="true">{d.short}</span>
+        <span class="visually-hidden">{d.name}<span class="ws-chip-today">, today</span></span>
+        <span class:list={['ws-dot', { 'ws-dot--none': !d.items.length }]} aria-hidden="true"></span>
+      </label>
+    ))}
+  </div>
+  <div class="ws-grid">
+    <div class="ws-axis" aria-hidden="true">{hours.map((h) => <span>{hourLabel(h)}</span>)}</div>
+    <div class="ws-lines" aria-hidden="true"></div>
+    <ol class="ws-days">
+      {days.map((d) => (
+        <li class="ws-day" data-day={d.name}>
+          <p class="ws-name"><span class="ws-dow" aria-hidden="true">{d.short}</span><span class="ws-full">{d.name}</span><span class="ws-today">Today</span></p>
+          <div class="ws-slot">
+            {d.timed.length > 0 && (
+              <ul class="ws-timed">
+                {d.timed.map(({ item, offset, length, indent, side, open }) => (
+                  <li class:list={['ev', `k-${item.kind}`, ...quarters(offset, 'at', 'aq'), ...quarters(length, 'len', 'lq'), indent ? `in-${indent}` : null, side && `side-${side}`, { open }]}>
+                    <a href={href(item.href)} {...ext(item.external)}>
+                      <span class="ev-time tabular" aria-hidden="true"><b>{clock(item.start ?? 0)}</b>{item.end !== null && <span>{clock(item.end)}</span>}</span>
+                      <span class="ev-name">{item.short}</span>
+                      <span class="ev-when tabular">{timeSpan(item.start ?? 0, item.end)}</span>
+                      {item.detail && <span class="ev-detail">{item.detail}</span>}
+                      <span class:list={['ev-go', { 'ev-go--out': item.external }]} aria-hidden="true"><Icon name={item.external ? 'external' : 'arrow'} /></span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <span class="ws-now" aria-hidden="true"></span>
+          </div>
+          {d.untimed.length > 0 && (
+            <ul class="ws-untimed">
+              {d.untimed.map((item) => (
+                <li class:list={['ev', `k-${item.kind}`]}>
+                  <a href={href(item.href)} {...ext(item.external)}>
+                    <span class="ev-time" aria-hidden="true"><Icon name="users" /></span>
+                    <span class="ev-name">{item.short}</span>
+                    {item.detail && <span class="ev-detail">{item.detail}</span>}
+                    <span class:list={['ev-go', { 'ev-go--out': item.external }]} aria-hidden="true"><Icon name={item.external ? 'external' : 'arrow'} /></span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+          {d.items.length === 0 && (
+            <div class="ws-none">
+              <p>No regular activities on {d.name}s.</p>
+              {d.next && <button type="button" class="ws-next" data-pick={d.next} hidden>See {d.next}<Icon name="arrow" /></button>}
+            </div>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+  <p class="ws-note meta">Holidays and school breaks can change the schedule.</p>
+</section>
+
+<style>
+  /* Calendar colours by kind of item, light and dark. Text stays --text on every tint. */
+  .ws {
+    container: ws / inline-size;
+    padding: clamp(16px, 2.4vw, 30px);
+    --hour: 48px;
+    --service-bg: #e9eefc; --service-bar: #1f56d6;
+    --kids-bg: #fcefe0; --kids-bar: #c25e0b;
+    --groups-bg: #e3f3e9; --groups-bar: #1f8049;
+    --schools-bg: #f0eafb; --schools-bar: #7149c9;
+    --other-bg: var(--surface-2); --other-bar: var(--muted);
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .ws {
+      --service-bg: #1c2846; --service-bar: #8eadff;
+      --kids-bg: #36271a; --kids-bar: #f0a25e;
+      --groups-bg: #15301f; --groups-bar: #6fcf98;
+      --schools-bg: #2a2243; --schools-bar: #b49cf2;
+    }
+  }
+  :global(:root[data-theme="dark"]) .ws {
+    --service-bg: #1c2846; --service-bar: #8eadff;
+    --kids-bg: #36271a; --kids-bar: #f0a25e;
+    --groups-bg: #15301f; --groups-bar: #6fcf98;
+    --schools-bg: #2a2243; --schools-bar: #b49cf2;
+  }
+  .k-service { --k-bg: var(--service-bg); --k-bar: var(--service-bar); }
+  .k-kids { --k-bg: var(--kids-bg); --k-bar: var(--kids-bar); }
+  .k-groups { --k-bg: var(--groups-bg); --k-bar: var(--groups-bar); }
+  .k-schools { --k-bg: var(--schools-bg); --k-bar: var(--schools-bar); }
+  .k-missions, .k-serve { --k-bg: var(--other-bg); --k-bar: var(--other-bar); }
+
+  .ws-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.5rem; margin-bottom: 1rem; }
+  .ws-title { font-size: 1.25rem; margin: 0; }
+  .ws-key { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; margin: 0; padding: 0; font-size: 0.8125rem; color: var(--muted); }
+  .ws-key li { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .ws-key li::before { content: ''; width: 0.625rem; height: 0.625rem; border-radius: 3px; background: var(--k-bar); }
+  .ws-days, .ws-timed, .ws-untimed { list-style: none; margin: 0; padding: 0; }
+  /* overflow clips the colour bar to the card's rounded corners (a focus ring is drawn outside it). */
+  .ev a { position: relative; overflow: hidden; color: var(--text); text-decoration: none; background: var(--k-bg); }
+  .ev a::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--k-bar); }
+  .ev-name { font-weight: 700; overflow-wrap: anywhere; }
+  .ev-detail { color: var(--text-2); }
+  .ev a:hover .ev-name { text-decoration: underline; text-underline-offset: 2px; }
+  .ev-go :global(.icon) { display: block; width: 100%; height: 100%; }
+  .ws-note { margin: 1rem 0 0; }
+  .ws-full, .ev-when { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .ws-today { visibility: hidden; color: var(--accent-text); }
+  .ws-day[data-today] .ws-today { visibility: visible; }
+  .ws-chip:not([data-today]) .ws-chip-today { display: none; }
+
+  /* ---- Phones and narrow columns: pick a day, see that day ---- */
+  @container ws (max-width: 699.98px) {
+    .ws-key, .ws-axis, .ws-lines, .ws-now, .ws-dow { display: none; }
+    .ws-head { margin-bottom: 0.85rem; }
+
+    .ws-picker { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; margin: 0 0 1.1rem; padding: 4px; border-radius: 16px; background: var(--surface-2); }
+    .ws-chip { position: relative; display: grid; justify-items: center; align-content: center; gap: 5px; min-height: 54px; border-radius: 12px; cursor: pointer; color: var(--text-2);
+      font-size: 0.8125rem; font-weight: 700; line-height: 1; transition: background-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease); }
+    .ws-pick { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+    .ws-chip:hover { background: var(--surface); }
+    .ws-chip:has(.ws-pick:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .ws-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.55; }
+    .ws-dot--none { visibility: hidden; }
+    .ws-chip[data-today] { color: var(--accent-text); }
+    /* The picked day: the checked radio, or today until one is checked. */
+    .ws-chip:has(.ws-pick:checked),
+    :global(:root[data-weekday="Monday"]) .ws:not(:has(.ws-pick:checked)) .ws-chip[data-day="Monday"],
+    :global(:root[data-weekday="Tuesday"]) .ws:not(:has(.ws-pick:checked)) .ws-chip[data-day="Tuesday"],
+    :global(:root[data-weekday="Wednesday"]) .ws:not(:has(.ws-pick:checked)) .ws-chip[data-day="Wednesday"],
+    :global(:root[data-weekday="Thursday"]) .ws:not(:has(.ws-pick:checked)) .ws-chip[data-day="Thursday"],
+    :global(:root[data-weekday="Friday"]) .ws:not(:has(.ws-pick:checked)) .ws-chip[data-day="Friday"],
+    :global(:root[data-weekday="Saturday"]) .ws:not(:has(.ws-pick:checked)) .ws-chip[data-day="Saturday"],
+    :global(:root[data-weekday="Sunday"]) .ws:not(:has(.ws-pick:checked)) .ws-chip[data-day="Sunday"] {
+      background: var(--accent); color: var(--accent-ink); box-shadow: var(--shadow-accent);
+    }
+
+    /* One day at a time once a day is picked, or today's from the first paint. With no script at
+       all, every day until one is picked. */
+    .ws-day { display: flex; flex-direction: column; gap: 8px; }
+    .ws-day + .ws-day { margin-top: 1.25rem; }
+    .ws:has(.ws-pick:checked) .ws-day, :global(:root[data-weekday]) .ws .ws-day { display: none; margin: 0; }
+    .ws:has(.ws-pick[value="Monday"]:checked) .ws-day[data-day="Monday"],
+    .ws:has(.ws-pick[value="Tuesday"]:checked) .ws-day[data-day="Tuesday"],
+    .ws:has(.ws-pick[value="Wednesday"]:checked) .ws-day[data-day="Wednesday"],
+    .ws:has(.ws-pick[value="Thursday"]:checked) .ws-day[data-day="Thursday"],
+    .ws:has(.ws-pick[value="Friday"]:checked) .ws-day[data-day="Friday"],
+    .ws:has(.ws-pick[value="Saturday"]:checked) .ws-day[data-day="Saturday"],
+    .ws:has(.ws-pick[value="Sunday"]:checked) .ws-day[data-day="Sunday"],
+    :global(:root[data-weekday="Monday"]) .ws:not(:has(.ws-pick:checked)) .ws-day[data-day="Monday"],
+    :global(:root[data-weekday="Tuesday"]) .ws:not(:has(.ws-pick:checked)) .ws-day[data-day="Tuesday"],
+    :global(:root[data-weekday="Wednesday"]) .ws:not(:has(.ws-pick:checked)) .ws-day[data-day="Wednesday"],
+    :global(:root[data-weekday="Thursday"]) .ws:not(:has(.ws-pick:checked)) .ws-day[data-day="Thursday"],
+    :global(:root[data-weekday="Friday"]) .ws:not(:has(.ws-pick:checked)) .ws-day[data-day="Friday"],
+    :global(:root[data-weekday="Saturday"]) .ws:not(:has(.ws-pick:checked)) .ws-day[data-day="Saturday"],
+    :global(:root[data-weekday="Sunday"]) .ws:not(:has(.ws-pick:checked)) .ws-day[data-day="Sunday"] {
+      display: flex;
+    }
+
+    .ws-name { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 0.15rem; font-size: 1rem; font-weight: 700; line-height: 1.3; }
+    .ws-full { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+    .ws-today { padding: 0.2rem 0.55rem; border-radius: 999px; background: var(--accent-soft); font-size: 0.6875rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1; }
+    .ws-day:not([data-today]) .ws-today { display: none; }
+    .ws-slot { display: contents; }
+    .ws-timed, .ws-untimed { display: grid; gap: 8px; }
+
+    /* A card per item: the time on the left, then the name and note, then where it goes. */
+    .ev a { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr) 1rem; grid-template-areas: "time name go" "time detail go"; align-content: center; column-gap: 0.75rem;
+      min-height: 62px; padding: 10px 14px 10px 16px; border-radius: 12px; line-height: 1.3; }
+    .ev-time { grid-area: time; align-self: start; display: grid; gap: 2px; padding-top: 1px; font-size: 0.875rem; }
+    .ev-time b { font-weight: 700; }
+    .ev-time span { color: var(--text-2); font-size: 0.8125rem; }
+    .ev-time :global(.icon) { width: 1.35rem; height: 1.35rem; color: var(--k-bar); }
+    .ev-name { grid-area: name; font-size: 1rem; }
+    .ev-detail { grid-area: detail; font-size: 0.875rem; }
+    .ev-go { grid-area: go; align-self: center; width: 1rem; height: 1rem; color: var(--text-2); }
+    .ev a:hover .ev-go { color: var(--text); }
+
+    .ws-none { display: grid; justify-items: start; gap: 0.5rem; padding: 1.1rem 1rem; border: 1px dashed var(--border-strong); border-radius: 12px; color: var(--text-2); }
+    .ws-none p { margin: 0; }
+    .ws-next { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; padding: 0; border: 0; background: none; font: inherit; font-weight: 700; color: var(--accent-text); cursor: pointer; }
+    .ws-next[hidden] { display: none; }
+    .ws-next :global(.icon) { width: 1em; height: 1em; }
+    .ws-next:hover { text-decoration: underline; text-underline-offset: 4px; }
+  }
+
+  /* ---- 700 px and up: the calendar week. Time runs down the left; the days share its rows
+     through subgrid, so the all-day row lines up across the week. ---- */
+  @container ws (min-width: 700px) {
+    .ws-picker, .ws-next, .ev-time { display: none; }
+    .ws-none { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .ws-grid { display: grid; grid-template-columns: 3.5rem repeat(7, minmax(0, 1fr)); grid-template-rows: auto auto auto; }
+    .ws-axis { display: grid; grid-column: 1; grid-row: 3; grid-auto-rows: var(--hour); }
+    .ws-axis span { padding-right: 0.6rem; font-size: 0.75rem; line-height: 1; color: var(--muted); text-align: right; white-space: nowrap; translate: 0 -0.5em; }
+    .ws-lines { grid-column: 2 / -1; grid-row: 3; border-bottom: 1px solid var(--border); background: repeating-linear-gradient(to bottom, var(--border) 0 1px, transparent 1px var(--hour)); }
+    .ws-days { grid-column: 2 / -1; grid-row: 1 / -1; display: grid; grid-template-columns: subgrid; grid-template-rows: subgrid; }
+    .ws-day { grid-row: 1 / -1; display: grid; grid-template-rows: subgrid; min-width: 0; border-left: 1px solid var(--border); }
+    .ws-day[data-today] { background: color-mix(in srgb, var(--accent) 5%, transparent); }
+    .ws-name { grid-row: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; margin: 0; padding-bottom: 8px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1.3; }
+    .ws-dow { padding: 0.15rem 0.6rem; border-radius: 999px; }
+    .ws-today { font-size: 0.625rem; }
+    .ws-day[data-today] .ws-name { color: var(--accent-text); }
+    .ws-day[data-today] .ws-dow { background: var(--accent); color: var(--accent-ink); }
+    .ws-untimed { grid-row: 2; display: grid; gap: 4px; align-content: start; padding: 0 3px 4px; }
+    .ws-slot { grid-row: 3; position: relative; }
+    .ws-timed { position: absolute; inset: 0; }
+
+    .ev a { display: grid; align-content: start; padding: 4px 6px 5px 10px; border-radius: 6px; line-height: 1.25; }
+    .ev-name { font-size: 0.8125rem; }
+    .ev-when { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; }
+    .ev-when, .ev-detail { font-size: 0.75rem; color: var(--text-2); }
+    .ev-go { display: none; }
+    .ev-go--out { display: block; position: absolute; top: 6px; right: 6px; width: 10px; height: 10px; color: var(--text-2); }
+
+    .ws-timed .ev { position: absolute; inset-inline: 3px;
+      top: calc((var(--t, 0) * 4 + var(--tq, 0)) * var(--hour) / 4 + 1px);
+      height: calc((var(--l, 0) * 4 + var(--lq, 0)) * var(--hour) / 4 - 2px); }
+    .ws-timed .ev a { height: 100%; }
+    /* No end time: as tall as its text, fading out. */
+    .ws-timed .ev.open { height: auto; }
+    .ws-timed .ev.open a { height: auto; min-height: calc(var(--hour) - 2px); background: linear-gradient(to bottom, var(--k-bg) 45%, transparent); }
+    .ws-timed .ev.open a::before { background: linear-gradient(to bottom, var(--k-bar) 45%, transparent); }
+    /* Overlaps step in, with a gap in the panel colour so the edges read. */
+    .ws-timed .ev.in-1 { inset-inline-start: 32%; z-index: 1; }
+    .ws-timed .ev.in-2 { inset-inline-start: 56%; z-index: 2; }
+    .ev.in-1 a, .ev.in-2 a { box-shadow: -2px -2px 0 0 var(--surface); }
+    /* Two items starting close together: the later one covers the lower part of the first here
+       (its title stays readable), and they sit side by side from 1100 px (below). */
+    .ws-timed .ev.side-right { z-index: 1; }
+    .ev.side-right a { box-shadow: 0 -2px 0 0 var(--surface); }
+    /* The current time on today's column (src/scripts/week.ts sets --now, in minutes from the top). */
+    .ws-now { display: none; position: absolute; inset-inline: 0; z-index: 3; top: calc(var(--now, 0) * var(--hour) / 60 - 1px); height: 2px; background: var(--accent); pointer-events: none; }
+    .ws-now::before { content: ''; position: absolute; left: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+    .ws[data-now] .ws-day[data-today] .ws-now { display: block; }
+  }
+  /* Columns under about 150 px: titles stay on one line, so a covered or stepped-in block still
+     shows its whole title. */
+  @container ws (min-width: 700px) and (max-width: 1099.98px) {
+    .ev-name { font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ev-go--out { display: none; }
+    .ws-timed .ev.in-1 { inset-inline-start: 20%; }
+    .ws-timed .ev.in-2 { inset-inline-start: 40%; }
+  }
+  @container ws (min-width: 1100px) {
+    .ws-timed .ev.side-left { inset-inline-end: calc(50% + 1px); }
+    .ws-timed .ev.side-right { inset-inline-start: calc(50% + 1px); }
+    .ev.side-right a { box-shadow: none; }
+    .ev a:has(.ev-go--out) .ev-name { padding-right: 12px; }
+  }
+
+  /* Block places, in hours (at-*, len-*) and quarter hours (aq-*, lq-*). */
+  .at-1 { --t: 1; } .at-2 { --t: 2; } .at-3 { --t: 3; } .at-4 { --t: 4; } .at-5 { --t: 5; } .at-6 { --t: 6; }
+  .at-7 { --t: 7; } .at-8 { --t: 8; } .at-9 { --t: 9; } .at-10 { --t: 10; } .at-11 { --t: 11; } .at-12 { --t: 12; }
+  .at-13 { --t: 13; } .at-14 { --t: 14; } .at-15 { --t: 15; } .at-16 { --t: 16; } .at-17 { --t: 17; }
+  .aq-1 { --tq: 1; } .aq-2 { --tq: 2; } .aq-3 { --tq: 3; }
+  .len-1 { --l: 1; } .len-2 { --l: 2; } .len-3 { --l: 3; } .len-4 { --l: 4; } .len-5 { --l: 5; } .len-6 { --l: 6; }
+  .len-7 { --l: 7; } .len-8 { --l: 8; } .len-9 { --l: 9; } .len-10 { --l: 10; } .len-11 { --l: 11; } .len-12 { --l: 12; }
+  .len-13 { --l: 13; } .len-14 { --l: 14; } .len-15 { --l: 15; } .len-16 { --l: 16; } .len-17 { --l: 17; }
+  .lq-1 { --lq: 1; } .lq-2 { --lq: 2; } .lq-3 { --lq: 3; }
+</style>
