@@ -136,7 +136,7 @@ content:
             type: select
             description: '"logo" shows a logo whole on a light tile; "photo" fills the card.'
             options: { values: [photo, logo] }
-          - { name: weekly, label: '"Every week" schedule (home page)', type: string, description: 'Short and confirmed only, e.g. "Wednesdays, 7:00–8:45 pm". Leave empty to keep it off the home page.' }
+          - { name: weekly, label: '"Every week" schedule (Home and Events)', type: string, description: 'Confirmed times only: the day(s), then the time, e.g. "Tuesdays and Fridays, 4:30–8:40 pm". A note can follow " · ", e.g. "Wednesdays, 7:00–8:45 pm · September–May". Leave empty to keep it off the schedule.' }
 
   - name: next-steps
     label: Next steps

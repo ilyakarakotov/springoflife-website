@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
-import { site, ministries, steps, groups, events } from '../lib/content';
+import { site, ministries, steps, groups, events, week } from '../lib/content';
 import { groupSummary, joinList } from '../lib/groups.mjs';
 import { formatRange } from '../lib/time.mjs';
+import { timeSpan } from '../lib/schedule.mjs';
 import { eventPath } from '../lib/events.mjs';
 import { absoluteUrl } from '../lib/url';
 
@@ -32,6 +33,11 @@ export const GET: APIRoute = () => {
     `- Everyone is welcome. First-time guests: ${absoluteUrl('/visit')}`,
     `- Live stream: ${site.links.youtube_live}. Sermons: ${site.links.sermons}`,
     `- Forms and registration are on Church Center: ${site.links.church_center}`,
+    '',
+    '## Every week',
+    '',
+    ...week.filter((d) => d.items.length).map((d) => `- ${d.name}: ${d.items.map((i) => [i.title, i.start !== null ? timeSpan(i.start, i.end) : null, i.detail].filter(Boolean).join(', ')).join('; ')}.`),
+    '- Holidays and school breaks can change the schedule.',
     '',
     '## Pages',
     '',

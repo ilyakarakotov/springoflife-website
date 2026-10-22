@@ -9,7 +9,8 @@
 # Fields: id, group (kids | groups | missions | schools | serve), title, summary, details (list),
 #         signup_id (Church Center signup number) OR link (any URL), cta (button text), image,
 #         image_fit (photo | logo: a logo is shown whole on a light tile instead of cropped),
-#         weekly (short schedule for the home page "Every week" panel; only for confirmed times).
+#         weekly (the weekly schedule on Home and Events: the day(s) and time, like "Tuesdays and
+#         Fridays, 4:30–8:40 pm", and a note after " · " if needed; only for confirmed times).
 # Text in [square brackets] is a placeholder: the site leaves it out (a card whose summary is a
 # placeholder isn't shown) until real wording replaces it.
 ministries:

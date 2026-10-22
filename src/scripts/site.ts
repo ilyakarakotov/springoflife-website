@@ -1,14 +1,17 @@
 // The site's scripts in one small cached file (Base.astro): the phone menu, the motion (arrivals and
-// the Home header), the click-to-load Subsplash embeds, the footer theme switch and the late accent font. One request instead of four on Home, so
+// the Home header), the click-to-load Subsplash embeds, the footer theme switch, today on the weekly
+// schedule and the late accent font. One request instead of four on Home, so
 // they don't compete with the hero photo. Page-specific scripts (the Life Groups filter, the 404
 // redirects) stay with their pages.
 import './menu';
 import './motion';
 import { initFacades } from './facade';
 import { initThemeSwitch } from './theme';
+import { initWeek } from './week';
 
 initFacades();
 initThemeSwitch();
+initWeek();
 
 // The accent serif (global.css --font-serif) is fetched only when a line set in it comes within
 // about a screen of the viewport (they're all below the first screen), so it never competes with

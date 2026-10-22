@@ -16,6 +16,7 @@ import eventsData from '../data/events.json';
 import groupsData from '../data/groups.json';
 import { isLive } from './events.mjs';
 import { AUDIENCES } from './groups.mjs';
+import { buildWeek, parseWeekly, EARLIEST, LATEST } from './schedule.mjs';
 import { hidePlaceholders, showPlaceholders } from './placeholders.mjs';
 import { keepTimesDeep } from './text.mjs';
 
@@ -96,7 +97,13 @@ const Ministry = z.object({
   image: opt(imagePath),
   image_fit: z.preprocess((v) => (v === '' || v === null ? undefined : v), z.enum(['photo', 'logo']).default('photo')),
   weekly: opt(z.string()),
-}).refine((m) => !(m.signup_id && m.link), 'use either signup_id or link, not both');
+}).refine((m) => !(m.signup_id && m.link), 'use either signup_id or link, not both')
+  // The weekly schedule reads the days and the time from this line (src/lib/schedule.mjs).
+  .refine((m) => {
+    if (!m.weekly) return true;
+    const w = parseWeekly(m.weekly);
+    return w !== null && w.start >= EARLIEST && (w.end ?? w.start) <= LATEST;
+  }, { path: ['weekly'], message: 'weekly needs a day and a time between 6:00 am and 11:00 pm, like "Tuesdays and Fridays, 4:30–8:40 pm" (a note can follow " · ")' });
 
 export const ministries = load('ministry-links.yaml', ministriesRaw, z.object({ ministries: z.array(Ministry) })).ministries
   .map((m) => ({ ...m, href: m.signup_id ? `${site.links.church_center}/registrations/events/${m.signup_id}` : m.link }));
@@ -222,6 +229,9 @@ export const groups: PublicGroup[] = loadFeed('groups.json', groupsData, SyncedG
   return { ...g, picture };
 });
 export { buildTime };
+
+/** The regular week, Monday to Sunday (src/lib/schedule.mjs): Home "Every week", the Events page, /llms.txt. */
+export const week = buildWeek({ service: site.service, russianSite: site.links.russian_site, ministries, groups });
 
 /** Open external links (Church Center, Subsplash, YouTube) in a new tab; keep site links in the same tab. */
 export const external = (href: string) => (/^https?:\/\//.test(href) ? { target: '_blank', rel: 'noopener' } : {});

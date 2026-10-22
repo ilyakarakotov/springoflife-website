@@ -1,0 +1,85 @@
+---
+// /schedule-options: the two weekly schedule designs the pastors are choosing between, built in full
+// with the real week, side by side and then each in place on Home. Only in PREVIEW builds (the
+// GitHub Pages review site), never in production, and not linked from anywhere. Delete this page,
+// and the design that isn't chosen, once one is picked.
+import { PREVIEW } from 'astro:env/server';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Happening from '../components/Happening.astro';
+import WeekList from '../components/WeekList.astro';
+import WeekGrid from '../components/WeekGrid.astro';
+import { events } from '../lib/content';
+
+export function getStaticPaths() {
+  return PREVIEW ? [{ params: { previewPage: 'schedule-options' } }] : [];
+}
+---
+<Base title="Weekly schedule options" description="Preview: two designs for the weekly schedule on Home." noindex>
+  <PageHero eyebrow="Preview" title="Weekly schedule: A or C"
+    lead="Both designs, built in full with this week's real schedule. Today is marked in Pacific time. Try a phone width and the Light and Dark switch in the footer. This page is only on the preview site." />
+
+  <section class="section section--tight" aria-labelledby="side-title">
+    <div class="wrap">
+      <nav class="opt-nav" aria-label="On this page">
+        <a class="text-link" href="#side-title">Side by side</a>
+        <a class="text-link" href="#home-a-label">A on Home</a>
+        <a class="text-link" href="#home-c-label">C on Home</a>
+      </nav>
+      <h2 id="side-title" class="opt-h">Side by side</h2>
+    </div>
+    <div class="opts-wrap">
+      <div class="opts">
+        <div class="opt">
+          <p class="opt-label"><b>A</b> The whole week, today marked</p>
+          <p class="opt-text">A list, Monday to Sunday. Reads the same on every screen and sits beside the events on Home.</p>
+          <WeekList id="side-a" />
+        </div>
+        <div class="opt">
+          <p class="opt-label"><b>C</b> The week as a calendar</p>
+          <p class="opt-text">Like Google Calendar's week view, with blocks sized by time and a line at the current time. Takes the full width under the events. On a phone it becomes day cards, two across.</p>
+          <WeekGrid id="side-c" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap opt-band"><h2 id="home-a-label" class="opt-h"><b>A</b> on Home</h2></div>
+  <Happening events={events} week="list" id="home-a" />
+
+  <div class="wrap opt-band"><h2 id="home-c-label" class="opt-h"><b>C</b> on Home</h2></div>
+  <Happening events={events} week="grid" id="home-c" />
+
+  <section class="section section--tight" aria-labelledby="todo-title">
+    <div class="wrap">
+      <h2 id="todo-title" class="opt-h">Still to add</h2>
+      <ul class="todo">
+        <li>The Tuesday art ministry and the Thursday special-needs kids ministry: day, time and ages.</li>
+        <li>The Monday virtual school, if it should be listed.</li>
+        <li>The other Life Groups, once they're republished in Planning Center. Only two are published now.</li>
+      </ul>
+      <p class="meta">Each one appears in both designs on its own once its time is in Ministries (the "Every week" field) or in Planning Center.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .opt-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin-bottom: clamp(28px, 3.5vw, 44px); }
+  .opt-h { font-size: var(--step-2); margin: 0 0 1.25rem; }
+  .opt-h b { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; margin-right: 0.4em; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 0.8em; }
+  .opts { display: grid; gap: clamp(40px, 5vw, 64px) clamp(28px, 3vw, 48px); }
+  /* Wider than the page container, so C gets about the width it has on Home. */
+  .opts-wrap { padding-inline: var(--gutter); }
+  @media (min-width: 1280px) {
+    .opts-wrap { padding-inline: clamp(24px, 2.5vw, 40px); }
+    .opts { grid-template-columns: minmax(0, 400px) minmax(0, 1fr); align-items: start; }
+  }
+  .opt { display: grid; min-width: 0; }
+  .opt-label { margin: 0 0 0.25rem; font-weight: 700; font-size: var(--step-1); }
+  .opt-label b { color: var(--accent-text); margin-right: 0.35em; }
+  .opt-text { margin: 0 0 1.25rem; color: var(--text-2); max-width: 44rem; }
+  .opt-band { padding-top: clamp(40px, 5vw, 72px); padding-bottom: 1rem; border-top: 1px solid var(--rule); }
+  .opt-band .opt-h { margin: 0; }
+  .todo { margin: 0 0 1rem; padding-left: 1.25rem; color: var(--text-2); max-width: 44rem; }
+  .todo li + li { margin-top: 0.4rem; }
+</style>

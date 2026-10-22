@@ -417,6 +417,13 @@ one `<path>`).
   from the content files, so it changes when they do.
 - **Get directions** (`src/components/Directions.astro`) asks Apple Maps or Google Maps. It's a
   `<details>` menu, so it works without JavaScript.
+- **Weekly schedule** (`src/lib/schedule.mjs`): the regular week, Monday to Sunday, built from the
+  Sunday services in `site.yaml`, every ministry's `weekly` line ("Tuesdays and Fridays, 4:30–8:40 pm
+  · September–May") and the Life Groups' days. A `weekly` line without a day and a time fails the
+  build. Two designs are on trial: option A, a list (`WeekList.astro`), and option C, a calendar
+  week like Google Calendar's (`WeekGrid.astro`). `src/scripts/week.ts` marks today in church time.
+  The preview site shows both at `/schedule-options` (`src/pages/[previewPage].astro`, built only in
+  PREVIEW builds). Once the pastors pick one, it replaces `EveryWeek.astro` on Home and Events.
 
 ## Project layout
 
@@ -433,11 +440,12 @@ src/assets/sync/                    synced images (written by the sync only)
 src/content/                        editable YAML + Markdown
 src/pages/                          Home, Visit, About, Ministries, Life Groups, Watch, Events,
                                     events/[slug] (one page per event), Next Steps, Give, 404,
-                                    feed/events.json, robots.txt, llms.txt
+                                    feed/events.json, robots.txt, llms.txt, and the preview-only
+                                    [previewPage] (/schedule-options)
 src/components/, src/layouts/       UI (SermonEmbed and GiveEmbed are the click-to-load facades)
-src/lib/                            content validation, time, events, groups, feed, JSON-LD, URLs, text
+src/lib/                            content validation, time, events, groups, schedule, feed, JSON-LD, URLs, text
 src/styles/                         global.css (design tokens, type, buttons, arrows), motion.css
-src/scripts/                        site.ts loads menu.ts, motion.ts and facade.ts as one file
+src/scripts/                        site.ts loads menu.ts, motion.ts, facade.ts, theme.ts and week.ts as one file
 public/embed/sol-events.js          SnapPages events widget (minified at build)
 public/_headers                     Cloudflare Pages headers
 .github/workflows/                  sync.yml (every 30 min), deploy.yml (Pages/Cloudflare), both off by default
