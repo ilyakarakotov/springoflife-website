@@ -412,6 +412,11 @@ one `<path>`).
     left to 404.
 - **Structured data:** Organization and Church on the home page. One schema.org `Event` on each
   event's own page (Google's rule: one event per page, marked up on that page).
+- **`/llms.txt`** (`src/pages/llms.txt.ts`): the same facts in plain text for AI assistants
+  (services, address, every ministry with its day and time, next steps, upcoming events), built
+  from the content files, so it changes when they do.
+- **Get directions** (`src/components/Directions.astro`) asks Apple Maps or Google Maps. It's a
+  `<details>` menu, so it works without JavaScript.
 
 ## Project layout
 
@@ -428,7 +433,7 @@ src/assets/sync/                    synced images (written by the sync only)
 src/content/                        editable YAML + Markdown
 src/pages/                          Home, Visit, About, Ministries, Life Groups, Watch, Events,
                                     events/[slug] (one page per event), Next Steps, Give, 404,
-                                    feed/events.json, robots.txt
+                                    feed/events.json, robots.txt, llms.txt
 src/components/, src/layouts/       UI (SermonEmbed and GiveEmbed are the click-to-load facades)
 src/lib/                            content validation, time, events, groups, feed, JSON-LD, URLs, text
 src/styles/                         global.css (design tokens, type, buttons, arrows), motion.css

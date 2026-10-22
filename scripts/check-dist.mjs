@@ -131,7 +131,7 @@ for (const file of htmlFiles) {
   }
 }
 
-for (const page of ['index.html', 'visit/index.html', 'about/index.html', 'ministries/index.html', 'life-groups/index.html', 'watch/index.html', 'events/index.html', 'next-steps/index.html', 'give/index.html', '404.html', 'robots.txt', 'events.ics', 'favicon.ico']) {
+for (const page of ['index.html', 'visit/index.html', 'about/index.html', 'ministries/index.html', 'life-groups/index.html', 'watch/index.html', 'events/index.html', 'next-steps/index.html', 'give/index.html', '404.html', 'robots.txt', 'llms.txt', 'events.ics', 'favicon.ico']) {
   if (!existsSync(join(dist, page))) fail(page, 'expected file is missing');
 }
 const robotsTxt = existsSync(join(dist, 'robots.txt')) ? readFileSync(join(dist, 'robots.txt'), 'utf8') : '';

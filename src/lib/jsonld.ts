@@ -25,6 +25,7 @@ export function churchJsonLd() {
         '@type': 'Organization',
         '@id': `${siteUrl('/')}#organization`,
         name: site.name,
+        description: site.description,
         url: siteUrl('/'),
         logo: siteUrl('/apple-touch-icon.png'),
         email: site.email,
