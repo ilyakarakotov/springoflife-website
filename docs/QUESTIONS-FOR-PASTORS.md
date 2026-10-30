@@ -115,9 +115,11 @@ the item (most are editable in Pages CMS).
 - [ ] Please align the Academy grades once the school confirms.
 - [ ] Please remove or repoint the "ПОЖЕРТВОВАТЬ" banner that links to the English site's 404 page
   `/ukraine-support`, and clean up the old Give URL parameter.
-- [ ] "На неделе": kids choir is Fridays 5:30–7:00 pm on Church Center (the page says 17:00), and
+- [ ] "На неделе": kids choir is Fridays at 5:30 pm (the pastors confirmed it on Oct 30; the page
+  says 17:00), and the painting class is Thursdays at 6:00 pm, to confirm (the page says 19:00).
   Sunday school shows 10:00 there but "9:35 и 12:00" on the children's page. Which is right?
-- [ ] Are the Monroe 1:00 pm and Sunday 6:00 pm services current?
+- [ ] Is the Monroe 1:00 pm service current? (The Sunday 6:00 pm Russian service is, and stays off
+  the English schedule.)
 - [ ] Which Facebook page is official (/solmukilteo or /sproflifechurch)?
 - [ ] Pastors page: please confirm current titles so both sites match (Shuvarikov, Avdeyev, Glinkin).
 - [ ] Privacy: the Russian site publishes personal phone numbers (pastors, ministry leaders) and

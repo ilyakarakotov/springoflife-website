@@ -61,8 +61,8 @@ const ext = (external: boolean) => (external ? { target: '_blank', rel: 'noopene
           <div class="ws-slot">
             {d.timed.length > 0 && (
               <ul class="ws-timed">
-                {d.timed.map(({ item, offset, length, indent, side, open }) => (
-                  <li class:list={['ev', `k-${item.kind}`, ...quarters(offset, 'at', 'aq'), ...quarters(length, 'len', 'lq'), indent ? `in-${indent}` : null, side && `side-${side}`, { open }]}>
+                {d.timed.map(({ item, offset, length, indent, side, lead, open }) => (
+                  <li class:list={['ev', `k-${item.kind}`, ...quarters(offset, 'at', 'aq'), ...quarters(length, 'len', 'lq'), indent ? `in-${indent}` : null, side && `side-${side}`, lead !== null && lead < 2 && `lead-${lead}`, { open }]}>
                     <a href={href(item.href)} {...ext(item.external)}>
                       <span class="ev-time tabular" aria-hidden="true"><b>{clock(item.start ?? 0)}</b>{item.end !== null && <span>{clock(item.end)}</span>}</span>
                       <span class="ev-name">{item.short}</span>
@@ -269,9 +269,12 @@ const ext = (external: boolean) => (external ? { target: '_blank', rel: 'noopene
     .ws-timed .ev.in-1 { inset-inline-start: 32%; z-index: 1; }
     .ws-timed .ev.in-2 { inset-inline-start: 56%; z-index: 2; }
     .ev.in-1 a, .ev.in-2 a { box-shadow: -2px -2px 0 0 var(--surface); }
-    /* Two items starting close together: the later one covers the lower part of the first here
-       (its title stays readable), and they sit side by side from 1100 px (below). */
+    /* Two items starting close together: the later one covers the lower part of the first here,
+       at least half an hour below its top so the first title stays readable (lead-*), and they sit
+       side by side from 1100 px (below). */
     .ws-timed .ev.side-right { z-index: 1; }
+    .ws-timed .ev.lead-0 { translate: 0 calc(var(--hour) / 2); }
+    .ws-timed .ev.lead-1 { translate: 0 calc(var(--hour) / 4); }
     .ev.side-right a { box-shadow: 0 -2px 0 0 var(--surface); }
     /* The current time on today's column (src/scripts/week.ts sets --now, in minutes from the top). */
     .ws-now { display: none; position: absolute; inset-inline: 0; z-index: 3; top: calc(var(--now, 0) * var(--hour) / 60 - 1px); height: 2px; background: var(--accent); pointer-events: none; }
@@ -288,7 +291,7 @@ const ext = (external: boolean) => (external ? { target: '_blank', rel: 'noopene
   }
   @container ws (min-width: 1100px) {
     .ws-timed .ev.side-left { inset-inline-end: calc(50% + 1px); }
-    .ws-timed .ev.side-right { inset-inline-start: calc(50% + 1px); }
+    .ws-timed .ev.side-right { inset-inline-start: calc(50% + 1px); translate: none; }
     .ev.side-right a { box-shadow: none; }
     .ev a:has(.ev-go--out) .ev-name { padding-right: 12px; }
   }

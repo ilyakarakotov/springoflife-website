@@ -45,6 +45,13 @@ ministries:
     link: /visit#kids
     cta: Plan a visit
 
+  - id: special-needs
+    group: kids
+    title: Special Needs Ministry
+    summary: A ministry for children with special needs that meets at the church on Thursday evenings.
+    details:
+      - Thursdays, 7:00 pm
+    weekly: Thursdays, 7:00 pm
 
   - id: life-groups
     group: groups
@@ -70,6 +77,15 @@ ministries:
     details:
       - Thursdays, 7:00 pm
     weekly: Thursdays, 7:00 pm
+
+  # The time is from the pastors (2026-10-30) but still marked "to confirm".
+  - id: art-class
+    group: groups
+    title: Art Class
+    summary: An open painting class at the church on Thursday evenings. Anyone is welcome to come and paint.
+    details:
+      - Thursdays, 6:00 pm
+    weekly: Thursdays, 6:00 pm
 
   - id: missions
     group: missions

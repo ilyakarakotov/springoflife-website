@@ -66,7 +66,7 @@ test('the week from the real content files, Monday to Sunday', () => {
     Mon: [`SOL Russian School 6:30${NB}pm`, `Young Adults 7:00${NB}pm`],
     Tue: [`SOL Music Academy 4:30–8:40${NB}pm`, '2 Life Groups (Everett and Lynnwood)'],
     Wed: [`AWANA 7:00–8:45${NB}pm (September–May)`],
-    Thu: [`Life Group 7:00${NB}pm (Mukilteo)`, `Teens 7:00${NB}pm`],
+    Thu: [`Art Class 6:00${NB}pm`, `Life Group 7:00${NB}pm (Mukilteo)`, `Special Needs Ministry 7:00${NB}pm`, `Teens 7:00${NB}pm`],
     Fri: [`SOL Music Academy 4:30–8:40${NB}pm`, `SOL Kids Choir 5:30–7:00${NB}pm`, 'Life Group (Everett)'],
     Sat: [],
     Sun: [`Russian service 10:00${NB}am`, `English service 12:00–1:30${NB}pm`],
@@ -94,4 +94,10 @@ test('grid hours and places: overlaps step in, open-ended items count an hour', 
     ['Russian School', 10, 4, 0, 'left', true],
     ['Young Adults', 12, 4, 0, 'right', true],
   ]);
+  // Thursday: two items at the same time; the right one leads by 0 quarter hours.
+  assert.deepEqual(gridPlaces([at('Special Needs', 1140), at('Teens', 1140)], 16).map((p) => [p.item.title, p.side, p.lead]), [
+    ['Special Needs', 'left', null],
+    ['Teens', 'right', 0],
+  ]);
+  assert.equal(gridPlaces([at('Russian School', 1110), at('Young Adults', 1140)], 16)[1].lead, 2);
 });

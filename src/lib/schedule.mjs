@@ -169,25 +169,29 @@ export function gridHours(week) {
  * column with items it overlaps, the way a calendar app draws them:
  *   side    two items starting less than 45 minutes apart sit side by side ('left', 'right'), so
  *           both titles show
+ *   lead    for the right one, how many quarter hours after the left one it starts (narrow grids
+ *           lay it over the left one, at least half an hour lower, so the left title still shows)
  *   indent  otherwise a later item steps in by the number of earlier items still running (at most 2)
  * @param {WeekItem[]} items one day's items
  * @param {number} fromHour
  */
 export function gridPlaces(items, fromHour) {
   const endOf = (/** @type {WeekItem} */ i) => i.end ?? /** @type {number} */ (i.start) + OPEN_END;
-  /** @type {Array<{ item: WeekItem, offset: number, length: number, indent: number, side: 'left' | 'right' | null, open: boolean }>} */
+  /** @type {Array<{ item: WeekItem, offset: number, length: number, indent: number, side: 'left' | 'right' | null, lead: number | null, open: boolean }>} */
   const places = [];
   for (const item of items.filter((i) => i.start !== null)) {
     const start = /** @type {number} */ (item.start);
     const running = places.filter((p) => endOf(p.item) > start);
     const pair = running.length === 1 && running[0].side === null && running[0].indent === 0 && start - /** @type {number} */ (running[0].item.start) < 45;
     if (pair) running[0].side = 'left';
+    const offset = Math.round((start - fromHour * 60) / 15);
     places.push({
       item,
-      offset: Math.round((start - fromHour * 60) / 15),
+      offset,
       length: Math.max(2, Math.round((endOf(item) - start) / 15)),
       indent: pair ? 0 : Math.min(running.length, 2),
       side: pair ? 'right' : null,
+      lead: pair ? offset - running[0].offset : null,
       open: item.end === null,
     });
   }
