@@ -9,7 +9,7 @@ const side = Boolean(lead) || Astro.slots.has('default');
 <section class:list={['page-hero', cls]}>
   <div class:list={['wrap page-hero-grid', { 'page-hero-grid--solo': !side }]}>
     <div class="page-hero-head">
-      <span class="eyebrow eyebrow--accent eyebrow--wave">{eyebrow}</span>
+      <span class="eyebrow eyebrow--accent">{eyebrow}</span>
       <h1 class="settle">{title}</h1>
     </div>
     {side && (

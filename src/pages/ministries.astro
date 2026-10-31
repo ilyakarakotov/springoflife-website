@@ -34,7 +34,7 @@ const gridFor = (n: number) => (n === 4 ? 'grid--4' : n === 2 ? 'grid--2' : 'gri
     <section class="section section--tint serve-band" id={s.id} aria-labelledby={`${s.id}-title`}>
       <div class="wrap serve" id={s.items[0].id === s.id ? undefined : s.items[0].id}>
         <div data-reveal>
-          <span class="eyebrow eyebrow--accent eyebrow--wave">{s.title === s.items[0].title ? s.lead : s.title}</span>
+          <span class="eyebrow eyebrow--accent">{s.title === s.items[0].title ? s.lead : s.title}</span>
           <h2 id={`${s.id}-title`}>{s.items[0].title}</h2>
           <p>{s.items[0].summary}</p>
         </div>
