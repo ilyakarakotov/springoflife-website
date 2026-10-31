@@ -1,7 +1,12 @@
 # Home page text and the four photo cards under the hero. Photos must be real church photos
 # (no stock, no AI, no identifiable children without written consent).
 hero:
-  headline: Following Jesus together.
+  # The church's three fundamentals, shown under its name at the top of the page (from the mission:
+  # disciples through the Word of God in worship and fellowship).
+  pillars:
+    - Word
+    - Worship
+    - Fellowship
   image: /src/assets/photos/worship.jpg
   image_alt: People worshipping during a Sunday service at Spring of Life Church
 quick_links:

@@ -73,14 +73,11 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
     .site-header:not(.site-header--overlay):not([data-open])::before { animation: glass-in var(--scroll-linear) both; animation-timeline: scroll(root); animation-range: 0px 32px; }
   }
   @keyframes glass-in { from { opacity: 0; } to { opacity: 1; } }
-  .site-header--overlay { position: absolute; inset: 0 0 auto; color: #fff; }
+  .site-header--overlay { position: absolute; inset: 0 0 auto; }
   :global(.js) .site-header--overlay { position: fixed; }
   .site-header--overlay::before { opacity: 0; }
-  .site-header--overlay[data-solid], .site-header--overlay[data-open] { color: var(--text); }
   .site-header--overlay[data-solid]::before, .site-header[data-open]::before { opacity: 1; }
   .site-header[data-open]::before { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
-  /* Over the photo: the white focus ring between dark bands. Solid or with the menu open: the normal one. */
-  .site-header--overlay:not([data-solid]):not([data-open]) :focus-visible { outline-color: #fff; box-shadow: 0 0 0 4px rgb(5 8 15 / 0.65), 0 0 0 7px rgb(5 8 15 / 0.45); }
 
   .header-row { display: flex; align-items: center; gap: 0.75rem; min-height: var(--header-h); }
 
@@ -96,9 +93,6 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
   .lang:hover { background: color-mix(in srgb, currentColor 9%, transparent); border-color: color-mix(in srgb, currentColor 40%, transparent); }
   .lang :global(.icon) { width: 1em; height: 1em; }
   .lang-short { display: none; }
-  /* Over the photo the call to action is a light outline; once the bar is solid, the dark pill. */
-  .site-header--overlay:not([data-solid]):not([data-open]) .header-cta { border-color: rgb(255 255 255 / 0.62); color: #fff; background: rgb(255 255 255 / 0.08); }
-  .site-header--overlay:not([data-solid]):not([data-open]) .header-cta:hover { border-color: #fff; background: rgb(255 255 255 / 0.16); }
   .menu-btn { display: none; width: 48px; height: 48px; border-radius: 999px; border: 0; background: transparent; color: inherit; cursor: pointer; align-items: center; justify-content: center; }
   .menu-btn :global(.icon) { width: 26px; height: 26px; }
   .menu-btn :global(.i-close), [data-open] .menu-btn :global(.i-open) { display: none; }
@@ -107,14 +101,12 @@ const isCurrent = (item: (typeof nav)[number]) => path === item.href || (item.al
   .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.1rem; }
   .nav a:not(.btn) { position: relative; display: block; padding: 0.55rem 0.75rem; text-decoration: none; font-weight: 600; font-size: 0.97rem; color: inherit; opacity: 0.92; }
   .nav a:not(.btn):hover { opacity: 1; }
-  /* A fine underline draws in from the left on hover; the current section keeps it, in the accent
-     (white on the Home photo). */
+  /* A fine underline draws in from the left on hover; the current section keeps it, in the accent. */
   .nav a:not(.btn)::after { content: ''; position: absolute; left: 0.75rem; right: 0.75rem; bottom: 0.35rem; height: 1.5px; border-radius: 1px; background: currentColor;
     transform: scaleX(0); transform-origin: left; transition: transform var(--dur-2) var(--ease); }
   .nav a:not(.btn):hover::after { transform: scaleX(1); }
   .nav a[aria-current]:not(.btn) { opacity: 1; }
   .nav a[aria-current]:not(.btn)::after { transform: scaleX(1); height: 2px; background: var(--accent-text); }
-  .site-header--overlay:not([data-solid]) .nav a[aria-current]:not(.btn)::after { background: #fff; }
   .nav-cta, .nav a.nav-sub, .nav-service { display: none; }
 
   @media (max-width: 1023.98px) {

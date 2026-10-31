@@ -396,6 +396,10 @@ one `<path>`, filled with the nonzero rule).
   on Home, the Scripture closing the About story: `.scripture`). It loads only as that line nears
   the screen, over a Georgia fallback scaled to the same metrics, so it never delays the first
   paint and nothing moves when it arrives.
+- **Home hero:** the church's lockup (the mark, the name as the page's `h1`, and the pillars from
+  `home.yaml` between two rules), then the service time, the address and two buttons. The photo is
+  a wash under it that follows the theme (`--hero-*` tokens in `global.css`): light, its greys
+  screened with a pale blue under dark ink; dark, a deep veil under light ink.
 - **Design and motion:** tokens, type, buttons, the arrow and surfaces are in
   `src/styles/global.css`; motion is in `src/styles/motion.css` plus one small script
   (`src/scripts/site.ts`: the phone menu, the arrivals, the Home header, the click-to-load embeds).

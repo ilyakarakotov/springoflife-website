@@ -73,7 +73,8 @@ export const site = load('site.yaml', siteRaw, z.object({
 }));
 
 export const home = load('home.yaml', homeRaw, z.object({
-  hero: z.object({ headline: z.string(), image: imagePath, image_alt: z.string() }),
+  // pillars: the words under the church's name in the hero lockup (two to four keep it on one line).
+  hero: z.object({ pillars: z.array(z.string().min(1)).min(2).max(4), image: imagePath, image_alt: z.string() }),
   // The quick-link photos are decorative; image_focus picks which part of the photo the card shows.
   quick_links: z.array(z.object({
     kicker: opt(z.string()), title: z.string(), url, image: imagePath,

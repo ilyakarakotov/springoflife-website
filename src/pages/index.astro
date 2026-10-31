@@ -10,6 +10,7 @@ import StepIcon from '../components/StepIcon.astro';
 import MinistryCard from '../components/MinistryCard.astro';
 import MoreLink from '../components/MoreLink.astro';
 import ClosingInvite from '../components/ClosingInvite.astro';
+import BrandMark from '../components/BrandMark.astro';
 import { site, home, img, events, groups, steps, ministries, external } from '../lib/content';
 import { groupSummary, joinList } from '../lib/groups.mjs';
 import { churchJsonLd } from '../lib/jsonld';
@@ -22,15 +23,18 @@ const lg = groupSummary(groups);
 // The mission (site.yaml) is the page's one quiet serif line: its first sentence large, the rest under it.
 const [missionLead, ...missionRest] = site.mission.split(/(?<=\.)\s+/);
 
-// The hero and quick-card photos are decorative (alt=""): the headline and card labels carry the
-// meaning, and a failed download shows no broken-image icon or alt text over the preview.
+// The hero and quick-card photos are decorative (alt=""): the church's name and the card labels
+// carry the meaning, and a failed download shows no broken-image icon or alt text over the preview.
 // image_alt in home.yaml still describes the hero photo for social previews (Base.astro).
 // Hero photo: preloaded (same AVIF srcset and sizes as the <picture>, so the browser reuses it) and
-// drawn over a blurred inline preview, so a slow or failed download never leaves an empty dark block.
+// drawn over a blurred inline preview, so a slow or failed download never leaves an empty block.
 const heroImage = img(home.hero.image);
 const HERO_WIDTHS = [640, 960, 1440, 2000];
-// From 960 px the photo is drawn 135% wide, anchored to the bottom right (see .hero-photo below).
-const HERO_SIZES = '(min-width: 960px) 135vw, 100vw';
+const HERO_SIZES = '100vw';
+// The lockup sets the name on one line from 768 px, and on phones breaks it before its last word
+// ("Spring of Life / Church").
+const [nameLead, nameLast] = site.name.split(/\s+(?=\S+$)/);
+const pillars = home.hero.pillars;
 const heroAvif = await getImage({ src: heroImage, widths: HERO_WIDTHS, width: 2000, format: 'avif' });
 const heroPreview = await lqip(home.hero.image);
 const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image)));
@@ -40,7 +44,7 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
 <Base overlayHeader jsonLd={churchJsonLd()}>
   <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset={heroAvif.srcSet.attribute} imagesizes={HERO_SIZES} fetchpriority="high" />
 
-  <section class="hero on-photo" aria-labelledby="hero-title" data-hero>
+  <section class="hero" aria-labelledby="hero-title" data-hero>
     <div class="hero-photo">
       <img class="lqip hero-preview" {...heroPreview} alt="" aria-hidden="true" />
       <Picture src={heroImage} alt="" widths={HERO_WIDTHS} width={2000} sizes={HERO_SIZES}
@@ -48,17 +52,33 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
     </div>
     <div class="hero-scrim" aria-hidden="true"></div>
     <div class="wrap hero-content">
-      <p class="hero-eyebrow eyebrow--wave" data-hero-text>{site.name} · {site.address.city}</p>
-      <h1 id="hero-title" class="settle">{home.hero.headline}</h1>
-      <p class="hero-when">{site.service.day}s at {site.service.time}</p>
-      {/* A div, not a p: the directions menu is a <details>, which a paragraph can't hold. */}
-      <div class="hero-where">
-        <span>{site.address.street}, {site.address.city}</span>
-        <Directions summaryClass="hero-dir" />
+      {/* The church's lockup: the mark, the name (the page's h1) and the pillars between two rules.
+          Screen readers hear "Spring of Life Church" and then "Word, Worship, Fellowship". */}
+      <div class="lockup settle" data-hero-text>
+        <BrandMark class="lockup-mark" />
+        <div class="lockup-text">
+          <h1 id="hero-title" class="lockup-name"><span>{nameLead}</span> <span>{nameLast}</span></h1>
+          <p class="lockup-pillars">
+            {pillars.map((p, i) => (
+              <Fragment>
+                {i > 0 && <span class="lockup-dot" aria-hidden="true"></span>}
+                <span class="lockup-pillar">{p}{i < pillars.length - 1 && <span class="visually-hidden">,</span>}</span>
+              </Fragment>
+            ))}
+          </p>
+        </div>
+      </div>
+      <div class="hero-basics">
+        <p class="hero-when">{site.service.day}s at {site.service.time}</p>
+        {/* A div, not a p: the directions menu is a <details>, which a paragraph can't hold. */}
+        <div class="hero-where">
+          <span>{site.address.street}, {site.address.city}</span>
+          <Directions />
+        </div>
       </div>
       <div class="btn-row hero-actions">
         <a class="btn btn--primary" href={href('/visit')}>Plan a visit<Icon name="arrow" /></a>
-        <a class="btn btn--ghost-light" href={href('/watch')}><Icon name="play" />Watch live or catch up</a>
+        <a class="btn btn--outline hero-watch" href={href('/watch')}><Icon name="play" />Watch live or catch up</a>
       </div>
     </div>
   </section>
@@ -230,43 +250,69 @@ const quickPreviews = await Promise.all(home.quick_links.map((q) => lqip(q.image
 </Base>
 
 <style>
-  /* ---- Hero ----
-     Stacking is explicit and positive: the photo layer (0: blurred preview, then the photo) < scrim
-     (1) < text (2). Nothing depends on negative z-index or isolation, so an extension or a
-     forced-dark engine that paints a background on the content can't hide the photo. If the photo
-     fails, the preview and then the designed gradient show, and no alt text appears.
-     Motion (motion.css): the photo settles on load and lags and dims as the hero leaves; the
-     headline settles. Both are painted on the first frame. */
-  .hero { position: relative; min-height: min(94svh, 880px); display: flex; align-items: flex-end; overflow: hidden; color: #fff;
-    background: var(--hero-fallback) linear-gradient(160deg, #1d2740 0%, #0b0d12 70%); }
+  /* ---- Hero: the church's lockup over a wash of the photo ----
+     The photo sits under a veil that follows the theme (tokens in global.css): light, its greys
+     screened with a pale blue under dark ink; dark, a deep veil under light ink. It fades into the
+     page at the bottom, where the photo cards overlap it.
+     Stacking is explicit and positive: the photo layer (0: blurred preview, then the photo) < veil
+     (1) < words (2); isolation keeps the veil's blend inside the hero. If the photo fails, the
+     preview and then the hero's base colour show, and no alt text appears.
+     Motion (motion.css): the photo settles on load and lags as the hero leaves; the lockup settles.
+     Both are painted on the first frame. */
+  .hero { position: relative; isolation: isolate; min-height: min(92svh, 860px); display: flex; align-items: center; overflow: hidden; color: var(--text); background: var(--hero-base); }
   .hero-photo { position: absolute; inset: 0; z-index: 0; }
   .hero-photo > .hero-preview, .hero-photo > :global(.hero-media) { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
-  .hero :global(.hero-img), .hero-photo > .hero-preview { width: 100%; height: 100%; object-fit: cover; object-position: 62% 40%; }
-  .hero :global(.hero-img) { color: transparent; }
-  /* Phones: text sits low over a dark bottom. */
-  .hero-scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: linear-gradient(180deg, rgb(5 8 15 / 0.5) 0, rgb(5 8 15 / 0.1) 22%, rgb(5 8 15 / 0.3) 45%, rgb(5 8 15 / 0.82) 78%, rgb(5 8 15 / 0.9) 100%); }
-  @media (min-width: 960px) {
-    /* Wide screens: the photo is drawn larger and anchored bottom-right, so the projected lyrics move
-       up under the header fade and the raised hand clears the headline. The scrim is side-weighted:
-       dark behind the text, the photo vivid on the right. */
-    .hero-photo { inset: auto 0 0 auto; width: 135%; height: 135%; transform-origin: 76% 76%; }
-    .hero :global(.hero-img), .hero-photo > .hero-preview { object-position: 100% 100%; }
-    .hero-scrim { background:
-      linear-gradient(90deg, rgb(5 8 15 / 0.8) 0%, rgb(5 8 15 / 0.52) 34%, rgb(5 8 15 / 0.08) 62%, rgb(5 8 15 / 0) 80%),
-      linear-gradient(180deg, rgb(5 8 15 / 0.55) 0, rgb(5 8 15 / 0) 160px),
-      linear-gradient(0deg, rgb(5 8 15 / 0.62) 0, rgb(5 8 15 / 0) 40%); }
+  .hero :global(.hero-img), .hero-photo > .hero-preview { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .hero :global(.hero-img) { color: transparent; filter: var(--hero-photo-filter); }
+  .hero-photo > .hero-preview { filter: var(--hero-photo-filter) blur(14px); }
+  .hero-scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: var(--hero-veil-blend);
+    background: linear-gradient(180deg, rgb(0 0 0 / 0) 56%, var(--bg)), var(--hero-veil); }
+  .hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding-top: calc(var(--header-h) + clamp(28px, 5vh, 64px)); padding-bottom: calc(clamp(96px, 13vw, 156px) + clamp(44px, 7vh, 84px)); }
+
+  /* The lockup. Phones: the mark over the name on two lines. From 768 px, the reference layout: the
+     mark beside the name on one line, the pillars under the name between rules as wide as it.
+     The name and the pillars are trimmed to their capitals, so the mark centres on the letters, not
+     on their line boxes. Manrope: cap height 0.72, ascent 1.066, descent 0.3; at line-height 1
+     that leaves 0.163em above the capitals and 0.117em below. */
+  .hero-content { --name: clamp(2.125rem, 10.4vw, 3.5rem); --mark: 1.75; --mark-gap: 0.5; }
+  .lockup { display: flex; flex-direction: column; align-items: center; gap: calc(var(--mark-gap) * 1em); font-size: var(--name); }
+  .hero :global(.lockup-mark) { flex: none; width: calc(var(--mark) * 1em); height: calc(var(--mark) * 1em); }
+  .lockup-text { display: grid; justify-items: center; row-gap: 0.4em; }
+  .lockup-name { margin: -0.163em 0 -0.117em; font-size: 1em; font-weight: 800; line-height: 1; letter-spacing: 0.01em; text-transform: uppercase; max-width: none; }
+  .lockup-name span { white-space: nowrap; }
+  .lockup-pillars { display: flex; align-items: center; justify-content: center; gap: 0.75em; width: 100%; margin: -0.163em 0 -0.117em;
+    font-size: clamp(0.6875rem, 3.4vw, 0.8125rem); font-weight: 700; line-height: 1; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-2); }
+  .lockup-pillars::before, .lockup-pillars::after { content: ''; flex: 1 1 0; min-width: 12px; height: 1px; background: currentColor; opacity: 0.5; }
+  @media (max-width: 359.98px) { .lockup-pillars::before, .lockup-pillars::after { display: none; } }
+  /* Tracking adds space after each word's last letter; taking it back keeps every dot midway
+     between its words and the words centred between the rules. */
+  .lockup-pillar { margin-right: -0.2em; }
+  .lockup-dot { flex: none; width: 0.3em; height: 0.3em; border-radius: 50%; background: currentColor; }
+  @media (min-width: 768px) {
+    .hero-content { --name: clamp(2.25rem, 4.7vw, 4.375rem); --mark: 1.6; --mark-gap: 0.36; }
+    .lockup { flex-direction: row; }
+    .lockup-text { justify-items: stretch; row-gap: 0.36em; }
+    .lockup-pillars { font-size: clamp(0.8125rem, 0.6rem + 0.42vw, 1rem); letter-spacing: 0.3em; gap: 1.1rem; }
+    .lockup-pillar { margin-right: -0.3em; }
+    /* One axis: the time, place and buttons start as far right as the mark and its gap, so they
+       centre under the name, as the pillars do. */
+    .hero-basics, .hero-actions { margin-left: calc((var(--mark) + var(--mark-gap)) * var(--name)); }
   }
-  @media (prefers-color-scheme: dark) { :global(:root:not([data-theme="light"])) .hero { box-shadow: 0 1px 0 rgb(255 255 255 / 0.06); } }
-  :global(:root[data-theme="dark"]) .hero { box-shadow: 0 1px 0 rgb(255 255 255 / 0.06); }
-  .hero-content { position: relative; z-index: 2; padding-top: 136px; padding-bottom: clamp(140px, 17vw, 210px); }
-  .hero-eyebrow { margin: 0 0 1.1rem; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(255 255 255 / 0.88); }
-  .hero h1 { font-size: var(--step-5); line-height: 0.98; letter-spacing: -0.05em; max-width: 11ch; margin: 0 0 0.32em; text-shadow: 0 2px 28px rgb(0 0 0 / 0.25); }
+
+  /* Time and place, then the two ways in. */
+  .hero-basics { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; margin-top: clamp(28px, 5vh, 52px); }
   .hero-when { margin: 0; font-size: var(--step-1); font-weight: 700; }
-  .hero-where { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.9rem; margin: 0.3rem 0 2rem; font-size: 1rem; color: rgb(255 255 255 / 0.88); }
-  .hero-where :global(.hero-dir) { display: inline-flex; align-items: center; gap: 0.3em; color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgb(255 255 255 / 0.5); transition: text-decoration-color var(--dur-2) var(--ease); }
-  .hero-where :global(.hero-dir:hover) { text-decoration-color: #fff; }
-  @media (max-width: 639.98px) { .hero-actions { flex-direction: column; align-items: stretch; } }
+  .hero-where { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 0.2rem 0.9rem; color: var(--text-2); }
+  @media (min-width: 768px) {
+    .hero-basics { flex-direction: row; align-items: baseline; gap: 0 1.1rem; }
+    .hero-basics::before { content: ''; order: 1; align-self: center; width: 1px; height: 1.1em; background: var(--border-strong); }
+    .hero-where { order: 2; }
+  }
+  .hero-actions { justify-content: center; margin-top: clamp(24px, 4vh, 36px); }
+  .hero-watch { background: color-mix(in srgb, var(--bg) 55%, transparent); }
+  .hero-watch:hover { background: var(--bg); }
+  @media (max-width: 639.98px) { .hero-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 22rem; } }
 
   /* ---- Quick links ---- */
   .quick { position: relative; z-index: 3; margin-top: clamp(-156px, -13vw, -96px); }

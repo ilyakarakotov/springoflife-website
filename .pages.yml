@@ -72,7 +72,7 @@ content:
       - name: hero
         type: object
         fields:
-          - { name: headline, type: string }
+          - { name: pillars, label: Words under the church name (2 to 4), type: string, list: true }
           - { name: image, type: image, description: Real church photos only. }
           - { name: image_alt, label: Image description, type: string }
       - name: quick_links

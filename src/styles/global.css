@@ -38,6 +38,12 @@
   --on-dark-2: #b9bdc5;
   --footer-bg: #111316;
   --hero-fallback: #141a26;
+  /* Home hero (index.astro): the photo in greys, screened with a pale blue so it reads as a light
+     wash under dark ink; in the dark theme, the photo under a deep veil with light ink. */
+  --hero-photo-filter: grayscale(1) contrast(1.05) blur(3px);
+  --hero-veil: radial-gradient(ellipse 58% 52% at 50% 46%, rgb(255 255 255 / 0.62), rgb(255 255 255 / 0)), #c9d2e6;
+  --hero-veil-blend: screen;
+  --hero-base: #dfe6f4;
   --focus: #1f56d6;
   --photo-filter: none;
   --header-glass: rgb(255 255 255 / 0.84);
@@ -109,6 +115,10 @@
     --focus: #8eadff;
     --photo-filter: brightness(0.9) saturate(0.95);
     --header-glass: rgb(14 16 19 / 0.8);
+    --hero-photo-filter: grayscale(0.7) blur(5px);
+    --hero-veil: radial-gradient(ellipse 58% 52% at 50% 46%, rgb(6 9 16 / 0.55), rgb(6 9 16 / 0)), rgb(6 9 16 / 0.66);
+    --hero-veil-blend: normal;
+    --hero-base: #11151d;
     --shadow-1: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 12px 30px -14px rgb(0 0 0 / 0.6);
     --shadow-2: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 26px 56px -22px rgb(0 0 0 / 0.75);
     --shadow-accent: 0 1px 0 rgb(255 255 255 / 0.14) inset, 0 8px 22px -10px rgb(42 91 215 / 0.65);
@@ -139,6 +149,10 @@
   --focus: #8eadff;
   --photo-filter: brightness(0.9) saturate(0.95);
   --header-glass: rgb(14 16 19 / 0.8);
+  --hero-photo-filter: grayscale(0.7) blur(5px);
+  --hero-veil: radial-gradient(ellipse 58% 52% at 50% 46%, rgb(6 9 16 / 0.55), rgb(6 9 16 / 0)), rgb(6 9 16 / 0.66);
+  --hero-veil-blend: normal;
+  --hero-base: #11151d;
   --shadow-1: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 12px 30px -14px rgb(0 0 0 / 0.6);
   --shadow-2: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 26px 56px -22px rgb(0 0 0 / 0.75);
   --shadow-accent: 0 1px 0 rgb(255 255 255 / 0.14) inset, 0 8px 22px -10px rgb(42 91 215 / 0.65);
@@ -282,9 +296,6 @@ a:hover .arrow-circle .i-external, a:hover > .i-external, a:hover .nw > .i-exter
 .btn--strong:hover { background: var(--btn-strong-hover); }
 .btn--outline { border-color: var(--border-strong); color: var(--text); background: transparent; }
 .btn--outline:hover { background: var(--bg-soft); border-color: var(--text); }
-/* On photos: never a white pill (forced-dark browsers invert it); a white outline instead. */
-.btn--ghost-light { border-color: rgb(255 255 255 / 0.62); color: #fff; background: rgb(255 255 255 / 0.08); }
-.btn--ghost-light:hover { border-color: #fff; background: rgb(255 255 255 / 0.16); }
 .btn--sm { min-height: 42px; padding: 0.5rem 1.1rem; font-size: 0.92rem; }
 .btn--block { width: 100%; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; align-items: center; }
