@@ -361,11 +361,12 @@ Open questions for the pastors are in `docs/QUESTIONS-FOR-PASTORS.md`.
 
 **Photos:** real church photos only, no stock and no AI-generated images. New photos go in
 `src/assets/` (JPG, PNG or WebP; no HEIC) and are resized automatically. `src/assets/sync/`
-belongs to the sync; don't edit it by hand. The logo mark (`src/assets/brand/mark.svg`) is an automatic
-vector trace of the mark cropped from the church's own footer logo, without the old "Baptist
-Church" wording. It's drawn inline (`src/components/BrandMark.astro`), so it stays sharp and forced
-dark modes can't recolor it. Replace the file with the official vector logo when one exists (keep
-one `<path>`).
+belongs to the sync; don't edit it by hand. The logo mark (`src/assets/brand/mark.svg`) is redrawn
+as clean geometry from the church app's 1024 px icon: a true circle, the cross as measured and the
+wave as one fitted curve, all at one stroke weight, without the old "Baptist Church" wording. It's
+drawn inline (`src/components/BrandMark.astro`), so it stays sharp and forced dark modes can't
+recolor it. Replace the file with the official vector logo when one exists (keep a `viewBox` and
+one `<path>`, filled with the nonzero rule).
 
 ## Privacy and security notes
 

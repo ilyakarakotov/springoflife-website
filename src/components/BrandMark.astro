@@ -3,14 +3,17 @@
 // instead of a PNG used as a CSS mask: it stays sharp at any pixel density, and browsers that force
 // a dark theme (Chrome "Auto Dark Mode", Samsung Internet, Dark Reader) treat it as foreground
 // content and keep it legible instead of darkening it like a background.
-// The header draws the path once (`define`); the footer reuses it with <use>.
+// The header draws the path once (`define`); the home hero and the footer reuse it with <use>.
+// The path fills with the nonzero rule: the ring's inner circle runs the other way, and the cross
+// and the wave overlap the ring and each other.
 import markSvg from '../assets/brand/mark.svg?raw';
 
 interface Props { class?: string; define?: boolean }
 const { class: cls, define = false } = Astro.props;
 const d = /\sd="([^"]+)"/.exec(markSvg)?.[1];
-if (!d) throw new Error('src/assets/brand/mark.svg must contain one <path d="...">');
+const viewBox = /\sviewBox="([^"]+)"/.exec(markSvg)?.[1];
+if (!d || !viewBox) throw new Error('src/assets/brand/mark.svg must have a viewBox and one <path d="...">');
 ---
-<svg class:list={['brand-mark', cls]} viewBox="0 0 98 98" aria-hidden="true" focusable="false">
-  {define ? <path id="sol-mark" fill="currentColor" fill-rule="evenodd" d={d} /> : <use href="#sol-mark" />}
+<svg class:list={['brand-mark', cls]} viewBox={viewBox} aria-hidden="true" focusable="false">
+  {define ? <path id="sol-mark" fill="currentColor" d={d} /> : <use href="#sol-mark" />}
 </svg>

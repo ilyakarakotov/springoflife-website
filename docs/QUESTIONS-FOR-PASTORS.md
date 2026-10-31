@@ -127,9 +127,9 @@ the item (most are editable in Pages CMS).
 - [ ] The footer reads "© Spring of Life Baptist Church". Should it follow the naming decision?
 
 ## Ilya
-- [ ] **Official logo file.** The mark in the header and footer is an automatic vector trace of the
-  98-pixel mark cropped from the old footer logo. Please get the church's original vector logo (SVG,
-  AI or PDF) without the "Baptist Church" wording, and replace `src/assets/brand/mark.svg`.
+- [ ] **Official logo file.** The mark in the header, the home hero and the footer is redrawn from
+  the church app's icon and matches it closely, but it isn't the designer's file. If the church's
+  original vector logo (SVG, AI or PDF) turns up, replace `src/assets/brand/mark.svg` with it.
 - [ ] **The dark-mode hero report.** To close it out: which browser and version, how dark mode was
   turned on (System Settings, DevTools, a browser flag or an extension), the URL, and a screenshot
   with DevTools → Network filtered to "worship". The hero is now hardened against both likely causes
