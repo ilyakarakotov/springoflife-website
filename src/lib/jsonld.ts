@@ -1,7 +1,7 @@
 // schema.org structured data. Church is a Place (not an Organization subtype), so the home page
 // publishes an Organization whose location is the Church. Events: only public, in-person events
 // with a date and a street address (Google's Event rules since 2025).
-import { site, buildTime, type SyncedEvent } from './content';
+import { site, faq, buildTime, type SyncedEvent } from './content';
 import { isoWithOffset, localDate, allDayLastDate } from './time.mjs';
 import { registrationStatus } from './events.mjs';
 import { absoluteUrl } from './url';
@@ -98,5 +98,19 @@ export function eventJsonLd(e: SyncedEvent, { pageUrl, imageUrl }: { pageUrl: st
     url: pageUrl,
     offers: offersFor(e),
     organizer: { '@type': 'Organization', name: site.name, url: siteUrl('/') },
+  }];
+}
+
+/** FAQPage for /faq: every question on the page, answered in the page's own words. */
+export function faqJsonLd() {
+  return [{
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    url: siteUrl('/faq'),
+    mainEntity: faq.sections.flatMap((s) => s.questions).map((x) => ({
+      '@type': 'Question',
+      name: x.q,
+      acceptedAnswer: { '@type': 'Answer', text: x.a },
+    })),
   }];
 }

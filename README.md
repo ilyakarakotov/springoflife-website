@@ -348,6 +348,7 @@ See `docs/HANDOFF.md` for the checklist. In short:
 | Leadership | `src/content/leaders.yaml` | Leadership |
 | Statement of faith | `src/content/beliefs.yaml` | What we believe |
 | Visit page | `src/content/visit.yaml` | Visit page |
+| FAQ page | `src/content/faq.yaml` | FAQ page |
 | About and Give text | `src/content/pages/*.md` | Pages |
 
 Every YAML file is validated at build time. A typo fails the build with a message instead of

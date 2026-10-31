@@ -29,6 +29,10 @@ the item (most are editable in Pages CMS).
   Our greeters will be glad to help you find your way." (from the church's Instagram). Is coffee
   served before the 12:00 service? Where should guests park at noon while the 10:00 service lets
   out, is there overflow parking, and which doors should first-time guests use?
+- [ ] **FAQ best guesses** (`src/content/faq.yaml`, FAQ page). "What should I wear?" says "Come as
+  you are. Some people dress up and others dress casually, and you'll be welcome either way." "Where
+  do I park, and which door do I use?" says "Park in the church parking lot; it's free. Come in
+  through the main entrance, and a greeter will help you find your way." Are both right?
 - [ ] Should the English site mention the **Monroe branch** (Sundays 1:00 pm, 17922 149th St SE)? Is
   that service in Russian?
 - [ ] Should it mention the **Sunday 6:00 pm** evening service and Bible study? Is it Russian only?

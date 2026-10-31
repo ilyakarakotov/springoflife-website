@@ -12,6 +12,7 @@ import leadersRaw from '../content/leaders.yaml?raw';
 import beliefsRaw from '../content/beliefs.yaml?raw';
 import groupOverridesRaw from '../content/group-overrides.yaml?raw';
 import visitRaw from '../content/visit.yaml?raw';
+import faqRaw from '../content/faq.yaml?raw';
 import eventsData from '../data/events.json';
 import groupsData from '../data/groups.json';
 import { isLive } from './events.mjs';
@@ -132,6 +133,17 @@ export const visit = load('visit.yaml', visitRaw, z.object({
   image: imagePath, image_alt: z.string(),
   expect: z.array(z.object({ icon: z.enum(VISIT_ICONS), title: z.string(), text: z.string() })).min(1).max(6),
   kids: z.string(), arrival: z.string(),
+}));
+
+// A link the CMS left blank ({ label: '', url: '' }) counts as no link.
+const faqLink = z.preprocess((v) => (v && typeof v === 'object' && !(v as { url?: unknown }).url ? undefined : v), z.object({ label: z.string(), url }).optional());
+/** The FAQ page (/faq), also published as FAQPage structured data and in /llms.txt. */
+export const faq = load('faq.yaml', faqRaw, z.object({
+  title: z.string(), description: z.string(), intro: z.string(),
+  sections: z.array(z.object({
+    title: z.string(),
+    questions: z.array(z.object({ q: z.string(), a: z.string(), link: faqLink })).min(1),
+  })).min(1),
 }));
 
 export const leaders = load('leaders.yaml', leadersRaw, z.object({

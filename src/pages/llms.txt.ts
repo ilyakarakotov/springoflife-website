@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { site, ministries, steps, groups, events, week } from '../lib/content';
+import { site, ministries, steps, groups, events, week, faq } from '../lib/content';
 import { groupSummary, joinList } from '../lib/groups.mjs';
 import { formatRange } from '../lib/time.mjs';
 import { timeSpan } from '../lib/schedule.mjs';
@@ -39,9 +39,14 @@ export const GET: APIRoute = () => {
     ...week.filter((d) => d.items.length).map((d) => `- ${d.name}: ${d.items.map((i) => [i.title, i.start !== null ? timeSpan(i.start, i.end) : null, i.detail].filter(Boolean).join(', ')).join('; ')}.`),
     '- Holidays and school breaks can change the schedule.',
     '',
+    '## Common questions',
+    '',
+    ...faq.sections.flatMap((s) => s.questions).map((x) => `- ${x.q} ${x.a}`),
+    '',
     '## Pages',
     '',
     line('Plan a visit', absoluteUrl('/visit'), 'service times, what to expect, kids on Sunday, getting here'),
+    line('FAQ', absoluteUrl('/faq'), 'answers to common questions: worship, what to wear, parking, kids, beliefs'),
     line('About us', absoluteUrl('/about'), 'our story, what we believe (Baptist Faith and Message 2000), associations, pastors and leaders'),
     line('Ministries', absoluteUrl('/ministries'), 'kids, groups, missions, schools and serving'),
     line('Life Groups', absoluteUrl('/life-groups'), 'small groups during the week'),

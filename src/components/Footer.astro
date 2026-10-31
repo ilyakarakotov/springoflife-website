@@ -10,7 +10,7 @@ const tel = site.phone.replace(/[^\d+]/g, '');
 // otherwise their card on the Ministries page.
 const schools = ministries.filter((m) => m.group === 'schools').map((m) => ({ label: m.title, url: m.link && isExternal(m.link) ? m.link : `/ministries#${m.id}` }));
 const cols = [
-  { title: 'Explore', links: [['Plan a visit', '/visit'], ['About us', '/about'], ['Ministries', '/ministries'], ['Life Groups', '/life-groups'], ['Watch', '/watch'], ['Events', '/events']] },
+  { title: 'Explore', links: [['Plan a visit', '/visit'], ['FAQ', '/faq'], ['About us', '/about'], ['Ministries', '/ministries'], ['Life Groups', '/life-groups'], ['Watch', '/watch'], ['Events', '/events']] },
   { title: 'Connect', links: [['Next steps', '/next-steps'], ['Connect card', forms.connect], ['Prayer request', forms.prayer], ['Serve', forms.serve], ['Give', '/give']] },
   { title: 'Schools', links: schools.map((s) => [s.label, s.url]) },
 ];

@@ -234,6 +234,33 @@ content:
       - { name: kids, label: Kids on Sunday, type: text }
       - { name: arrival, label: When you arrive, type: text }
 
+  - name: faq
+    label: FAQ page
+    type: file
+    path: src/content/faq.yaml
+    fields:
+      - { name: title, type: string }
+      - { name: description, label: Search engine description, type: text }
+      - { name: intro, type: text }
+      - name: sections
+        label: Topics
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Topic, type: string }
+          - name: questions
+            type: object
+            list: true
+            fields:
+              - { name: q, label: Question, type: string, description: Worded the way someone would ask it. }
+              - { name: a, label: Answer, type: text, description: 'Short and plain. Search engines and AI assistants read it as written.' }
+              - name: link
+                label: Link (optional)
+                type: object
+                fields:
+                  - { name: label, type: string }
+                  - { name: url, type: string, description: 'A page on this site (/visit) or a full https:// address.' }
+
   - name: pages
     label: Pages (About, Give)
     type: collection

@@ -1,0 +1,50 @@
+# Frequently asked questions (/faq). Worded the way people search for a church, so search engines and
+# AI assistants can match them; the page also publishes every question as FAQPage structured data and
+# in /llms.txt. Keep answers short, plain and true for anyone visiting for the first time.
+# Not yet confirmed (best guesses, see docs/QUESTIONS-FOR-PASTORS.md): "What should I wear?" and
+# "Where do I park, and which door do I use?".
+# link is optional: a page on this site (/visit) or a full https:// address.
+title: Frequently asked questions
+description: Answers to common questions about Spring of Life Church in Mukilteo, WA, including service times, worship, kids, what to wear, parking and what we believe.
+intro: New to Spring of Life, or thinking about visiting? Here are answers to the questions people ask most.
+sections:
+  - title: Sundays
+    questions:
+      - q: When is your English service?
+        a: Every Sunday at 12:00 pm, at 4711 116th St SW in Mukilteo.
+        link: { label: Plan a visit, url: /visit }
+      - q: How long is the service?
+        a: About 90 minutes, with worship and a sermon from the Bible.
+      - q: What is the worship like?
+        a: We sing a mix of contemporary worship songs and hymns, and then a pastor preaches from the Bible.
+      - q: Is the service in English?
+        a: Yes. The 12:00 pm service is in English. We also have a Russian-language service on Sundays at 10:00 am.
+      - q: What should I wear?
+        a: Come as you are. Some people dress up and others dress casually, and you'll be welcome either way.
+      - q: Where do I park, and which door do I use?
+        a: Park in the church parking lot; it's free. Come in through the main entrance, and a greeter will help you find your way.
+        link: { label: Get directions, url: /visit#here-title }
+      - q: Can I watch online?
+        a: Yes. The English service streams live on YouTube every Sunday at 12:00 pm, and recent sermons are on our Watch page and in the church app.
+        link: { label: Watch, url: /watch }
+  - title: Kids and families
+    questions:
+      - q: Do you have childcare?
+        a: Yes. Kids are welcome in the service, and childcare and activities are available for all ages during the 12:00 pm service. When you arrive, ask a greeter and they'll show you where to go.
+      - q: What is there for kids during the week?
+        a: AWANA meets on Wednesdays from 7:00 to 8:45 pm (September to May), the Kids Choir on Fridays from 5:30 to 7:00 pm, and our Special Needs Ministry on Thursdays at 7:00 pm.
+        link: { label: Kids ministries, url: /ministries#kids }
+      - q: Do you have anything for teens and young adults?
+        a: Yes. Teens meet on Thursdays at 7:00 pm, and young adults meet on Mondays at 7:00 pm.
+        link: { label: Groups, url: /ministries#groups }
+  - title: Faith and getting involved
+    questions:
+      - q: What do you believe?
+        a: We believe the Bible is the Word of God, and that we are saved by grace alone, through faith alone, in Jesus Christ alone. Our statement of faith is the Baptist Faith and Message 2000.
+        link: { label: What we believe, url: /about#beliefs }
+      - q: How do I get involved?
+        a: Join a Life Group, serve on a team, get baptized, or take SOL 101, our membership class. Each one starts with a short form or signup.
+        link: { label: Next steps, url: /next-steps }
+      - q: How can I give?
+        a: Give online through our secure giving page or the church app, or bring a check to any service.
+        link: { label: Give, url: /give }
