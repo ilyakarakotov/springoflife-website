@@ -9,4 +9,18 @@ X-WR-CALDESC:Public events at Spring of Life Church. https://ilyakarakotov.
  github.io/springoflife-website/events
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:pco-signup-4009776-20261213T020000Z@springoflifechurch.com
+DTSTAMP:20261106T013229Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:Christmas Concert
+DESCRIPTION:Cost: Free\n\nDetails and registration: https://springoflifechu
+ rch.churchcenter.com/registrations/events/4009776
+LOCATION:Spring of Life Church\, 4711 116th St SW\, Mukilteo\, WA 98275
+URL:https://springoflifechurch.churchcenter.com/registrations/events/400977
+ 6
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
 END:VCALENDAR

@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "4009776",
+    "title": "Christmas Concert",
+    "summary": "",
+    "description_html": "",
+    "starts_at": "2026-12-13T02:00:00Z",
+    "ends_at": "2026-12-13T03:00:00Z",
+    "all_day": true,
+    "more_times": [],
+    "location": {
+      "name": "Spring of Life Church",
+      "address": "4711 116th St SW, Mukilteo, WA 98275",
+      "city": "Mukilteo",
+      "postal": {
+        "street": "4711 116th St SW",
+        "locality": "Mukilteo",
+        "region": "WA",
+        "postal_code": "98275",
+        "country": "US"
+      },
+      "type": "address"
+    },
+    "price": {
+      "free": true,
+      "min_cents": 0,
+      "max_cents": 0,
+      "label": "Free"
+    },
+    "image": "signup-4009776-c3752a42f79a.jpg",
+    "register_url": "https://springoflifechurch.churchcenter.com/registrations/events/4009776/reservations/new",
+    "details_url": "https://springoflifechurch.churchcenter.com/registrations/events/4009776",
+    "registration": {
+      "open": true,
+      "full": false,
+      "opens_at": "2026-11-06T01:26:20Z",
+      "closes_at": null
+    },
+    "updated_at": "2026-11-06T01:32:29Z",
+    "source": "pco"
+  }
+]
