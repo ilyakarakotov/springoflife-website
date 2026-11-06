@@ -212,7 +212,7 @@ https://springoflifechurch.churchcenter.com/registrations/events/3824843   →  
 | Program | Signup | ID |
 |---|---|---|
 | AWANA | AWANA 2026-2027 | 3824843 |
-| SOL Kids Choir | SOL Kids Choir 2026-2027 (link-only signup) | 3822440 |
+| SOL Kids Choir | none for now (2026-2027, 3822440, is archived; the card has no button) | — |
 | SOL Music Academy | SOL Music Academy 2026-2027 | 3645962 |
 | SOL Russian School | SOL Russian School 2026-2027 | 3533274 |
 

@@ -26,6 +26,9 @@ ministries:
     signup_id: "3824843"
     cta: Register for 2026–27
 
+  # No button for now: the "SOL Kids Choir 2026-2027" signup (3822440) is archived in Planning Center
+  # (found 2026-11-05), so its Church Center page is a 404. When a signup is open again, add
+  # signup_id: "<number>" and cta: Sign up for <year> back here.
   - id: kids-choir
     group: kids
     title: SOL Kids Choir
@@ -35,8 +38,6 @@ ministries:
       - Ages 7 and up
       - Free
     weekly: Fridays, 5:30–7:00 pm
-    signup_id: "3822440"
-    cta: Sign up for 2026–27
 
   - id: sunday-kids
     group: kids
